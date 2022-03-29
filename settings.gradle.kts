@@ -1,4 +1,6 @@
-rootProject.name = "seal-root"
+rootProject.name = "koncat-root"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     val versions = file("deps.versions.toml").readText()
@@ -29,4 +31,6 @@ dependencyResolutionManagement {
     }
 }
 
-include(":koncat-api", ":koncat-gradle-plugin")
+include(":koncat-processor-api",
+    ":koncat-gradle-plugin",
+    ":koncat-contract")

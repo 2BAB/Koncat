@@ -2,6 +2,8 @@ plugins {
     kotlin("jvm")
 }
 
+group = "me.2bab"
+
 java {
     withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -10,4 +12,5 @@ java {
 
 dependencies {
     implementation(deps.kotlin.std)
+    compileOnly(deps.ksp.api)
 }

@@ -2,6 +2,8 @@ plugins {
     `kotlin-dsl`
 }
 
+group = "me.2bab"
+
 java {
     withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -10,5 +12,24 @@ java {
 
 dependencies {
     implementation(gradleApi())
+    implementation(projects.koncatContract)
     implementation(deps.kotlin.std)
+    implementation(deps.polyfill.main)
+    compileOnly(deps.android.gradle.plugin)
+    compileOnly(deps.ksp.gradle)
+}
+
+gradlePlugin {
+    plugins.register("koncat-gradle-plugin-android-app") {
+        id = "me.2bab.koncat.android.app"
+        implementationClass = "me.xx2bab.koncat.gradle.KoncatAndroidApplicationPlugin"
+    }
+    plugins.register("koncat-gradle-plugin-android-lib") {
+        id = "me.2bab.koncat.android.lib"
+        implementationClass = "me.xx2bab.koncat.gradle.KoncatAndroidLibraryPlugin"
+    }
+    plugins.register("koncat-gradle-plugin-jvm") {
+        id = "me.2bab.koncat.jvm"
+        implementationClass = "me.xx2bab.koncat.gradle.KoncatJVMLibraryPlugin"
+    }
 }

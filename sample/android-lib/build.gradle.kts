@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    id("com.google.devtools.ksp")
+    id("me.2bab.koncat.android.lib")
 }
 
 android {
@@ -30,4 +32,5 @@ android {
 dependencies {
     implementation(projects.annotations)
     implementation(deps.kotlin.std)
+    ksp(projects.processors)
 }

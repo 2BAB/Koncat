@@ -12,12 +12,24 @@ pluginManagement {
         kotlin("jvm") version getVersion("kotlinVer") apply false
         id("com.android.application") version getVersion("agpVer") apply false
         id("com.android.library") version getVersion("agpVer") apply false
+        id("com.google.devtools.ksp") version getVersion("kspVer") apply false
     }
     repositories {
+        mavenLocal()
         mavenCentral()
         google()
         gradlePluginPortal()
-        mavenLocal()
+    }
+
+    resolutionStrategy {
+        eachPlugin {
+            if(requested.id.namespace == "me.2bab.koncat.android"
+                || requested.id.namespace == "me.2bab.koncat") {
+                // It will be replaced by a local module using `includeBuild` below,
+                // thus we just put a generic version (+) here.
+                useModule("me.2bab.koncat:gradle-plugin:+")
+            }
+        }
     }
 }
 
@@ -39,3 +51,14 @@ include(":app",
     ":kotlin-lib",
     ":annotations",
     ":processors")
+
+includeBuild("../"){
+    dependencySubstitution {
+        substitute(module("me.2bab.koncat:gradle-plugin"))
+            .using(project(":koncat-gradle-plugin"))
+    }
+    dependencySubstitution {
+        substitute(module("me.2bab.koncat:processor-api"))
+            .using(project(":koncat-processor-api"))
+    }
+}

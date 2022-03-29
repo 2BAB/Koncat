@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm")
+    id("com.google.devtools.ksp")
+    id("me.2bab.koncat.jvm")
 }
 
 java {
@@ -11,4 +13,5 @@ java {
 dependencies {
     implementation(projects.annotations)
     implementation(deps.kotlin.std)
+    ksp(projects.processors)
 }
