@@ -42,6 +42,7 @@ dependencies {
     implementation(projects.androidLib)
     implementation(projects.kotlinLib)
     implementation(projects.annotations)
+    implementation("me.2bab:koncat-sample-lib2:1.0")
     ksp(projects.processors)
     implementation(deps.kotlin.std)
 }

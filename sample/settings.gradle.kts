@@ -35,6 +35,11 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        maven {
+            repositories {
+                setUrl("./localm2/repository")
+            }
+        }
         google()
         mavenCentral()
         mavenLocal()
@@ -48,6 +53,7 @@ dependencyResolutionManagement {
 
 include(":app",
     ":android-lib",
+    ":android-lib-external",
     ":kotlin-lib",
     ":annotations",
     ":processors")

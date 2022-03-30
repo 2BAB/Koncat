@@ -7,6 +7,5 @@ class ExportedPureKotlinLibraryRunnable : Runnable {
     override fun run() {
         println("ExportedPureKotlinLibraryAPI is running...")
     }
-
 }
 
