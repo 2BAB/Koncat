@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    id("com.github.gmazzo.buildconfig")
 }
 
 group = "me.2bab"
@@ -16,4 +17,10 @@ dependencies {
     implementation(deps.kotlin.reflect)
     compileOnly(deps.ksp.api)
     compileOnly(deps.ksp.impl)
+}
+
+val versionCatalog = extensions.getByType<VersionCatalogsExtension>().named("deps")
+val koncatVer = versionCatalog.findVersion("koncatVer").get().requiredVersion
+buildConfig {
+    buildConfigField("String", "KONCAT_VERSION", "\"$koncatVer\"")
 }

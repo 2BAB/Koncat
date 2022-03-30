@@ -9,6 +9,7 @@ pluginManagement {
 
     plugins {
         kotlin("jvm") version getVersion("kotlinVer") apply false
+        id("com.github.gmazzo.buildconfig") version getVersion("buildConfigVer") apply false
     }
     repositories {
         mavenCentral()

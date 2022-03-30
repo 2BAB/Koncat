@@ -1,9 +1,11 @@
 [versions]
+koncatVer = "0.1.0.1-SNAPSHOT"
 kotlinVer = "1.6.10"
 agpVer = "7.1.2"
-polyfillVer = "0.6.0.2-SNAPSHOT"
+polyfillVer = "0.6.1.1-SNAPSHOT"
 mockitoVer = "3.9.0"
 kspVer = "1.6.10-1.0.4"
+buildConfigVer = "3.0.3"
 
 [libraries]
 koncat-processor-api = { module = "me.2bab.koncat:processor-api", version = "*"}

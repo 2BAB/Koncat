@@ -45,6 +45,7 @@ class KoncatArgumentsContract {
                 ARGUMENT_PARSE_ERROR.format(KONCAT_PROCESSOR_ARGUMENT_KEY + "${expect.name} is not found.")
             }
         }
+
         for ((k, v) in koncatArgumentMap) {
             logger.info("Koncat receives the argument: $k = $v")
         }

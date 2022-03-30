@@ -1,5 +1,6 @@
 plugins {
     `kotlin-dsl`
+    id("com.github.gmazzo.buildconfig")
 }
 
 group = "me.2bab"
@@ -32,4 +33,10 @@ gradlePlugin {
         id = "me.2bab.koncat.jvm"
         implementationClass = "me.xx2bab.koncat.gradle.KoncatJVMLibraryPlugin"
     }
+}
+
+val versionCatalog = extensions.getByType<VersionCatalogsExtension>().named("deps")
+val koncatVer = versionCatalog.findVersion("koncatVer").get().requiredVersion
+buildConfig {
+    buildConfigField("String", "KONCAT_VERSION", "\"$koncatVer\"")
 }

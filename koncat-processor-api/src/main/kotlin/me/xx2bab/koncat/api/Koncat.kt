@@ -1,15 +1,16 @@
 package me.xx2bab.koncat.api
 
+import me._bab.koncat_processor_api.BuildConfig
 import java.io.File
 
 class Koncat(private val adapter: AnnotationProcessorAdapter) : KoncatAPI {
 
     init {
-        val apiLibVersion = ""
+        val apiLibVersion = BuildConfig.KONCAT_VERSION
         val pluginVersion = adapter.arguments.koncatVersion
         if (apiLibVersion != pluginVersion) {
             adapter.logger.warn(
-                "Koncat Gradle Plugin and Processor API Library " +
+                "Koncat Gradle Plugin(${pluginVersion}) and Processor API Library(${apiLibVersion}) " +
                         "use different versions may cause unexpected error."
             )
         }
