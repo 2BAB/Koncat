@@ -17,7 +17,7 @@ interface KoncatAPI {
 
     val variantName: String
 
-    fun isMainModule(): Boolean
+    fun isMainProject(): Boolean
 
     fun getIntermediatesDir(): File
 

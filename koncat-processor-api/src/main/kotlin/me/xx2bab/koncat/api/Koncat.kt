@@ -22,7 +22,7 @@ class Koncat(private val adapter: AnnotationProcessorAdapter) : KoncatAPI {
 
     override fun getGradlePlugins(): List<String> = adapter.arguments.gradlePlugins
 
-    override fun isMainModule(): Boolean = adapter.arguments.declaredAsMainProject
+    override fun isMainProject(): Boolean = adapter.arguments.declaredAsMainProject
 
     override fun getIntermediatesDir(): File = File(adapter.arguments.variantAwareIntermediates, variantName)
 

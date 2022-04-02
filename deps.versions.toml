@@ -6,13 +6,17 @@ polyfillVer = "0.6.1.1-SNAPSHOT"
 mockitoVer = "3.9.0"
 kspVer = "1.6.10-1.0.4"
 buildConfigVer = "3.0.3"
+kotlinPoetVer = "1.11.0"
 
 [libraries]
 koncat-processor-api = { module = "me.2bab.koncat:processor-api", version = "*"}
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agpVer" }
 kotlin-std = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlinVer" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlinVer" }
-kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm", version = "1.3.1" }
+kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.3.2" }
+kotlin-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version = "1.6.0" }
+kotlinpoet-core = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoetVer" }
+kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinPoetVer" }
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "kspVer" }
 ksp-impl = { module = "com.google.devtools.ksp:symbol-processing", version.ref = "kspVer" }
 ksp-gradle = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "kspVer" }

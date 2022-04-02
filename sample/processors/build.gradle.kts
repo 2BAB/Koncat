@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    kotlin("plugin.serialization")
 }
 
 java {
@@ -11,6 +12,9 @@ java {
 dependencies {
     implementation(projects.annotations)
     implementation(deps.kotlin.std)
+    implementation(deps.kotlin.serialization)
+    implementation(deps.kotlinpoet.core)
+    implementation(deps.kotlinpoet.ksp)
     implementation(deps.ksp.api)
     implementation(deps.koncat.processor.api)
 }

@@ -24,7 +24,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if(requested.id.namespace == "me.2bab.koncat.android"
-                || requested.id.namespace == "me.2bab.koncat") {
+                || requested.id.namespace == "me.2bab.koncat.jvm") {
                 // It will be replaced by a local module using `includeBuild` below,
                 // thus we just put a generic version (+) here.
                 useModule("me.2bab.koncat:gradle-plugin:+")
