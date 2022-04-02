@@ -5,7 +5,8 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     val versions = file("deps.versions.toml").readText()
     val regexPlaceHolder = "%s\\s\\=\\s\\\"([A-Za-z0-9\\.\\-]+)\\\""
-    val getVersion = { s: String -> regexPlaceHolder.format(s).toRegex().find(versions)!!.groupValues[1] }
+    val getVersion =
+        { s: String -> regexPlaceHolder.format(s).toRegex().find(versions)!!.groupValues[1] }
 
     plugins {
         kotlin("jvm") version getVersion("kotlinVer") apply false
@@ -32,6 +33,9 @@ dependencyResolutionManagement {
     }
 }
 
-include(":koncat-processor-api",
+include(
+    ":koncat-processor-api",
     ":koncat-gradle-plugin",
-    ":koncat-contract")
+    ":koncat-contract",
+    "functional-test"
+)
