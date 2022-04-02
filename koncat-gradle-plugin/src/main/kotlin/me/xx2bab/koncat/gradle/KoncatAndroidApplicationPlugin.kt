@@ -36,7 +36,7 @@ class KoncatAndroidApplicationPlugin : Plugin<Project> {
 
         // Prevent all Koncat intermediates from being packaged into the final package(.apk/.aab).
         androidExtension.finalizeDsl {
-            it.packagingOptions.resources.excludes += "*.koncat"
+            it.packagingOptions.resources.excludes += "**/*.koncat"
         }
 
         // Set up Koncat aggregation flow.
