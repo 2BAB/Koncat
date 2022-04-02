@@ -1,6 +1,6 @@
 package me.xx2bab.koncat.contract
 
-const val KONCAT_FILE_EXTENSION = ".koncat"
+const val KONCAT_FILE_EXTENSION = "koncat"
 const val KONCAT_PROCESSOR_ARGUMENT_KEY = "KONCAT."
 const val KONCAT_FILE_SEPARATOR = "\\0"
 

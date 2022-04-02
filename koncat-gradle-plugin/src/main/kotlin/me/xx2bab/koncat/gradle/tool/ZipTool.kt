@@ -13,7 +13,7 @@ fun extractFileByExtensionFromZip(
     ZipFile(zipFile).use { zip ->
         zip.entries().asSequence().forEach { entry ->
             zip.getInputStream(entry).use { input ->
-                if (entry.name.endsWith("$fileNameExtension")) {
+                if (entry.name.endsWith(fileNameExtension)) {
                     val dest = File(destDir, entry.name)
                     val parent = dest.parentFile
                     if (parent.exists()) {
