@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    `maven-central-publish`
 }
 
 group = "me.2bab"

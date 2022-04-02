@@ -28,3 +28,4 @@ build/
 hs_err_pid*
 
 local.properties
+/local

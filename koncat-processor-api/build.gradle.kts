@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     id("com.github.gmazzo.buildconfig")
+    `maven-central-publish`
 }
 
 group = "me.2bab"
