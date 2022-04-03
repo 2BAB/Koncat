@@ -74,7 +74,18 @@ plugins {
 }
 ```
 
-**0x03. Add Koncat processor-api library**
+**0x03. Add Koncat processor-api library to processor project:**
+
+``` kotlin
+dependencies {
+	...
+    implementation("com.squareup:kotlinpoet-ksp${latestVersion}")
+    implementation("me.2bab:koncat-processor-api:${sameVersionAsPlugin}")
+}
+```
+
+
+**0x04. Upgrade the processor with Koncat APIs:**
 
 ``` kotlin
 package me.xx2bab.koncat.sample.kotlin
@@ -176,12 +187,12 @@ class ExportAnnotationProcessor(
 
 - ① Initialize `Koncat` by passing the `KSPAdapter` with current `SymbolProcessorEnvironment`.
 - ② `Koncat#isMainProject()` tells if the current processor is running for main project.
-- ③ When it is NO, it denotes we need to generate an intermediate file instead of a `.java` or `.kt` here, for instance a `.json` file that collect essential information for subsequent usage. Note that `KONCAT_FILE_EXTENSION` is required to append to file extension string, as a flag to indicate it's a Koncat targeted meta file.
+- ③ When it is NO, it denotes we need to generate an intermediate file instead of a `.java` or `.kt` here, for instance a `.json` file that collects essential information for subsequent usage. Note that `KONCAT_FILE_EXTENSION` is required to append to file extension string, as a flag to indicate it's a Koncat targeted meta file.
 - ④ When it is YES, it denotes it's time to aggregate all intermediates from sub projects by `Koncat#getIntermediatesDir()`.
 - ⑤ Merge [intermediates from sub projects] and [intermediate from main project], we are ready to generate the final class based on them.
 
 
-**0x04. Build your App and Enjoy!**
+**0x05. Build your App and Enjoy!**
 
 ![](./result.png)
 
