@@ -27,11 +27,10 @@ pluginManagement {
 
     resolutionStrategy {
         eachPlugin {
-            if(requested.id.namespace == "me.2bab.koncat.android"
-                || requested.id.namespace == "me.2bab.koncat.jvm") {
+            if(requested.id.id.startsWith("me.2bab.koncat")) {
                 // It will be replaced by a local module using `includeBuild` below,
                 // thus we just put a generic version (+) here.
-                useModule("me.2bab.koncat:gradle-plugin:+")
+                useModule("me.2bab:koncat-gradle-plugin:+")
             }
         }
     }
@@ -64,11 +63,11 @@ include(":app",
 
 includeBuild(externalDependencyBaseDir){
     dependencySubstitution {
-        substitute(module("me.2bab.koncat:gradle-plugin"))
+        substitute(module("me.2bab:koncat-gradle-plugin"))
             .using(project(":koncat-gradle-plugin"))
     }
     dependencySubstitution {
-        substitute(module("me.2bab.koncat:processor-api"))
+        substitute(module("me.2bab:koncat-processor-api"))
             .using(project(":koncat-processor-api"))
     }
 }

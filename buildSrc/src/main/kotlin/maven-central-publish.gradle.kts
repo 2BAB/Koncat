@@ -1,9 +1,4 @@
-import gradle.kotlin.dsl.accessors._4ad077ad74816558e52d7069eb18a2f7.ext
-import gradle.kotlin.dsl.accessors._4ad077ad74816558e52d7069eb18a2f7.publishing
-import gradle.kotlin.dsl.accessors._4ad077ad74816558e52d7069eb18a2f7.signing
-import org.gradle.kotlin.dsl.*
-
-plugins{
+plugins {
     `maven-publish`
     signing
 }
@@ -37,6 +32,7 @@ if (secretPropsFile.exists()) {
 val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
+
 fun getExtraString(name: String) = ext[name]?.toString()
 
 
@@ -62,11 +58,14 @@ publishing {
 
     publications {
         create<MavenPublication>("KoncatArtifact") {
+            groupId = groupName
+            artifactId = project.name
+            version = koncatVer
             artifact(javadocJar.get())
             from(components["java"])
             pom {
                 // Description
-                name.set(projectName)
+                name.set(project.name)
                 description.set(mavenDesc)
                 url.set(siteUrl)
 
