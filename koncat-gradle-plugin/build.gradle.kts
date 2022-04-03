@@ -4,8 +4,6 @@ plugins {
     `maven-central-publish`
 }
 
-group = "me.2bab"
-
 java {
     withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -25,14 +23,17 @@ gradlePlugin {
     plugins.register("koncat-gradle-plugin-android-app") {
         id = "me.2bab.koncat.android.app"
         implementationClass = "me.xx2bab.koncat.gradle.KoncatAndroidApplicationPlugin"
+        displayName = "me.2bab.koncat.android.app"
     }
     plugins.register("koncat-gradle-plugin-android-lib") {
         id = "me.2bab.koncat.android.lib"
         implementationClass = "me.xx2bab.koncat.gradle.KoncatAndroidLibraryPlugin"
+        displayName = "me.2bab.koncat.android.lib"
     }
     plugins.register("koncat-gradle-plugin-jvm") {
         id = "me.2bab.koncat.jvm"
         implementationClass = "me.xx2bab.koncat.gradle.KoncatJVMLibraryPlugin"
+        displayName = "me.2bab.koncat.jvm"
     }
 }
 

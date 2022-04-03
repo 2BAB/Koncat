@@ -3,8 +3,6 @@ plugins {
     `maven-central-publish`
 }
 
-group = "me.2bab"
-
 java {
     withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_1_8

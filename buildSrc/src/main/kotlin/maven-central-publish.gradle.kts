@@ -40,7 +40,7 @@ val groupName = "me.2bab"
 val projectName = "koncat"
 val versionCatalog = extensions.getByType<VersionCatalogsExtension>().named("deps")
 val koncatVer = versionCatalog.findVersion("koncatVer").get().requiredVersion
-val mavenDesc = "Concat intermediates of Annotation Processors for multiple modules."
+val mavenDesc = "Concat intermediates of KSP of multiple modules for Android development."
 val baseUrl = "https://github.com/2BAB/Koncat"
 val siteUrl = baseUrl
 val gitUrl = "$baseUrl.git"
@@ -66,34 +66,11 @@ publishing {
             pom {
                 // Description
                 name.set(project.name)
-                description.set(mavenDesc)
-                url.set(siteUrl)
 
                 // Archive
                 groupId = groupName
                 artifactId = project.name
                 version = koncatVer
-
-                // License
-                inceptionYear.set(inception)
-                licenses {
-                    licenseNames.forEachIndexed { ln, li ->
-                        license {
-                            name.set(li)
-                            url.set(licenseUrls[ln])
-                        }
-                    }
-                }
-                developers {
-                    developer {
-                        name.set(username)
-                    }
-                }
-                scm {
-                    connection.set(gitUrl)
-                    developerConnection.set(gitUrl)
-                    url.set(siteUrl)
-                }
             }
         }
     }
@@ -121,4 +98,40 @@ publishing {
 
 signing {
     sign(publishing.publications)
+}
+
+afterEvaluate {
+    publishing.publications.all {
+        val publicationName = this.name
+        (this as MavenPublication).apply {
+            pom {
+                if (publicationName == "pluginMaven") {
+                    name.set(project.name)
+                }
+
+                description.set(mavenDesc)
+                url.set(siteUrl)
+
+                inceptionYear.set(inception)
+                licenses {
+                    licenseNames.forEachIndexed { ln, li ->
+                        license {
+                            name.set(li)
+                            url.set(licenseUrls[ln])
+                        }
+                    }
+                }
+                developers {
+                    developer {
+                        name.set(username)
+                    }
+                }
+                scm {
+                    connection.set(gitUrl)
+                    developerConnection.set(gitUrl)
+                    url.set(siteUrl)
+                }
+            }
+        }
+    }
 }
