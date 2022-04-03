@@ -1,0 +1,94 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "me.2bab",
+    "module": "koncat-sample-lib2",
+    "version": "1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "koncat-sample-lib2-1.0.aar",
+          "url": "koncat-sample-lib2-1.0.aar",
+          "size": 2128,
+          "sha512": "c50f2822fa0c6ddf354ad89c9acd7891f2e6d812ad670b103117f1a9f5d350fa7a0945c5e0229747b3ba6ea0a6b69cf39f4995c79fe1b7b6c06a6a4522ee8b85",
+          "sha256": "b370f6ffc354178d656568bba4066e52a1360a3c1cd01830bfde2e65a1553ea3",
+          "sha1": "7ccc739654cbb0f86643c967c1e881a53ef9e896",
+          "md5": "d3e4ed3931b14f36a59bac36d9db02c6"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "koncat-sample",
+          "module": "annotations",
+          "version": {
+            "requires": "unspecified"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "koncat-sample-lib2-1.0.aar",
+          "url": "koncat-sample-lib2-1.0.aar",
+          "size": 2128,
+          "sha512": "c50f2822fa0c6ddf354ad89c9acd7891f2e6d812ad670b103117f1a9f5d350fa7a0945c5e0229747b3ba6ea0a6b69cf39f4995c79fe1b7b6c06a6a4522ee8b85",
+          "sha256": "b370f6ffc354178d656568bba4066e52a1360a3c1cd01830bfde2e65a1553ea3",
+          "sha1": "7ccc739654cbb0f86643c967c1e881a53ef9e896",
+          "md5": "d3e4ed3931b14f36a59bac36d9db02c6"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "koncat-sample-lib2-1.0-sources.jar",
+          "url": "koncat-sample-lib2-1.0-sources.jar",
+          "size": 1910,
+          "sha512": "b697b895f649c54e8be2661402e79c715fabf94dd5321c5dce41ec65ae84cdd2ee708815dd8af603b860ec85b20239a4f66b2c177d987087bea962962b361cd6",
+          "sha256": "6928ce7fe9caaa2467c338e4af9636990d5760d18229d25b883a9f937b91ad85",
+          "sha1": "b18f9f7159bc26b7f0373b6289bee4a91555d48d",
+          "md5": "a918d3a03335223b04be41fa88e41ad9"
+        }
+      ]
+    }
+  ]
+}
