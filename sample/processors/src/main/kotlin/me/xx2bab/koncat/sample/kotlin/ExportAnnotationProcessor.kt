@@ -38,6 +38,7 @@ class ExportAnnotationProcessor(
     private var exportMetadata = ExportMetadata()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        logger.info("$LOG_TAG [process]")
         val symbols =
             resolver.getSymbolsWithAnnotation("me.xx2bab.koncat.sample.annotation.ExportAPI")
         val ret = symbols.filter { !it.validate() }.toList()
@@ -50,6 +51,7 @@ class ExportAnnotationProcessor(
     @OptIn(KotlinPoetKspPreview::class)
     override fun finish() {
         super.finish()
+        logger.info("$LOG_TAG [finish]")
         if (koncat.isMainProject()) {
             logger.info(
                 LOG_TAG + "Query all sub projects meta data from "
@@ -71,11 +73,11 @@ class ExportAnnotationProcessor(
             all.addAll(subProjectMetadataList)
             // Generate the final file
             val fileSpec = RouterClassBuilder(all).build()
-            fileSpec.writeTo(codeGenerator, Dependencies(aggregating = false))
+            fileSpec.writeTo(codeGenerator, Dependencies.ALL_FILES)
         } else {
             // Generate intermediate JSON file
             val os = codeGenerator.createNewFile(
-                Dependencies(aggregating = false),
+                Dependencies(aggregating = true, *exportMetadata.mapKSFiles.toTypedArray()),
                 "",
                 koncat.projectName + "-export",
                 "json.$KONCAT_FILE_EXTENSION"
@@ -85,12 +87,18 @@ class ExportAnnotationProcessor(
         }
     }
 
+    override fun onError() {
+        super.onError()
+        logger.info("$LOG_TAG [onError]")
+    }
+
     inner class BuilderVisitor() : KSVisitorWithExportMetadata() {
         override fun visitClassDeclaration(
             classDeclaration: KSClassDeclaration,
             data: ExportMetadata
         ) {
-            data.exportAPI.add(classDeclaration.qualifiedName!!.asString())
+            data.exportAPIs.add(classDeclaration.qualifiedName!!.asString())
+            classDeclaration.containingFile?.let { data.mapKSFiles.add(it) }
         }
     }
 
@@ -101,7 +109,7 @@ class ExportAnnotationProcessor(
             val routerInterface = ClassName("me.xx2bab.koncat.sample", "ExportCapabilityRouter")
             val list = ClassName("kotlin.collections", "List")
             val listOfString = list.parameterizedBy(String::class.asTypeName())
-            val exportAPIs = dataList.flatMap { it.exportAPI }
+            val exportAPIs = dataList.flatMap { it.exportAPIs }
                 .map { "\"$it\"" }
                 .joinToString(separator = ", ")
 
