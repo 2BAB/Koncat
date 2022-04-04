@@ -1,5 +1,5 @@
 [versions]
-koncatVer = "1.0.0"
+koncatVer = "1.0.1"
 kotlinVer = "1.6.10"
 agpVer = "7.1.2"
 agpBetaVer = "7.2.0-beta04"

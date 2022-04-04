@@ -20,7 +20,7 @@ class KoncatBasePlugin : Plugin<Project> {
             val argumentsContract = KoncatArgumentsContract(
                 projectName = project.name,
                 koncatVersion = BuildConfig.KONCAT_VERSION,
-                gradlePlugins = plugins.map { it.toString() },
+                gradlePlugins = plugins.map { it.toString().split("@")[0] },
                 declaredAsMainProject = baseExt.isMainProject.get(),
                 variantAwareIntermediates = baseExt.mainProjectOutputDir.get().asFile, // TODO: it may be consumed eagerly
             )
