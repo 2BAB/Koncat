@@ -143,11 +143,11 @@ class ExportAnnotationProcessor(
             all.addAll(subProjectMetadataList)    ⑤
             // Generate the final file
             val fileSpec = RouterClassBuilder(all).build()
-            fileSpec.writeTo(codeGenerator, Dependencies(aggregating = false))
+            fileSpec.writeTo(codeGenerator, Dependencies.ALL_FILES)
         } else {  
             // Generate intermediate JSON file
             val os = codeGenerator.createNewFile(    
-                Dependencies(aggregating = false),
+                Dependencies(aggregating = true, *exportMetadata.mapKSFiles.toTypedArray()),
                 "",
                 koncat.projectName + "-export",
                 "json.$KONCAT_FILE_EXTENSION"    ③
@@ -162,7 +162,8 @@ class ExportAnnotationProcessor(
             classDeclaration: KSClassDeclaration,
             data: ExportMetadata
         ) {
-            data.exportAPI.add(classDeclaration.qualifiedName!!.asString())
+            data.exportAPIs.add(classDeclaration.qualifiedName!!.asString())
+            classDeclaration.containingFile?.let { data.mapKSFiles.add(it) }
         }
     }
 
