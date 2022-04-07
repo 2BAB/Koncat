@@ -53,7 +53,7 @@ class KoncatArgumentsContract {
         projectName = koncatArgumentMap[KoncatArgument.PROJECT_NAME.name]!!
         koncatVersion = koncatArgumentMap[KoncatArgument.KONCAT_VERSION.name]!!
         gradlePlugins = koncatArgumentMap[KoncatArgument.GRADLE_PLUGINS.name]!!.split(KONCAT_STRING_SEPARATOR)
-        declaredAsMainProject = koncatArgumentMap[KoncatArgument.DECLARED_AS_MAIN_MODULE.name]!!.toBoolean()
+        declaredAsMainProject = koncatArgumentMap[KoncatArgument.DECLARED_AS_MAIN_PROJECT.name]!!.toBoolean()
         variantAwareIntermediates = File(koncatArgumentMap[KoncatArgument.VARIANT_AWARE_INTERMEDIATES.name]!!)
     }
 
@@ -62,7 +62,7 @@ class KoncatArgumentsContract {
         map[KoncatArgument.PROJECT_NAME.name] = projectName
         map[KoncatArgument.KONCAT_VERSION.name] = koncatVersion
         map[KoncatArgument.GRADLE_PLUGINS.name] = gradlePlugins.joinToString(separator = KONCAT_STRING_SEPARATOR)
-        map[KoncatArgument.DECLARED_AS_MAIN_MODULE.name] = declaredAsMainProject.toString()
+        map[KoncatArgument.DECLARED_AS_MAIN_PROJECT.name] = declaredAsMainProject.toString()
         map[KoncatArgument.VARIANT_AWARE_INTERMEDIATES.name] = variantAwareIntermediates.absolutePath
         return map.mapKeys {
             KONCAT_PROCESSOR_ARGUMENT_KEY + it.key

@@ -13,6 +13,7 @@ java {
 dependencies {
     implementation(gradleApi())
     implementation(projects.koncatContract)
+    implementation(deps.kotlin.gradle.plugin.api)
     implementation(deps.kotlin.std)
     implementation(deps.polyfill.main)
     compileOnly(deps.android.gradle.plugin)

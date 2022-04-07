@@ -35,6 +35,7 @@ dependencyResolutionManagement {
 
 include(
     ":koncat-processor-api",
+    ":koncat-compiler-plugin",
     ":koncat-gradle-plugin",
     ":koncat-contract",
     "functional-test"

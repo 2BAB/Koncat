@@ -3,8 +3,10 @@ package me.xx2bab.koncat.gradle.base
 import com.google.devtools.ksp.gradle.KspExtension
 import me._bab.koncat_gradle_plugin.BuildConfig
 import me.xx2bab.koncat.contract.KoncatArgumentsContract
+import me.xx2bab.koncat.gradle.kcp.KCPDefaultGradlePlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 
@@ -24,7 +26,12 @@ class KoncatBasePlugin : Plugin<Project> {
                 declaredAsMainProject = baseExt.isMainProject.get(),
                 variantAwareIntermediates = baseExt.mainProjectOutputDir.get().asFile, // TODO: it may be consumed eagerly
             )
+
+            // KSP options injection
             project.plugins.findPlugin("com.google.devtools.ksp")?.run {
+                if (!baseExt.ksp.enabled.get()){
+                    return@run
+                }
                 project.extensions.configure<KspExtension> {
                     argumentsContract.toMap().forEach { k, v ->
                         arg(k, v)
@@ -32,5 +39,8 @@ class KoncatBasePlugin : Plugin<Project> {
                 }
             }
         }
+
+        // KCP options injection
+        project.apply<KCPDefaultGradlePlugin>()
     }
 }
