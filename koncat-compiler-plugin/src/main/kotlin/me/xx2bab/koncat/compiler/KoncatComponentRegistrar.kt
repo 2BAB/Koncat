@@ -1,5 +1,6 @@
 package me.xx2bab.koncat.compiler
 
+import com.google.auto.service.AutoService
 import me.xx2bab.koncat.contract.KLogger
 import me.xx2bab.koncat.contract.KoncatArgument
 import me.xx2bab.koncat.contract.KoncatArgumentsContract
@@ -10,6 +11,7 @@ import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
+@AutoService(ComponentRegistrar::class)
 class KoncatComponentRegistrar : ComponentRegistrar {
 
     override fun registerProjectComponents(

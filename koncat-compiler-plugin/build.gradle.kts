@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    id("com.google.devtools.ksp")
     `maven-central-publish`
 }
 
@@ -12,5 +13,8 @@ java {
 dependencies {
     implementation(projects.koncatContract)
     implementation(deps.kotlin.std)
-    implementation(deps.kotlin.compiler.embeddable)
+    compileOnly(deps.kotlin.compiler.embeddable)
+    implementation("com.google.auto.service:auto-service-annotations:1.0.1")
+    ksp("dev.zacsweers.autoservice:auto-service-ksp:1.0.0")
+
 }
