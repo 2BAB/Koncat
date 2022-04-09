@@ -70,4 +70,8 @@ includeBuild(externalDependencyBaseDir){
         substitute(module("me.2bab:koncat-processor-api"))
             .using(project(":koncat-processor-api"))
     }
+    dependencySubstitution {
+        substitute(module("me.2bab:koncat-compiler-plugin"))
+            .using(project(":koncat-compiler-plugin"))
+    }
 }
