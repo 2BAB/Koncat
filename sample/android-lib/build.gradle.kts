@@ -34,3 +34,7 @@ dependencies {
     implementation(deps.kotlin.std)
     ksp(projects.processors)
 }
+
+ksp {
+    blockOtherCompilerPlugins = true
+}

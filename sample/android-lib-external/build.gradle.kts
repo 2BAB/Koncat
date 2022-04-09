@@ -38,6 +38,10 @@ dependencies {
     ksp(projects.processors)
 }
 
+ksp {
+    blockOtherCompilerPlugins = true
+}
+
 
 //////////// To set up a local maven release for external library testing
 val groupName = "me.2bab"
