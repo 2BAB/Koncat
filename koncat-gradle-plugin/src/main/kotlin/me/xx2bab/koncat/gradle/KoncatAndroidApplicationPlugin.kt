@@ -56,7 +56,8 @@ class KoncatAndroidApplicationPlugin : Plugin<Project> {
             project.afterEvaluate {
                 aggregateTaskProvider.dependsOn(variant.getTaskContainer().preBuildTask)
                 variant.getTaskContainer().processJavaResourcesTask.dependsOn(aggregateTaskProvider)
-                tasks.named("ksp${variant.getCapitalizedName()}Kotlin").dependsOn(aggregateTaskProvider)
+                tasks.findByPath("ksp${variant.getCapitalizedName()}Kotlin")
+                    ?.dependsOn(aggregateTaskProvider)
             }
         }
 
