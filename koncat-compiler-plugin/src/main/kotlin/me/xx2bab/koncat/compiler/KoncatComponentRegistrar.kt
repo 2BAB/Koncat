@@ -1,15 +1,18 @@
 package me.xx2bab.koncat.compiler
 
 import com.google.auto.service.AutoService
+import me.xx2bab.koncat.compiler.KoncatCommentLineProcessor.Companion.uniqueKeys
 import me.xx2bab.koncat.contract.KLogger
+import me.xx2bab.koncat.contract.KONCAT_PROCESSOR_ARGUMENT_KEY
 import me.xx2bab.koncat.contract.KoncatArgument
 import me.xx2bab.koncat.contract.KoncatArgumentsContract
-import me.xx2bab.koncat.contract.LOG_TAG
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
+import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
+import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.com.intellij.mock.MockProject
 import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.config.CompilerConfiguration
-import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
 @AutoService(ComponentRegistrar::class)
 class KoncatComponentRegistrar : ComponentRegistrar {
@@ -18,36 +21,39 @@ class KoncatComponentRegistrar : ComponentRegistrar {
         project: MockProject,
         configuration: CompilerConfiguration
     ) {
-//        val messageCollector = configuration.get(
-//            CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY,
-//            MessageCollector.NONE
-//        )
+        val messageCollector = configuration.get(
+            CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY,
+            MessageCollector.NONE
+        )
+        messageCollector.report(CompilerMessageSeverity.WARNING, "[Koncat] registerProjectComponents")
+        val kLogger = getKLogger(messageCollector)
         val map = mutableMapOf<String, String>()
         KoncatArgument.values().forEach {
-            map[it.name] = configuration.get(CompilerConfigurationKey(it.name))!!
+            val key = KONCAT_PROCESSOR_ARGUMENT_KEY + it.name
+            map[key] = configuration.get(uniqueKeys[key]!!)!!
         }
+        val koncat = KoncatArgumentsContract(map, kLogger)
         IrGenerationExtension.registerExtension(
             project,
-            KoncatGenerationExtension(KoncatArgumentsContract(map, kLogger))
+            KoncatGenerationExtension(koncat, kLogger)
         )
     }
 
-    //    val logger = Logger.getInstance(MockProject::class.java)
-    val kLogger = object : KLogger {
+    private fun getKLogger(messageCollector: MessageCollector) = object : KLogger {
         override fun logging(message: String) {
-            println(LOG_TAG + message)
+            messageCollector.report(CompilerMessageSeverity.LOGGING, message)
         }
 
         override fun info(message: String) {
-            println(LOG_TAG + message)
+            messageCollector.report(CompilerMessageSeverity.INFO, message)
         }
 
         override fun warn(message: String) {
-            println(LOG_TAG + message)
+            messageCollector.report(CompilerMessageSeverity.WARNING, message)
         }
 
         override fun error(message: String) {
-            println(LOG_TAG + message)
+            messageCollector.report(CompilerMessageSeverity.ERROR, message)
         }
 
     }

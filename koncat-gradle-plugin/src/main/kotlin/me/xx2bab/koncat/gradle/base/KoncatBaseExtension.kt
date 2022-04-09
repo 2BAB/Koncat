@@ -1,7 +1,9 @@
 package me.xx2bab.koncat.gradle.base
 
+import me._bab.koncat_gradle_plugin.BuildConfig
 import me.xx2bab.koncat.contract.KoncatArgumentsContract
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
@@ -20,7 +22,15 @@ abstract class KoncatBaseExtension @Inject constructor(
             it.dir("koncat")
         }
 
-    internal val contract : KoncatArgumentsContract? = null
+    internal fun argumentsContract(project: Project): KoncatArgumentsContract {
+        return KoncatArgumentsContract(
+            projectName = project.name,
+            koncatVersion = BuildConfig.KONCAT_VERSION,
+            gradlePlugins = project.plugins.map { it.toString().split("@")[0] },
+            declaredAsMainProject = isMainProject.get(),
+            variantAwareIntermediates = mainProjectOutputDir.get().asFile, // TODO: it may be consumed eagerly
+        )
+    }
 
     val isMainProject: Property<Boolean> = objects.property<Boolean>().convention(false)
 

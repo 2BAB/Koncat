@@ -1,5 +1,6 @@
 package me.xx2bab.koncat.gradle.kcp
 
+import me._bab.koncat_gradle_plugin.BuildConfig
 import me.xx2bab.koncat.contract.DEFAULT_COMPILER_PLUGIN_ID
 import me.xx2bab.koncat.gradle.base.KoncatBaseExtension
 import org.gradle.api.provider.Provider
@@ -12,12 +13,12 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 class KCPDefaultGradlePlugin : KotlinCompilerPluginSupportPlugin {
 
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
-        val baseExt = kotlinCompilation.target.project.extensions.getByType<KoncatBaseExtension>()
-        return kotlinCompilation.target.project.provider {
-//            baseExt.contract!!.toMap().map {
-//                SubpluginOption(it.key, it.value)
-//            }
-            listOf()
+        val project = kotlinCompilation.target.project
+        val baseExt = project.extensions.getByType<KoncatBaseExtension>()
+        return project.provider {
+            baseExt.argumentsContract(project)
+                .toMap()
+                .map { SubpluginOption(it.key, it.value) }
         }
     }
 
@@ -25,8 +26,8 @@ class KCPDefaultGradlePlugin : KotlinCompilerPluginSupportPlugin {
 
     override fun getPluginArtifact(): SubpluginArtifact = SubpluginArtifact(
         groupId = "me.2bab",
-        artifactId = "koncat-default-compiler-plugin",
-        version = "1.1.0"
+        artifactId = DEFAULT_COMPILER_PLUGIN_ID,
+        version = BuildConfig.KONCAT_VERSION
     )
 
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {

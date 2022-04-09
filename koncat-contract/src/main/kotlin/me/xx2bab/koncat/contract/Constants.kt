@@ -2,7 +2,7 @@ package me.xx2bab.koncat.contract
 
 // Options
 const val KONCAT_FILE_EXTENSION = "koncat"
-const val KONCAT_PROCESSOR_ARGUMENT_KEY = "KONCAT."
+const val KONCAT_PROCESSOR_ARGUMENT_KEY = "KONCAT_"
 const val KONCAT_STRING_SEPARATOR = "<@KONCAT@>"
 
 // Logs
@@ -13,4 +13,4 @@ const val AGGREGATION_ERROR = ".koncat file extraction error happened when worki
         "or create an issue on Koncat Github repo https://github.com/2BAB/Koncat"
 
 // KCP
-const val DEFAULT_COMPILER_PLUGIN_ID = "koncat-default-compiler-plugin"
+const val DEFAULT_COMPILER_PLUGIN_ID = "koncat-compiler-plugin"

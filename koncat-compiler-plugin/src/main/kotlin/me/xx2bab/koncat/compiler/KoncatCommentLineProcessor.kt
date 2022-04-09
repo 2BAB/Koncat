@@ -2,6 +2,7 @@ package me.xx2bab.koncat.compiler
 
 import com.google.auto.service.AutoService
 import me.xx2bab.koncat.contract.DEFAULT_COMPILER_PLUGIN_ID
+import me.xx2bab.koncat.contract.KONCAT_PROCESSOR_ARGUMENT_KEY
 import me.xx2bab.koncat.contract.KoncatArgument
 import org.jetbrains.kotlin.compiler.plugin.AbstractCliOption
 import org.jetbrains.kotlin.compiler.plugin.CliOption
@@ -12,7 +13,19 @@ import org.jetbrains.kotlin.config.CompilerConfigurationKey
 @AutoService(CommandLineProcessor::class)
 class KoncatCommentLineProcessor : CommandLineProcessor {
 
-    // Same as the one defined in KCPDefaultGradlePlugin.kt
+    companion object {
+
+        internal val uniqueKeys = mutableMapOf<String, CompilerConfigurationKey<String>>()
+
+        init {
+            KoncatArgument.values().forEach { arg ->
+                uniqueKeys[KONCAT_PROCESSOR_ARGUMENT_KEY + arg.name] = CompilerConfigurationKey(KONCAT_PROCESSOR_ARGUMENT_KEY + arg.name)
+            }
+        }
+
+    }
+
+    // Same as the one defined in KCPDefaultGradlePlugin.kt from koncat-gradle-plugin
     override val pluginId: String = DEFAULT_COMPILER_PLUGIN_ID
 
     // Command line hints
@@ -31,7 +44,12 @@ class KoncatCommentLineProcessor : CommandLineProcessor {
         value: String,
         configuration: CompilerConfiguration
     ) {
-        configuration.put(CompilerConfigurationKey(option.optionName), value)
+        if (option.optionName.startsWith(KONCAT_PROCESSOR_ARGUMENT_KEY)) {
+            configuration.put(
+                uniqueKeys[option.optionName]!!,
+                value
+            )
+        }
     }
 
 }

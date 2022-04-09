@@ -47,23 +47,28 @@ class KoncatArgumentsContract {
         }
 
         for ((k, v) in koncatArgumentMap) {
-            logger.info("$LOG_TAG Koncat receives the argument: $k = $v")
+            logger.info("Koncat receives the argument: $k = $v")
         }
 
         projectName = koncatArgumentMap[KoncatArgument.PROJECT_NAME.name]!!
         koncatVersion = koncatArgumentMap[KoncatArgument.KONCAT_VERSION.name]!!
-        gradlePlugins = koncatArgumentMap[KoncatArgument.GRADLE_PLUGINS.name]!!.split(KONCAT_STRING_SEPARATOR)
-        declaredAsMainProject = koncatArgumentMap[KoncatArgument.DECLARED_AS_MAIN_PROJECT.name]!!.toBoolean()
-        variantAwareIntermediates = File(koncatArgumentMap[KoncatArgument.VARIANT_AWARE_INTERMEDIATES.name]!!)
+        gradlePlugins =
+            koncatArgumentMap[KoncatArgument.GRADLE_PLUGINS.name]!!.split(KONCAT_STRING_SEPARATOR)
+        declaredAsMainProject =
+            koncatArgumentMap[KoncatArgument.DECLARED_AS_MAIN_PROJECT.name]!!.toBoolean()
+        variantAwareIntermediates =
+            File(koncatArgumentMap[KoncatArgument.VARIANT_AWARE_INTERMEDIATES.name]!!)
     }
 
     fun toMap(): Map<String, String> {
         val map = HashMap<String, String>()
         map[KoncatArgument.PROJECT_NAME.name] = projectName
         map[KoncatArgument.KONCAT_VERSION.name] = koncatVersion
-        map[KoncatArgument.GRADLE_PLUGINS.name] = gradlePlugins.joinToString(separator = KONCAT_STRING_SEPARATOR)
+        map[KoncatArgument.GRADLE_PLUGINS.name] =
+            gradlePlugins.joinToString(separator = KONCAT_STRING_SEPARATOR)
         map[KoncatArgument.DECLARED_AS_MAIN_PROJECT.name] = declaredAsMainProject.toString()
-        map[KoncatArgument.VARIANT_AWARE_INTERMEDIATES.name] = variantAwareIntermediates.absolutePath
+        map[KoncatArgument.VARIANT_AWARE_INTERMEDIATES.name] =
+            variantAwareIntermediates.absolutePath
         return map.mapKeys {
             KONCAT_PROCESSOR_ARGUMENT_KEY + it.key
         }
