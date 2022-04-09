@@ -14,15 +14,14 @@ class KoncatCommentLineProcessor: CommandLineProcessor {
     override val pluginId: String = DEFAULT_COMPILER_PLUGIN_ID
 
     // Command line hints
-    override val pluginOptions: Collection<AbstractCliOption>
-        get() = KoncatArgument.values().map {
-            CliOption(
-                optionName = it.name,
-                valueDescription = "string",
-                description = it.desc,
-                required = it.required
-            )
-        }
+    override val pluginOptions: Collection<AbstractCliOption> = KoncatArgument.values().map {
+        CliOption(
+            optionName = KONCAT_PROCESSOR_ARGUMENT_KEY + it.name,
+            valueDescription = "String",
+            description = it.desc,
+            required = it.required
+        )
+    }
 
     // From cmd to compiler configuration
     override fun processOption(
