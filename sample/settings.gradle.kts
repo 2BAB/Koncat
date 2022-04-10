@@ -59,7 +59,8 @@ include(":app",
     ":android-lib-external",
     ":kotlin-lib",
     ":annotations",
-    ":processors")
+    ":custom-processor"
+)
 
 includeBuild(externalDependencyBaseDir){
     dependencySubstitution {

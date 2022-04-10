@@ -32,5 +32,5 @@ android {
 dependencies {
     implementation(projects.annotations)
     implementation(deps.kotlin.std)
-    ksp(projects.processors)
+    ksp(projects.customProcessor)
 }

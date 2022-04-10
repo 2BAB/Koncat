@@ -43,6 +43,6 @@ dependencies {
     implementation(projects.kotlinLib)
     implementation(projects.annotations)
     implementation("me.2bab:koncat-sample-lib2:1.0")
-    ksp(projects.processors)
+    ksp(projects.customProcessor)
     implementation(deps.kotlin.std)
 }
