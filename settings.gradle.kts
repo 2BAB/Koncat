@@ -10,6 +10,7 @@ pluginManagement {
 
     plugins {
         kotlin("jvm") version getVersion("kotlinVer") apply false
+        kotlin("plugin.serialization") version getVersion("kotlinVer") apply false
         id("com.github.gmazzo.buildconfig") version getVersion("buildConfigVer") apply false
     }
     repositories {
@@ -34,8 +35,9 @@ dependencyResolutionManagement {
 }
 
 include(
-    ":koncat-processor-api",
-    ":koncat-gradle-plugin",
     ":koncat-contract",
+    ":koncat-gradle-plugin",
+    ":koncat-processor-api",
+    ":koncat-processor",
     "functional-test"
 )
