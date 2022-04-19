@@ -16,8 +16,6 @@ abstract class KoncatBaseExtension @Inject constructor(
 
     internal val mainProjectOutputDir = layout.buildDirectory
         .dir("intermediates")
-        .map {
-            it.dir("koncat")
-        }
+        .map { it.dir("koncat") }
 
 }

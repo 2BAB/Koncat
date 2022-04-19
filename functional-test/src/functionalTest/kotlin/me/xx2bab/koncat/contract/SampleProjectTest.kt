@@ -113,7 +113,7 @@ class SampleProjectTest {
         )
         assertTrue(
             targetFile.readText().contains(
-                "me.xx2bab.koncat.sample.android.ExportedAndroidLibraryRunnable2"
+                "me.xx2bab.koncat.sample.android.ExportedAndroidLibraryExternalRunnable"
             )
         )
         assertTrue(

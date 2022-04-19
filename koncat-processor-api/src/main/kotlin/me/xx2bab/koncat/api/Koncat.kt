@@ -3,7 +3,7 @@ package me.xx2bab.koncat.api
 import me._bab.koncat_processor_api.BuildConfig
 import java.io.File
 
-class Koncat(private val adapter: AnnotationProcessorAdapter) : KoncatAPI {
+class Koncat(private val adapter: ProcessorAdapter) : KoncatAPI {
 
     init {
         val apiLibVersion = BuildConfig.KONCAT_VERSION
@@ -24,6 +24,6 @@ class Koncat(private val adapter: AnnotationProcessorAdapter) : KoncatAPI {
 
     override fun isMainProject(): Boolean = adapter.arguments.declaredAsMainProject
 
-    override fun getIntermediatesDir(): File = File(adapter.arguments.variantAwareIntermediates, variantName)
+    override fun getIntermediatesDir(): File = File(adapter.intermediateDir, variantName)
 
 }

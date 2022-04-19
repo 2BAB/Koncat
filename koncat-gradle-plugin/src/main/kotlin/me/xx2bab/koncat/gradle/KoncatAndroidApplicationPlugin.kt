@@ -5,8 +5,8 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 import me.xx2bab.koncat.contract.AGGREGATION_ERROR
 import me.xx2bab.koncat.contract.KONCAT_FILE_EXTENSION
 import me.xx2bab.koncat.contract.LOG_TAG
+import me.xx2bab.koncat.gradle.base.KoncatAndroidPlugin
 import me.xx2bab.koncat.gradle.base.KoncatBaseExtension
-import me.xx2bab.koncat.gradle.base.KoncatBasePlugin
 import me.xx2bab.polyfill.*
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
@@ -26,8 +26,8 @@ class KoncatAndroidApplicationPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         // Set up Polyfill to provide additional Artifacts
         project.apply<PolyfillPlugin>()
-        // Apply KoncatBasePlugin for common logic like extension/processor arguments
-        project.apply<KoncatBasePlugin>()
+        // Apply KoncatAndroidPlugin for common logic like extension/processor arguments
+        project.apply<KoncatAndroidPlugin>()
         val baseExt = project.extensions.getByType<KoncatBaseExtension>()
         baseExt.isMainProject.set(true)
 

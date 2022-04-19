@@ -5,8 +5,9 @@ import me.xx2bab.koncat.contract.KoncatArgumentsContract
 import java.io.File
 
 
-interface AnnotationProcessorAdapter {
+interface ProcessorAdapter {
     val logger: KLogger
+    val intermediateDir: File
     val arguments: KoncatArgumentsContract
     val variantName: String
 }

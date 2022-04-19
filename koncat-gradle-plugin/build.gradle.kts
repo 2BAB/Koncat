@@ -14,6 +14,7 @@ dependencies {
     implementation(gradleApi())
     implementation(projects.koncatContract)
     implementation(deps.kotlin.std)
+    implementation(deps.kotlin.serialization)
     implementation(deps.polyfill.main)
     compileOnly(deps.android.gradle.plugin)
     compileOnly(deps.ksp.gradle)
