@@ -15,5 +15,5 @@ dependencies {
     implementation(deps.kotlinpoet.core)
     implementation(deps.kotlinpoet.ksp)
     implementation(deps.ksp.api)
-    implementation(deps.koncat.processor.api)
+    implementation(projects.koncatProcessorApi)
 }
