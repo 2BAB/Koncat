@@ -1,6 +1,7 @@
 package me.xx2bab.koncat.api
 
 import me._bab.koncat_processor_api.BuildConfig
+import me.xx2bab.koncat.contract.KONCAT_FILE_EXTENSION
 import java.io.File
 
 class Koncat(private val adapter: ProcessorAdapter) : KoncatAPI {
@@ -25,5 +26,11 @@ class Koncat(private val adapter: ProcessorAdapter) : KoncatAPI {
     override fun isMainProject(): Boolean = adapter.arguments.declaredAsMainProject
 
     override fun getIntermediatesDir(): File = File(adapter.intermediateDir, variantName)
+
+    override fun getIntermediatesFiles(): Sequence<File> =
+        getIntermediatesDir().walk().filter {
+            it.extension == KONCAT_FILE_EXTENSION
+        }
+
 
 }

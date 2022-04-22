@@ -22,6 +22,8 @@ interface KoncatAPI {
 
     fun getIntermediatesDir(): File
 
+    fun getIntermediatesFiles(): Sequence<File>
+
     fun getGradlePlugins(): List<String>
 
 }

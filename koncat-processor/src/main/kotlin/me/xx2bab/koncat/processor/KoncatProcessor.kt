@@ -1,8 +1,10 @@
-package me.xx2bab.koncat.sample.kotlin
+package me.xx2bab.koncat.processor
 
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSFile
+import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -17,11 +19,11 @@ import me.xx2bab.koncat.contract.KONCAT_FILE_EXTENSION
 import me.xx2bab.koncat.contract.LOG_TAG
 import java.io.OutputStream
 
-class ExportAnnotationProcessorProvider : SymbolProcessorProvider {
+class KoncatProcessorProvider : SymbolProcessorProvider {
     override fun create(
         env: SymbolProcessorEnvironment
     ): SymbolProcessor {
-        return ExportAnnotationProcessor(
+        return  KoncatProcessor(
             env.codeGenerator,
             env.logger,
             Koncat(KSPAdapter(env))
@@ -29,21 +31,25 @@ class ExportAnnotationProcessorProvider : SymbolProcessorProvider {
     }
 }
 
-class ExportAnnotationProcessor(
+class  KoncatProcessor(
     val codeGenerator: CodeGenerator,
     val logger: KSPLogger,
     val koncat: Koncat
 ) : SymbolProcessor {
 
+    companion object {
+        private const val id = "-koncat-proc$"
+    }
     private var exportMetadata = ExportMetadata()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
         logger.info("$LOG_TAG [process]")
+
         val symbols =
-            resolver.getSymbolsWithAnnotation("me.xx2bab.koncat.sample.annotation.ExportAPI")
+            resolver.getSymbolsWithAnnotation("me.xx2bab.koncat.sample.annotation.ClassMark")
         val ret = symbols.filter { !it.validate() }.toList()
         symbols
-            .filter { it is KSClassDeclaration && it.validate() }
+            .filter { (it is KSClassDeclaration || it is KSPropertyDeclaration) && it.validate() }
             .forEach { it.accept(BuilderVisitor(), exportMetadata) }
         return ret
     }
@@ -58,10 +64,8 @@ class ExportAnnotationProcessor(
                         + koncat.getIntermediatesDir().absolutePath
             )
             // Merge all ExportMetadata
-            val subProjectMetadataList = koncat.getIntermediatesDir().walk()
-                .filter {
-                    it.extension == KONCAT_FILE_EXTENSION
-                }
+            val subProjectMetadataList = koncat.getIntermediatesFiles()
+                .filter { it.name.contains(id) }
                 .map { subProjectMetadataFile ->
                     logger.info(LOG_TAG + "Start processing ${subProjectMetadataFile.absolutePath}")
                     Json.decodeFromStream<ExportMetadata>(
@@ -79,7 +83,7 @@ class ExportAnnotationProcessor(
             val os = codeGenerator.createNewFile(
                 Dependencies(aggregating = true, *exportMetadata.mapKSFiles.toTypedArray()),
                 "",
-                koncat.projectName + "-export",
+                koncat.projectName + id,
                 "json.$KONCAT_FILE_EXTENSION"
             )
             os.appendText(Json.encodeToString(exportMetadata))
@@ -92,13 +96,25 @@ class ExportAnnotationProcessor(
         logger.info("$LOG_TAG [onError]")
     }
 
-    inner class BuilderVisitor() : KSVisitorWithExportMetadata() {
+    inner class BuilderVisitor : KSVisitorWithExportMetadata() {
         override fun visitClassDeclaration(
             classDeclaration: KSClassDeclaration,
             data: ExportMetadata
         ) {
-            data.exportAPIs.add(classDeclaration.qualifiedName!!.asString())
+            data.markers.add(classDeclaration.qualifiedName!!.asString())
             classDeclaration.containingFile?.let { data.mapKSFiles.add(it) }
+        }
+
+        override fun visitFile(file: KSFile, data: ExportMetadata) {
+            super.visitFile(file, data)
+        }
+
+        override fun visitPropertyDeclaration(
+            property: KSPropertyDeclaration,
+            data: ExportMetadata
+        ) {
+            super.visitPropertyDeclaration(property, data)
+            
         }
     }
 
@@ -106,22 +122,21 @@ class ExportAnnotationProcessor(
         private val dataList: List<ExportMetadata>
     ) {
         fun build(): FileSpec {
-            val routerInterface = ClassName("me.xx2bab.koncat.sample", "ExportCapabilityRouter")
+            val routerInterface = ClassName("me.xx2bab.koncat.sample", "Markers")
             val list = ClassName("kotlin.collections", "List")
             val listOfString = list.parameterizedBy(String::class.asTypeName())
-            val exportAPIs = dataList.flatMap { it.exportAPIs }
+            val exportAPIs = dataList.flatMap { it.markers }
                 .map { "\"$it\"" }
                 .joinToString(separator = ", ")
 
-            val getExportAPIListFunSpec = FunSpec.builder("getExportAPIList").apply {
+            val getExportAPIListFunSpec = FunSpec.builder("getClassMarkerList").apply {
                 returns(listOfString)
-                addModifiers(KModifier.OVERRIDE)
+//                addModifiers(KModifier.OVERRIDE)
                 addStatement("return listOf($exportAPIs)")
             }.build()
-            return FileSpec.builder("me.xx2bab.koncat.sample", "ExportCapabilityRouterImpl")
+            return FileSpec.builder("me.xx2bab.koncat.sample", "Markers")
                 .addType(
-                    TypeSpec.classBuilder("ExportCapabilityRouterImpl")
-                        .addSuperinterface(routerInterface)
+                    TypeSpec.classBuilder("Markers")
                         .addFunction(getExportAPIListFunSpec)
                         .build()
                 )

@@ -33,4 +33,5 @@ dependencies {
     implementation(projects.annotations)
     implementation(deps.kotlin.std)
     ksp(projects.customProcessor)
+    ksp(deps.koncat.processor)
 }

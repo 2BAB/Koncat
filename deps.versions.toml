@@ -10,6 +10,7 @@ buildConfigVer = "3.0.3"
 kotlinPoetVer = "1.11.0"
 
 [libraries]
+koncat-processor = { module = "me.2bab:koncat-processor", version = "*"}
 koncat-processor-api = { module = "me.2bab:koncat-processor-api", version = "*"}
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agpVer" }
 kotlin-std = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlinVer" }

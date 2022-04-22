@@ -4,9 +4,11 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import me.xx2bab.koncat.sample.annotation.ClassMark
 import me.xx2bab.koncat.sample.annotation.ExportActivity
 
 @ExportActivity
+@ClassMark
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

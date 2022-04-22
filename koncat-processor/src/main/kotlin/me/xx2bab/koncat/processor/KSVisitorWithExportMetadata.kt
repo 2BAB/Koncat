@@ -1,4 +1,4 @@
-package me.xx2bab.koncat.sample.kotlin
+package me.xx2bab.koncat.processor
 
 import com.google.devtools.ksp.symbol.*
 

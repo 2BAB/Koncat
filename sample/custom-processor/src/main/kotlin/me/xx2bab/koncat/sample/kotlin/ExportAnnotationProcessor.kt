@@ -35,6 +35,9 @@ class ExportAnnotationProcessor(
     val koncat: Koncat
 ) : SymbolProcessor {
 
+    companion object {
+        private const val id = "-custom-proc"
+    }
     private var exportMetadata = ExportMetadata()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
@@ -58,12 +61,9 @@ class ExportAnnotationProcessor(
                         + koncat.getIntermediatesDir().absolutePath
             )
             // Merge all ExportMetadata
-            val subProjectMetadataList = koncat.getIntermediatesDir().walk()
-                .filter {
-                    it.extension == KONCAT_FILE_EXTENSION
-                }
+            val subProjectMetadataList = koncat.getIntermediatesFiles()
+                .filter { it.name.contains(id) }
                 .map { subProjectMetadataFile ->
-                    logger.info(LOG_TAG + "Start processing ${subProjectMetadataFile.absolutePath}")
                     Json.decodeFromStream<ExportMetadata>(
                         subProjectMetadataFile.inputStream()
                     )
@@ -79,17 +79,12 @@ class ExportAnnotationProcessor(
             val os = codeGenerator.createNewFile(
                 Dependencies(aggregating = true, *exportMetadata.mapKSFiles.toTypedArray()),
                 "",
-                koncat.projectName + "-export",
+                koncat.projectName + id,
                 "json.$KONCAT_FILE_EXTENSION"
             )
             os.appendText(Json.encodeToString(exportMetadata))
             os.close()
         }
-    }
-
-    override fun onError() {
-        super.onError()
-        logger.info("$LOG_TAG [onError]")
     }
 
     inner class BuilderVisitor() : KSVisitorWithExportMetadata() {

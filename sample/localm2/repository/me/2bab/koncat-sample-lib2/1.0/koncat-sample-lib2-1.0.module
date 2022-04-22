@@ -10,7 +10,7 @@
   },
   "createdBy": {
     "gradle": {
-      "version": "7.4.1"
+      "version": "7.4.2"
     }
   },
   "variants": [
@@ -26,11 +26,11 @@
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 2135,
-          "sha512": "40181afb95227f3a67ebde9f764c19db651236a52bb131daa322e89fe9b92c373a3c988a272bb29d176b850775715dc52fc48557f88c6fcc8facdbd77c44fd02",
-          "sha256": "9b40b12b4aa08808adbcbbb5161d62a693d1e44146f362a9d3919eaf146565ae",
-          "sha1": "24a478cf198244465d7550d69015f7efd66bf3b7",
-          "md5": "d57118295d7758b3529d7e7c0e13b289"
+          "size": 2148,
+          "sha512": "c3e38182d93a7137af2183627d8608fc4d8d913ec69833b43a4a78a7eef5561bbbe43d7e5b7b37379e2be608ddc1643daa9447a2bf12ac67841e68493b50a560",
+          "sha256": "b5b20dc9d45b62f01e1eef35f4ea3c6c000b7a8b5bdf5051ebaa84b31d0b6350",
+          "sha1": "d50397e59d6d20ff87a5d7651a02647b92a80735",
+          "md5": "36b082f4af49c9abac4cf188efbdda06"
         }
       ]
     },
@@ -54,7 +54,7 @@
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-stdlib-jdk8",
           "version": {
-            "requires": "1.6.10"
+            "requires": "1.6.20"
           }
         }
       ],
@@ -62,11 +62,11 @@
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 2135,
-          "sha512": "40181afb95227f3a67ebde9f764c19db651236a52bb131daa322e89fe9b92c373a3c988a272bb29d176b850775715dc52fc48557f88c6fcc8facdbd77c44fd02",
-          "sha256": "9b40b12b4aa08808adbcbbb5161d62a693d1e44146f362a9d3919eaf146565ae",
-          "sha1": "24a478cf198244465d7550d69015f7efd66bf3b7",
-          "md5": "d57118295d7758b3529d7e7c0e13b289"
+          "size": 2148,
+          "sha512": "c3e38182d93a7137af2183627d8608fc4d8d913ec69833b43a4a78a7eef5561bbbe43d7e5b7b37379e2be608ddc1643daa9447a2bf12ac67841e68493b50a560",
+          "sha256": "b5b20dc9d45b62f01e1eef35f4ea3c6c000b7a8b5bdf5051ebaa84b31d0b6350",
+          "sha1": "d50397e59d6d20ff87a5d7651a02647b92a80735",
+          "md5": "36b082f4af49c9abac4cf188efbdda06"
         }
       ]
     },
