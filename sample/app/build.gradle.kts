@@ -47,3 +47,10 @@ dependencies {
     ksp(deps.koncat.processor)
     implementation(deps.kotlin.std)
 }
+
+koncat {
+    defaultProcessor {
+        annotations.addAll("me.xx2bab.koncat.sample.annotation.ClassMark")
+        interfaces.addAll("me.xx2bab.koncat.sample.Mark")
+    }
+}
