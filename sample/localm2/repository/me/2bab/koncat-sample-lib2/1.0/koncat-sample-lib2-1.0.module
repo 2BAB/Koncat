@@ -26,11 +26,11 @@
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 2148,
-          "sha512": "c3e38182d93a7137af2183627d8608fc4d8d913ec69833b43a4a78a7eef5561bbbe43d7e5b7b37379e2be608ddc1643daa9447a2bf12ac67841e68493b50a560",
-          "sha256": "b5b20dc9d45b62f01e1eef35f4ea3c6c000b7a8b5bdf5051ebaa84b31d0b6350",
-          "sha1": "d50397e59d6d20ff87a5d7651a02647b92a80735",
-          "md5": "36b082f4af49c9abac4cf188efbdda06"
+          "size": 2144,
+          "sha512": "7b17d4412782ce7294a33fc54d39a127183b5d8d7acdf9fc766ec4946576614bcf7e0a426fe8be13d3ea026f4eddf13f2020d30f0bb955da706ab89d94f55538",
+          "sha256": "0ef74bed47ed38002fa967cb638dd41a43c5518d6eb351df1685d07acb304d32",
+          "sha1": "9931acf84fbff9f40760ec323214b01398991ee7",
+          "md5": "4d9e747d10bdecef00d4916aacba059a"
         }
       ]
     },
@@ -45,7 +45,7 @@
       "dependencies": [
         {
           "group": "koncat-sample",
-          "module": "annotations",
+          "module": "symbols",
           "version": {
             "requires": "unspecified"
           }
@@ -62,11 +62,11 @@
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 2148,
-          "sha512": "c3e38182d93a7137af2183627d8608fc4d8d913ec69833b43a4a78a7eef5561bbbe43d7e5b7b37379e2be608ddc1643daa9447a2bf12ac67841e68493b50a560",
-          "sha256": "b5b20dc9d45b62f01e1eef35f4ea3c6c000b7a8b5bdf5051ebaa84b31d0b6350",
-          "sha1": "d50397e59d6d20ff87a5d7651a02647b92a80735",
-          "md5": "36b082f4af49c9abac4cf188efbdda06"
+          "size": 2144,
+          "sha512": "7b17d4412782ce7294a33fc54d39a127183b5d8d7acdf9fc766ec4946576614bcf7e0a426fe8be13d3ea026f4eddf13f2020d30f0bb955da706ab89d94f55538",
+          "sha256": "0ef74bed47ed38002fa967cb638dd41a43c5518d6eb351df1685d07acb304d32",
+          "sha1": "9931acf84fbff9f40760ec323214b01398991ee7",
+          "md5": "4d9e747d10bdecef00d4916aacba059a"
         }
       ]
     },

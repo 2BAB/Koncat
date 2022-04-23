@@ -17,9 +17,9 @@ class SampleProjectTest {
             "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/sample/ExportCapabilityRouterImpl.kt"
         private const val aggregatedJsonOutputPath = "%s/app/build/intermediates/koncat/debug"
         private const val kotlinLibJsonOutputPath =
-            "%s/kotlin-lib/build/generated/ksp/main/resources/kotlin-lib-export.json.koncat"
+            "%s/kotlin-lib/build/generated/ksp/main/resources/kotlin-lib-export-api-proc.json.koncat"
         private const val androidLibJsonOutputPath =
-            "%s/android-lib/build/generated/ksp/debug/resources/android-lib-export.json.koncat"
+            "%s/android-lib/build/generated/ksp/debug/resources/android-lib-export-api-proc.json.koncat"
 
         @BeforeAll
         @JvmStatic
@@ -96,10 +96,9 @@ class SampleProjectTest {
     @MethodSource("agpVerProvider")
     fun koncatFilesAreExtractedSuccessfully(agpVer: String) {
         val targetDir = File(aggregatedJsonOutputPath.format("./build/sample-$agpVer"))
-        assertTrue(targetDir.list().size == 3)
-        assertTrue(targetDir.list().contains("android-lib-export.json.koncat"))
-        assertTrue(targetDir.list().contains("android-lib-external-export.json.koncat"))
-        assertTrue(targetDir.list().contains("kotlin-lib-export.json.koncat"))
+        assertTrue(targetDir.list().contains("android-lib-export-api-proc.json.koncat"))
+        assertTrue(targetDir.list().contains("android-lib-external-export-api-proc.json.koncat"))
+        assertTrue(targetDir.list().contains("kotlin-lib-export-api-proc.json.koncat"))
     }
 
     @ParameterizedTest

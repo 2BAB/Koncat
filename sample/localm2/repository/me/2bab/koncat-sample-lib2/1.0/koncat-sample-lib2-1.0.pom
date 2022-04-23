@@ -14,7 +14,7 @@
   <dependencies>
     <dependency>
       <groupId>koncat-sample</groupId>
-      <artifactId>annotations</artifactId>
+      <artifactId>symbols</artifactId>
       <version>unspecified</version>
       <scope>runtime</scope>
     </dependency>
