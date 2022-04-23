@@ -23,7 +23,7 @@ class KoncatProcessorProvider : SymbolProcessorProvider {
     override fun create(
         env: SymbolProcessorEnvironment
     ): SymbolProcessor {
-        return  KoncatProcessor(
+        return KoncatProcessor(
             env.codeGenerator,
             env.logger,
             Koncat(KSPAdapter(env))
@@ -31,7 +31,7 @@ class KoncatProcessorProvider : SymbolProcessorProvider {
     }
 }
 
-class  KoncatProcessor(
+class KoncatProcessor(
     val codeGenerator: CodeGenerator,
     val logger: KSPLogger,
     val koncat: Koncat
@@ -40,18 +40,18 @@ class  KoncatProcessor(
     companion object {
         private const val id = "-koncat-proc$"
     }
+
     private var exportMetadata = ExportMetadata()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
         logger.info("$LOG_TAG [process]")
-
-        val symbols =
-            resolver.getSymbolsWithAnnotation("me.xx2bab.koncat.sample.annotation.ClassMark")
-        val ret = symbols.filter { !it.validate() }.toList()
-        symbols
-            .filter { (it is KSClassDeclaration || it is KSPropertyDeclaration) && it.validate() }
-            .forEach { it.accept(BuilderVisitor(), exportMetadata) }
-        return ret
+        koncat.getTargetAnnotations()
+            .flatMap { annotation ->
+                resolver.getSymbolsWithAnnotation(annotation)
+            }.filter { ksAnnotated ->
+                ksAnnotated is KSClassDeclaration && ksAnnotated.validate()
+            }.forEach { ksAnnotated -> ksAnnotated.accept(BuilderVisitor(), exportMetadata) }
+        return emptyList()
     }
 
     @OptIn(KotlinPoetKspPreview::class)
@@ -114,7 +114,7 @@ class  KoncatProcessor(
             data: ExportMetadata
         ) {
             super.visitPropertyDeclaration(property, data)
-            
+
         }
     }
 

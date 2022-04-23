@@ -15,3 +15,10 @@ dependencies {
     implementation(deps.kotlin.std)
     ksp(projects.customProcessor)
 }
+
+koncat {
+    defaultProcessor {
+        annotations.addAll("me.xx2bab.koncat.sample.annotation.ClassMark")
+        interfaces.addAll("me.xx2bab.koncat.sample.Mark")
+    }
+}

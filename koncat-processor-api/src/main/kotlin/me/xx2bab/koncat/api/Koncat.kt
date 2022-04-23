@@ -23,6 +23,11 @@ class Koncat(private val adapter: ProcessorAdapter) : KoncatAPI {
 
     override fun getGradlePlugins(): List<String> = adapter.arguments.gradlePlugins
 
+    override fun getTargetAnnotations(): List<String> = adapter.arguments.targetAnnotations
+
+    override fun getTargetInterfaces(): List<String> =
+        adapter.arguments.targetInterfaces
+
     override fun isMainProject(): Boolean = adapter.arguments.declaredAsMainProject
 
     override fun getIntermediatesDir(): File = File(adapter.intermediateDir, variantName)

@@ -34,7 +34,9 @@ class KoncatBasePlugin : Plugin<Project> {
                 projectName = project.name,
                 koncatVersion = BuildConfig.KONCAT_VERSION,
                 gradlePlugins = plugins.map { it.toString().split("@")[0] },
-                declaredAsMainProject = baseExt.isMainProject.get()
+                declaredAsMainProject = baseExt.isMainProject.get(),
+                targetAnnotations = baseExt.defaultProcessor.annotations.get(),
+                targetInterfaces = baseExt.defaultProcessor.interfaces.get()
             )
             project.plugins.findPlugin(KSP_PLUGIN_NAME)?.run {
                 project.extensions.configure<KspExtension> {

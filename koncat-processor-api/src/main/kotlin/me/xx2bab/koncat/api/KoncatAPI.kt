@@ -26,4 +26,7 @@ interface KoncatAPI {
 
     fun getGradlePlugins(): List<String>
 
+    fun getTargetAnnotations(): List<String>
+
+    fun getTargetInterfaces(): List<String>
 }
