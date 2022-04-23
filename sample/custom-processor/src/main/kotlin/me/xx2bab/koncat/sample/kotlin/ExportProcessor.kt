@@ -3,25 +3,27 @@ package me.xx2bab.koncat.sample.kotlin
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.ksp.KotlinPoetKspPreview
 import com.squareup.kotlinpoet.ksp.writeTo
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import me.xx2bab.koncat.api.Koncat
 import me.xx2bab.koncat.api.adapter.KSPAdapter
 import me.xx2bab.koncat.contract.KONCAT_FILE_EXTENSION
-import me.xx2bab.koncat.contract.LOG_TAG
 import java.io.OutputStream
 
-class ExportAnnotationProcessorProvider : SymbolProcessorProvider {
+class ExportProcessorProvider : SymbolProcessorProvider {
     override fun create(
         env: SymbolProcessorEnvironment
     ): SymbolProcessor {
-        return ExportAnnotationProcessor(
+        return ExportProcessor(
             env.codeGenerator,
             env.logger,
             Koncat(KSPAdapter(env))
@@ -29,24 +31,24 @@ class ExportAnnotationProcessorProvider : SymbolProcessorProvider {
     }
 }
 
-class ExportAnnotationProcessor(
+class ExportProcessor(
     val codeGenerator: CodeGenerator,
     val logger: KSPLogger,
     val koncat: Koncat
 ) : SymbolProcessor {
 
     companion object {
-        private const val id = "-custom-proc"
+        private const val id = "-export-api-proc"
     }
+
     private var exportMetadata = ExportMetadata()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        logger.info("$LOG_TAG [process]")
-        val symbols =
-            resolver.getSymbolsWithAnnotation("me.xx2bab.koncat.sample.annotation.ExportAPI")
+        val symbols = resolver.getSymbolsWithAnnotation(
+            "me.xx2bab.koncat.sample.annotation.ExportAPI"
+        )
         val ret = symbols.filter { !it.validate() }.toList()
-        symbols
-            .filter { it is KSClassDeclaration && it.validate() }
+        symbols.filter { it is KSClassDeclaration && it.validate() }
             .forEach { it.accept(BuilderVisitor(), exportMetadata) }
         return ret
     }
@@ -54,12 +56,7 @@ class ExportAnnotationProcessor(
     @OptIn(KotlinPoetKspPreview::class)
     override fun finish() {
         super.finish()
-        logger.info("$LOG_TAG [finish]")
         if (koncat.isMainProject()) {
-            logger.info(
-                LOG_TAG + "Query all sub projects meta data from "
-                        + koncat.getIntermediatesDir().absolutePath
-            )
             // Merge all ExportMetadata
             val subProjectMetadataList = koncat.getIntermediatesFiles()
                 .filter { it.name.contains(id) }
@@ -129,3 +126,9 @@ class ExportAnnotationProcessor(
 internal fun OutputStream.appendText(str: String) {
     this.write(str.toByteArray())
 }
+
+@Serializable
+data class ExportMetadata(
+    val exportAPIs: MutableList<String> = mutableListOf(),
+    @Transient val mapKSFiles: MutableList<KSFile> = mutableListOf()
+)
