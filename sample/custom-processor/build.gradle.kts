@@ -10,7 +10,7 @@ java {
 }
 
 dependencies {
-    implementation(projects.annotations)
+    implementation(projects.symbols)
     implementation(deps.kotlin.std)
     implementation(deps.kotlin.serialization)
     implementation(deps.kotlinpoet.core)

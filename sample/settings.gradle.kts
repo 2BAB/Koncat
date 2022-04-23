@@ -58,7 +58,7 @@ include(":app",
     ":android-lib",
     ":android-lib-external",
     ":kotlin-lib",
-    ":annotations",
+    ":symbols",
     ":custom-processor"
 )
 

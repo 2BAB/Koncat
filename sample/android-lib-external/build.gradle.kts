@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.annotations)
+    implementation(projects.symbols)
     implementation(deps.kotlin.std)
     ksp(projects.customProcessor)
 }
