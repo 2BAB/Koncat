@@ -22,15 +22,24 @@
         "org.gradle.libraryelements": "aar",
         "org.gradle.usage": "java-api"
       },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.21"
+          }
+        }
+      ],
       "files": [
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 2144,
-          "sha512": "7b17d4412782ce7294a33fc54d39a127183b5d8d7acdf9fc766ec4946576614bcf7e0a426fe8be13d3ea026f4eddf13f2020d30f0bb955da706ab89d94f55538",
-          "sha256": "0ef74bed47ed38002fa967cb638dd41a43c5518d6eb351df1685d07acb304d32",
-          "sha1": "9931acf84fbff9f40760ec323214b01398991ee7",
-          "md5": "4d9e747d10bdecef00d4916aacba059a"
+          "size": 2317,
+          "sha512": "ce27b890cc16cbcfce6aae3c52fcdd85445ec76e05872718698ed23548852fe2ccac7d0709298c3792bd755137fe958896787ce6d13be418570080216e44326a",
+          "sha256": "310509022d1089d0ae643a336c6c532e9eb8e3b55b22bb64346bb24a82eb80c3",
+          "sha1": "a574a406227fcf2cd92fe3b95f198866f42021f7",
+          "md5": "30e5d6c15a6e8daddc099c854c46e76b"
         }
       ]
     },
@@ -44,17 +53,17 @@
       },
       "dependencies": [
         {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.21"
+          }
+        },
+        {
           "group": "koncat-sample",
           "module": "symbols",
           "version": {
             "requires": "unspecified"
-          }
-        },
-        {
-          "group": "org.jetbrains.kotlin",
-          "module": "kotlin-stdlib-jdk8",
-          "version": {
-            "requires": "1.6.20"
           }
         }
       ],
@@ -62,11 +71,11 @@
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 2144,
-          "sha512": "7b17d4412782ce7294a33fc54d39a127183b5d8d7acdf9fc766ec4946576614bcf7e0a426fe8be13d3ea026f4eddf13f2020d30f0bb955da706ab89d94f55538",
-          "sha256": "0ef74bed47ed38002fa967cb638dd41a43c5518d6eb351df1685d07acb304d32",
-          "sha1": "9931acf84fbff9f40760ec323214b01398991ee7",
-          "md5": "4d9e747d10bdecef00d4916aacba059a"
+          "size": 2317,
+          "sha512": "ce27b890cc16cbcfce6aae3c52fcdd85445ec76e05872718698ed23548852fe2ccac7d0709298c3792bd755137fe958896787ce6d13be418570080216e44326a",
+          "sha256": "310509022d1089d0ae643a336c6c532e9eb8e3b55b22bb64346bb24a82eb80c3",
+          "sha1": "a574a406227fcf2cd92fe3b95f198866f42021f7",
+          "md5": "30e5d6c15a6e8daddc099c854c46e76b"
         }
       ]
     },
@@ -82,11 +91,11 @@
         {
           "name": "koncat-sample-lib2-1.0-sources.jar",
           "url": "koncat-sample-lib2-1.0-sources.jar",
-          "size": 1927,
-          "sha512": "1197e79e9b0f653a5fff63f3149f0ad4d6a128144fbb02959ffc5a059b97aa1999627bb54388f6cc6e476dda42f8bf2c5a1f34e2517b81a21c7e6b3d1c5def93",
-          "sha256": "fad543449f3a21305fb163a035cba7351f2814fa7edb6eeeec6d9f1eddb8c5cb",
-          "sha1": "b7cce7a652357bc1831daedd90f2f8fbdac5f304",
-          "md5": "db6efe85432f2376d86a0d362a050056"
+          "size": 1904,
+          "sha512": "05e97c8c325bfd8e86cd8e945a90e1c49c6aeb367938c3b4f346fecb05fec9a2047996eab2f19e9151af99ba981740739071d78e344eedae6d8fed0b6127e8fa",
+          "sha256": "ac27faf77c5af74b92225fafe874e7b9bb60c0e3931b9bb45c729b9c5b8a2199",
+          "sha1": "dff12c09bb385b318ae0fd5d2597ef7a3f83445c",
+          "md5": "eee3f4181ad86c910607da92d46db166"
         }
       ]
     }

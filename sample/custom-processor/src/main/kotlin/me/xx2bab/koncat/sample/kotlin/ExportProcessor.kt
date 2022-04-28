@@ -21,31 +21,29 @@ import java.io.OutputStream
 
 class ExportProcessorProvider : SymbolProcessorProvider {
     override fun create(
-        env: SymbolProcessorEnvironment
+        environment: SymbolProcessorEnvironment
     ): SymbolProcessor {
         return ExportProcessor(
-            env.codeGenerator,
-            env.logger,
-            Koncat(KSPAdapter(env))
+            environment.codeGenerator,
+            Koncat(KSPAdapter(environment))
         )
     }
 }
 
 class ExportProcessor(
-    val codeGenerator: CodeGenerator,
-    val logger: KSPLogger,
-    val koncat: Koncat
+    private val codeGenerator: CodeGenerator,
+    private val koncat: Koncat
 ) : SymbolProcessor {
 
     companion object {
-        private const val id = "-export-api-proc"
+        private const val id = "-custom-mark-proc"
     }
 
-    private var exportMetadata = ExportMetadata()
+    private val exportMetadata = ExportMetadata()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val symbols = resolver.getSymbolsWithAnnotation(
-            "me.xx2bab.koncat.sample.annotation.ExportAPI"
+            "me.xx2bab.koncat.sample.annotation.CustomMark"
         )
         val ret = symbols.filter { !it.validate() }.toList()
         symbols.filter { it is KSClassDeclaration && it.validate() }
@@ -84,7 +82,7 @@ class ExportProcessor(
         }
     }
 
-    inner class BuilderVisitor() : KSVisitorWithExportMetadata() {
+    inner class BuilderVisitor : KSVisitorWithExportMetadata() {
         override fun visitClassDeclaration(
             classDeclaration: KSClassDeclaration,
             data: ExportMetadata
@@ -98,21 +96,18 @@ class ExportProcessor(
         private val dataList: List<ExportMetadata>
     ) {
         fun build(): FileSpec {
-            val routerInterface = ClassName("me.xx2bab.koncat.sample", "ExportCapabilityRouter")
-            val list = ClassName("kotlin.collections", "List")
-            val listOfString = list.parameterizedBy(String::class.asTypeName())
-            val exportAPIs = dataList.flatMap { it.exportAPIs }
-                .map { "\"$it\"" }
-                .joinToString(separator = ", ")
-
-            val getExportAPIListFunSpec = FunSpec.builder("getExportAPIList").apply {
+            val routerInterface = ClassName("me.xx2bab.koncat.sample", "CustomRouter")
+            val listOfString = List::class.asTypeName().parameterizedBy(String::class.asTypeName())
+            val exportAPIs =
+                dataList.flatMap { it.exportAPIs }.joinToString(separator = ", ") { "\"$it\"" }
+            val getExportAPIListFunSpec = FunSpec.builder("getCustomMarkList").apply {
                 returns(listOfString)
                 addModifiers(KModifier.OVERRIDE)
                 addStatement("return listOf($exportAPIs)")
             }.build()
-            return FileSpec.builder("me.xx2bab.koncat.sample", "ExportCapabilityRouterImpl")
+            return FileSpec.builder("me.xx2bab.koncat.sample", "CustomRouterImpl")
                 .addType(
-                    TypeSpec.classBuilder("ExportCapabilityRouterImpl")
+                    TypeSpec.classBuilder("CustomRouterImpl")
                         .addSuperinterface(routerInterface)
                         .addFunction(getExportAPIListFunSpec)
                         .build()
@@ -120,7 +115,6 @@ class ExportProcessor(
                 .build()
         }
     }
-
 }
 
 internal fun OutputStream.appendText(str: String) {

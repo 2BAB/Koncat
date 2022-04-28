@@ -68,11 +68,15 @@ includeBuild(externalDependencyBaseDir){
             .using(project(":koncat-gradle-plugin"))
     }
     dependencySubstitution {
-        substitute(module("me.2bab:koncat-processor"))
-            .using(project(":koncat-processor"))
-    }
-    dependencySubstitution {
         substitute(module("me.2bab:koncat-processor-api"))
             .using(project(":koncat-processor-api"))
+    }
+    dependencySubstitution {
+        substitute(module("me.2bab:koncat-cupcake-processor"))
+            .using(project(":koncat-cupcake-processor"))
+    }
+    dependencySubstitution {
+        substitute(module("me.2bab:koncat-cupcake-runtime"))
+            .using(project(":koncat-cupcake-runtime"))
     }
 }

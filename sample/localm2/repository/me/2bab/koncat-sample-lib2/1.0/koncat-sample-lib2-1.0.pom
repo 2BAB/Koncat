@@ -13,15 +13,15 @@
   <packaging>aar</packaging>
   <dependencies>
     <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-stdlib-jdk8</artifactId>
+      <version>1.6.21</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>koncat-sample</groupId>
       <artifactId>symbols</artifactId>
       <version>unspecified</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-stdlib-jdk8</artifactId>
-      <version>1.6.20</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies>

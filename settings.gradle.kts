@@ -35,9 +35,22 @@ dependencyResolutionManagement {
 }
 
 include(
+    // Core components
     ":koncat-contract",
     ":koncat-gradle-plugin",
     ":koncat-processor-api",
-    ":koncat-processor",
+
+    // Cupcake is one of the implementation based on Koncat aggregation mechanism,
+    // it can aggregate:
+    //     - Annotation classes
+    //     - Interface Implementation classes
+    //     - Typed Properties
+    // for multi modules during compile time.
+    ":koncat-cupcake-processor",
+    ":koncat-cupcake-runtime",
+    ":koncat-cupcake-model",
+    ":koncat-cupcake-stub", // A stub for cupcake-runtime to be used when released, later the generated class will replace it
+
+    // Functional test for all components including the sample
     "functional-test"
 )

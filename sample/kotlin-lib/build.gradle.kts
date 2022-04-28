@@ -13,12 +13,14 @@ java {
 dependencies {
     implementation(projects.symbols)
     implementation(deps.kotlin.std)
+
+    ksp(deps.koncat.cupcake.processor)
+
     ksp(projects.customProcessor)
 }
 
 koncat {
     defaultProcessor {
-        annotations.addAll("me.xx2bab.koncat.sample.annotation.ClassMark")
-        interfaces.addAll("me.xx2bab.koncat.sample.Mark")
+        annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
     }
 }

@@ -1,1 +1,1 @@
-./gradlew clean assembleDebug --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.daemon.jvm.options="-Xdebug,-Xrunjdwp:transport=dt_socket\,address=8765\,server=y\,suspend=n"
+./gradlew clean assembleDebug --rerun-tasks --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy=in-process

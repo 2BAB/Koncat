@@ -10,9 +10,18 @@
         android:id="@+id/apis_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:layout_centerInParent="true"
         android:lineSpacingMultiplier="1.5"
-        android:text="Hello World!"
-        android:layout_centerInParent="true"/>
+        android:padding="16dp"
+        android:text="Hello World!" />
+
+    <TextView
+        android:id="@+id/cupcake_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/apis_text_view"
+        android:layout_centerHorizontal="true"
+        android:lineSpacingMultiplier="1.5"
+        android:padding="16dp" />
 
 </RelativeLayout>
