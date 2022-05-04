@@ -12,7 +12,7 @@ java {
 
 dependencies {
     implementation(gradleApi())
-    implementation(projects.koncatContract)
+    implementation(projects.koncatCompileContract)
     implementation(deps.kotlin.std)
     implementation(deps.kotlin.serialization)
     implementation(deps.polyfill.main)

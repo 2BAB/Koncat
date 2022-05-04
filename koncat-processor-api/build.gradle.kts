@@ -11,7 +11,7 @@ java {
 }
 
 dependencies {
-    api(projects.koncatContract)
+    api(projects.koncatCompileContract)
     implementation(deps.kotlin.std)
     implementation(deps.kotlin.reflect)
     compileOnly(deps.ksp.api)

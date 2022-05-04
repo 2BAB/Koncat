@@ -14,12 +14,12 @@ class KoncatAndroidPlugin : Plugin<Project> {
             project.plugins.findPlugin(KSP_PLUGIN_NAME)?.run {
                 project.tasks.findByPath("preBuild")?.let { preBuild ->
                     project.tasks.named(KoncatBasePlugin.BASE_ARGUMENTS_CONTRACT_GEN_TASK)
-                        .configure {
-                            dependsOn(preBuild)
-                        }
+                        .configure { dependsOn(preBuild) }
                 }
             }
         }
+
+        // TODO: add a set of tasks for variant configuration
     }
 
 }

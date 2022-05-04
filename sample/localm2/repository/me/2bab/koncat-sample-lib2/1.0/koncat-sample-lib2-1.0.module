@@ -35,11 +35,11 @@
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 2317,
-          "sha512": "ce27b890cc16cbcfce6aae3c52fcdd85445ec76e05872718698ed23548852fe2ccac7d0709298c3792bd755137fe958896787ce6d13be418570080216e44326a",
-          "sha256": "310509022d1089d0ae643a336c6c532e9eb8e3b55b22bb64346bb24a82eb80c3",
-          "sha1": "a574a406227fcf2cd92fe3b95f198866f42021f7",
-          "md5": "30e5d6c15a6e8daddc099c854c46e76b"
+          "size": 14571,
+          "sha512": "bf833b5615c4cc59af6766cbdbb657ab773051f621457137b66a35ae3b7df7d17854b50382dba24846f48c5e75601e5ac51ef9d33a0ad64a2eb2be39b9c5466e",
+          "sha256": "4f99886672d97a4a350f3edf32e4260116ac156394b9861ed9862228af5af4dc",
+          "sha1": "e4467b6acf2d8dca509160ba91b6bf2549d95305",
+          "md5": "d50fd064cb4fae758d3379585430ef79"
         }
       ]
     },
@@ -65,17 +65,31 @@
           "version": {
             "requires": "unspecified"
           }
+        },
+        {
+          "group": "io.insert-koin",
+          "module": "koin-android",
+          "version": {
+            "requires": "3.1.6"
+          }
+        },
+        {
+          "group": "me.2bab",
+          "module": "koncat-runtime",
+          "version": {
+            "requires": "*"
+          }
         }
       ],
       "files": [
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 2317,
-          "sha512": "ce27b890cc16cbcfce6aae3c52fcdd85445ec76e05872718698ed23548852fe2ccac7d0709298c3792bd755137fe958896787ce6d13be418570080216e44326a",
-          "sha256": "310509022d1089d0ae643a336c6c532e9eb8e3b55b22bb64346bb24a82eb80c3",
-          "sha1": "a574a406227fcf2cd92fe3b95f198866f42021f7",
-          "md5": "30e5d6c15a6e8daddc099c854c46e76b"
+          "size": 14571,
+          "sha512": "bf833b5615c4cc59af6766cbdbb657ab773051f621457137b66a35ae3b7df7d17854b50382dba24846f48c5e75601e5ac51ef9d33a0ad64a2eb2be39b9c5466e",
+          "sha256": "4f99886672d97a4a350f3edf32e4260116ac156394b9861ed9862228af5af4dc",
+          "sha1": "e4467b6acf2d8dca509160ba91b6bf2549d95305",
+          "md5": "d50fd064cb4fae758d3379585430ef79"
         }
       ]
     },
@@ -91,11 +105,11 @@
         {
           "name": "koncat-sample-lib2-1.0-sources.jar",
           "url": "koncat-sample-lib2-1.0-sources.jar",
-          "size": 1904,
-          "sha512": "05e97c8c325bfd8e86cd8e945a90e1c49c6aeb367938c3b4f346fecb05fec9a2047996eab2f19e9151af99ba981740739071d78e344eedae6d8fed0b6127e8fa",
-          "sha256": "ac27faf77c5af74b92225fafe874e7b9bb60c0e3931b9bb45c729b9c5b8a2199",
-          "sha1": "dff12c09bb385b318ae0fd5d2597ef7a3f83445c",
-          "md5": "eee3f4181ad86c910607da92d46db166"
+          "size": 1915,
+          "sha512": "255e3e58943a0cdbf91afef9893e0eeaefa27190fe308e1184c8ebb388ea04c5b9b2c6d83eefbde25b2a4672b7ffe06a0c1199cdaa3627296dd64eb6e46a8cfe",
+          "sha256": "14a0efa57c47fdf45ce890f238f5157b7795baf1722ebbc04eb2369c7b2100e4",
+          "sha1": "51d55eb6035a07cd14c0043cceec6a2834f59c95",
+          "md5": "bde55aa9d60d9b6cf26e23603ab34459"
         }
       ]
     }

@@ -72,11 +72,11 @@ includeBuild(externalDependencyBaseDir){
             .using(project(":koncat-processor-api"))
     }
     dependencySubstitution {
-        substitute(module("me.2bab:koncat-cupcake-processor"))
-            .using(project(":koncat-cupcake-processor"))
+        substitute(module("me.2bab:koncat-processor"))
+            .using(project(":koncat-processor"))
     }
     dependencySubstitution {
-        substitute(module("me.2bab:koncat-cupcake-runtime"))
-            .using(project(":koncat-cupcake-runtime"))
+        substitute(module("me.2bab:koncat-runtime"))
+            .using(project(":koncat-runtime"))
     }
 }

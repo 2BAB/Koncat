@@ -45,17 +45,18 @@ dependencies {
     implementation("me.2bab:koncat-sample-lib2:1.0")
 
     implementation(deps.kotlin.std)
-    implementation("androidx.room:room-runtime:2.4.2")
+    implementation(deps.koin.android)
 
-    implementation(deps.koncat.cupcake.runtime)
-    ksp(deps.koncat.cupcake.processor)
+    implementation(deps.koncat.runtime)
+    ksp(deps.koncat.processor)
 
     ksp(projects.customProcessor)
 }
 
 koncat {
-    defaultProcessor {
-        annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
-//        interfaces.addAll("me.xx2bab.koncat.sample.JSBridgeAPI")
-    }
+    declaredAsMainProject.set(true)
+    extendable.set(false)
+    annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
+    interfaces.addAll("me.xx2bab.koncat.sample.interfaze.DummyAPI")
+    properties.addAll("org.koin.core.module.Module")
 }

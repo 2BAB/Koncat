@@ -13,14 +13,15 @@ java {
 dependencies {
     implementation(projects.symbols)
     implementation(deps.kotlin.std)
+    implementation(deps.koin.core)
 
-    ksp(deps.koncat.cupcake.processor)
-
+    implementation(deps.koncat.runtime)
+    ksp(deps.koncat.processor)
     ksp(projects.customProcessor)
 }
 
 koncat {
-    defaultProcessor {
-        annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
-    }
+    annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
+    interfaces.addAll("me.xx2bab.koncat.sample.interfaze.DummyAPI")
+    properties.addAll("org.koin.core.module.Module")
 }

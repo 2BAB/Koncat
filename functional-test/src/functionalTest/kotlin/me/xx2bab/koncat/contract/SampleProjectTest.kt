@@ -2,7 +2,6 @@ package me.xx2bab.koncat.contract
 
 import org.gradle.testkit.runner.GradleRunner
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.hasItemInArray
 import org.hamcrest.core.StringContains
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.params.ParameterizedTest
@@ -16,21 +15,16 @@ class SampleProjectTest {
 
         private const val baseTestProjectPath = "../sample"
 
-        private const val customProcId = "-custom-mark-proc"
-        private const val cupcakeProcId = "-cupcake-proc"
-
         private const val aggregatedClassOutputPathForCupcakeProc =
-            "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/cupcake/KoncatCupCakeAggregation.kt"
+            "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/runtime/KoncatAggregation.kt"
         private const val aggregatedClassOutputPathForCustomProc =
             "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/sample/CustomRouterImpl.kt"
-        private const val aggregatedJsonOutputPath = "%s/app/build/intermediates/koncat/debug"
-        private const val kotlinLibJsonOutputPath =
-            "%s/kotlin-lib/build/generated/ksp/main/resources/kotlin-lib%s.json.koncat"
-        private const val androidLibJsonOutputPath =
-            "%s/android-lib/build/generated/ksp/debug/resources/android-lib%s.json.koncat"
+        private const val kotlinLibMetaOutputPath =
+            "%s/kotlin-lib/build/generated/ksp/main/kotlin/me/xx2bab/koncat/runtime/meta/KoncatMetaForKotlinlib.kt"
+        private const val androidLibMetaOutputPath =
+            "%s/android-lib/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/runtime/meta/KoncatMetaForAndroidlib.kt"
 
         private val allModules = arrayOf("android-lib", "android-lib-external", "kotlin-lib")
-        private const val jsonKoncat = ".json.koncat"
 
 
         @BeforeAll
@@ -90,33 +84,24 @@ class SampleProjectTest {
 
 
 
-    /*Cupcake Processor cases*/
+    /*Koncat Processor cases*/
 
     @ParameterizedTest
     @MethodSource("agpVerProvider")
-    fun koncatFilesAreGeneratedSuccessfullyForCupcakeProc(agpVer: String) {
+    fun metaFilesAreGeneratedSuccessfullyForCupcakeProc(agpVer: String) {
         // TODO: after we stabilized the JSON structure, can change to JSON object validation
         mapOf(
-            kotlinLibJsonOutputPath to "\"me.xx2bab.koncat.sample.annotation.ExportActivity\":[]",
-            androidLibJsonOutputPath to "me.xx2bab.koncat.sample.android.AndroidLibraryActivity",
+            kotlinLibMetaOutputPath to "\"me.xx2bab.koncat.sample.annotation.ExportActivity\":[]",
+            androidLibMetaOutputPath to "me.xx2bab.koncat.sample.android.AndroidLibraryActivity",
         ).forEach { (filePath, targetText) ->
-            val file = File(filePath.format("./build/sample-$agpVer", cupcakeProcId))
+            val file = File(filePath.format("./build/sample-$agpVer"))
             assertThat(file.readText(), StringContains.containsString(targetText))
         }
     }
 
     @ParameterizedTest
     @MethodSource("agpVerProvider")
-    fun koncatFilesAreExtractedSuccessfullyForCupcakeProc(agpVer: String) {
-        val targetFileNames = File(aggregatedJsonOutputPath.format("./build/sample-$agpVer")).list()
-        allModules.forEach {
-            assertThat(targetFileNames, hasItemInArray(it + cupcakeProcId + jsonKoncat))
-        }
-    }
-
-    @ParameterizedTest
-    @MethodSource("agpVerProvider")
-    fun finalClassIsGeneratedSuccessfullyForCupcakeProc(agpVer: String) {
+    fun finalClassIsGeneratedSuccessfullyForKoncatProc(agpVer: String) {
         val genClass = File(aggregatedClassOutputPathForCupcakeProc.format("./build/sample-$agpVer")).readText()
         listOf(
             "me.xx2bab.koncat.sample.MainActivity",
@@ -131,40 +116,7 @@ class SampleProjectTest {
 
 
 
-    /*Custom Processor cases*/
+    /*Extend Processor cases*/
 
-    @ParameterizedTest
-    @MethodSource("agpVerProvider")
-    fun koncatFilesAreGeneratedSuccessfullyForCustomProc(agpVer: String) {
-        mapOf(
-            androidLibJsonOutputPath to "me.xx2bab.koncat.sample.android.AndroidLibraryActivity",
-        ).forEach { (filePath, targetText) ->
-            val file = File(filePath.format("./build/sample-$agpVer", customProcId))
-            assertThat(file.readText(), StringContains.containsString(targetText))
-        }
-    }
-
-    @ParameterizedTest
-    @MethodSource("agpVerProvider")
-    fun koncatFilesAreExtractedSuccessfullyForCustomProc(agpVer: String) {
-        val targetFileNames = File(aggregatedJsonOutputPath.format("./build/sample-$agpVer")).list()
-        allModules.forEach {
-            assertThat(targetFileNames, hasItemInArray(it + customProcId + jsonKoncat))
-        }
-    }
-
-    @ParameterizedTest
-    @MethodSource("agpVerProvider")
-    fun finalClassIsGeneratedSuccessfullyForCustomProc(agpVer: String) {
-        val genClass = File(aggregatedClassOutputPathForCustomProc.format("./build/sample-$agpVer")).readText()
-        listOf(
-            "me.xx2bab.koncat.sample.MainActivity",
-            "me.xx2bab.koncat.sample.MainActivity.NestedClass",
-            "me.xx2bab.koncat.sample.MainActivity.InnerClass",
-            "me.xx2bab.koncat.sample.android.AndroidLibraryActivity"
-        ).forEach {
-            assertThat(genClass, StringContains.containsString(it))
-        }
-    }
 
 }

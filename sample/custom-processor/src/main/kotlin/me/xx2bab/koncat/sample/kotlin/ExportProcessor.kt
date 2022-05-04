@@ -1,5 +1,6 @@
 package me.xx2bab.koncat.sample.kotlin
 
+import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
@@ -14,7 +15,7 @@ import kotlinx.serialization.Transient
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import me.xx2bab.koncat.api.Koncat
+import me.xx2bab.koncat.api.KoncatProcessorSupportAPIImpl
 import me.xx2bab.koncat.api.adapter.KSPAdapter
 import me.xx2bab.koncat.contract.KONCAT_FILE_EXTENSION
 import java.io.OutputStream
@@ -25,14 +26,16 @@ class ExportProcessorProvider : SymbolProcessorProvider {
     ): SymbolProcessor {
         return ExportProcessor(
             environment.codeGenerator,
-            Koncat(KSPAdapter(environment))
+            environment.logger,
+            KoncatProcessorSupportAPIImpl(KSPAdapter(environment))
         )
     }
 }
 
 class ExportProcessor(
     private val codeGenerator: CodeGenerator,
-    private val koncat: Koncat
+    private val logger: KSPLogger,
+    private val koncat: KoncatProcessorSupportAPIImpl
 ) : SymbolProcessor {
 
     companion object {
@@ -41,6 +44,7 @@ class ExportProcessor(
 
     private val exportMetadata = ExportMetadata()
 
+    @OptIn(KspExperimental::class)
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val symbols = resolver.getSymbolsWithAnnotation(
             "me.xx2bab.koncat.sample.annotation.CustomMark"

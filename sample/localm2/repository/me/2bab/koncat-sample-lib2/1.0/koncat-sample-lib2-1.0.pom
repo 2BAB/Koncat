@@ -24,5 +24,17 @@
       <version>unspecified</version>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>io.insert-koin</groupId>
+      <artifactId>koin-android</artifactId>
+      <version>3.1.6</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>me.2bab</groupId>
+      <artifactId>koncat-runtime</artifactId>
+      <version>*</version>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
 </project>

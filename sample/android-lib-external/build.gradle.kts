@@ -34,7 +34,9 @@ android {
 
 dependencies {
     implementation(projects.symbols)
-    ksp(deps.koncat.cupcake.processor)
+    implementation(deps.koin.android)
+    implementation(deps.koncat.runtime)
+    ksp(deps.koncat.processor)
     ksp(projects.customProcessor)
 }
 
@@ -65,7 +67,7 @@ publishing {
 }
 
 koncat {
-    defaultProcessor {
-        annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
-    }
+    annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
+    interfaces.addAll("me.xx2bab.koncat.sample.interfaze.DummyAPI")
+    properties.addAll("org.koin.core.module.Module")
 }

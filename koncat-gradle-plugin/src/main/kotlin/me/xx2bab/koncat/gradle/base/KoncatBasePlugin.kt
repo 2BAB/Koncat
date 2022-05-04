@@ -29,14 +29,16 @@ class KoncatBasePlugin : Plugin<Project> {
 
         // Set up annotation processor arguments
         project.afterEvaluate {
-            baseExt.isMainProject.disallowChanges()
+            baseExt.declaredAsMainProject.disallowChanges()
             val argumentsContract = KoncatArgumentsContract(
                 projectName = project.name,
                 koncatVersion = BuildConfig.KONCAT_VERSION,
                 gradlePlugins = plugins.map { it.toString().split("@")[0] },
-                declaredAsMainProject = baseExt.isMainProject.get(),
-                targetAnnotations = baseExt.defaultProcessor.annotations.get(),
-                targetInterfaces = baseExt.defaultProcessor.interfaces.get()
+                declaredAsMainProject = baseExt.declaredAsMainProject.get(),
+                extendable = baseExt.extendable.get(),
+                targetAnnotations = baseExt.annotations.get(),
+                targetInterfaces = baseExt.interfaces.get(),
+                targetProperties = baseExt.properties.get()
             )
             project.plugins.findPlugin(KSP_PLUGIN_NAME)?.run {
                 project.extensions.configure<KspExtension> {
