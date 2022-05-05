@@ -105,9 +105,9 @@ class KoncatProcessor(
         } else {
             // Generate intermediate kt file
             genMetaFile(
-                fileName = metadataFileName.format(koncat.projectName)
+                fileName = metadataFileName.format(koncat.projectName
                     .replace("[^A-Za-z0-9 ]".toRegex(), "")
-                    .capitalize(),
+                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }),
                 packageName = metadataPackage,
                 annotation = KoncatMeta::class.simpleName!!,
                 codeGenerator = codeGenerator,

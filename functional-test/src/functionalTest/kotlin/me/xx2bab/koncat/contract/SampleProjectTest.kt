@@ -88,7 +88,7 @@ class SampleProjectTest {
 
     @ParameterizedTest
     @MethodSource("agpVerProvider")
-    fun metaFilesAreGeneratedSuccessfullyForCupcakeProc(agpVer: String) {
+    fun metaFilesAreGeneratedSuccessfullyForKoncatProc(agpVer: String) {
         // TODO: after we stabilized the JSON structure, can change to JSON object validation
         mapOf(
             kotlinLibMetaOutputPath to "\"me.xx2bab.koncat.sample.annotation.ExportActivity\":[]",
