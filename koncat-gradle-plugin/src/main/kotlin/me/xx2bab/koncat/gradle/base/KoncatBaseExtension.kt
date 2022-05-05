@@ -13,15 +13,55 @@ abstract class KoncatBaseExtension @Inject constructor(
     objects: ObjectFactory,
     layout: ProjectLayout
 ) {
+    /**
+     * To declare current working project (Gradle module in another word) as Main Project,
+     * the Main Project will collect all Koncat metadata from dependencies.
+     */
     val declaredAsMainProject: Property<Boolean> = objects.property<Boolean>().convention(false)
 
-    val extendable: Property<Boolean> = objects.property<Boolean>().convention(false)
+    /**
+     * To enable/disable the Aggregation Class generation.
+     * The Aggregation Class is actually `me.xx2bab.koncat.runtime.KoncatAggregation`,
+     * that will be used by `koncat-runtime` library in runtime,
+     * to replace the `koncat-stub` one which is an empty & compile-only placeholder.
+     */
+    val generateAggregationClass: Property<Boolean> = objects.property<Boolean>().convention(true)
 
+    /**
+     * To enable/disable the Extension Class generation.
+     * The Extension Class is actually `me.xx2bab.koncat.runtime.KoncatAggregatedMeta`,
+     * that will be used by 3rd party developers to customize the process of aggregated metadata.
+     * For example, to generate a custom Aggregation Class, or to generate an API/Route report
+     * during compile time.
+     */
+    val generateExtensionClass: Property<Boolean> = objects.property<Boolean>().convention(false)
+
+    /**
+     * To specify classes that annotated by the annotation list below should be aggregated.
+     * Anonymous classes are not supported.
+     */
     val annotations: ListProperty<String> = objects.listProperty()
 
-    val interfaces: ListProperty<String> = objects.listProperty()
+    /**
+     * To specify top-level classes that extend or implement from supertype list below
+     * should be aggregated. Indirect type search are supported.
+     */
+    val classTypes: ListProperty<String> = objects.listProperty()
 
-    val properties: ListProperty<String> = objects.listProperty()
+    /**
+     * Tp specify top-level properties that are declared as one of the type list below
+     * should be aggregated. Indirect type search are supported.
+     * For example, `android.app.Activity` is passed into [classTypes],
+     * in the project `BaseActivity` is the wrapper for `Activity`,
+     * then the implementation `MainActivity` which extends `BaseActivity` will be aggregated still.
+     */
+    val propertyTypes: ListProperty<String> = objects.listProperty()
+
+    /**
+     * To enable/disable indirect type search for [classTypes] and [propertyTypes].
+     */
+    val indirectTypeSearch: Property<Boolean> = objects.property<Boolean>().convention(false)
+
 
     internal val mainProjectOutputDir = layout.buildDirectory
         .dir("intermediates")

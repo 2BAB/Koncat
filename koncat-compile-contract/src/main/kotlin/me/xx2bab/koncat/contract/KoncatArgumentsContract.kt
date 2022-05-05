@@ -1,6 +1,7 @@
 package me.xx2bab.koncat.contract
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import java.io.File
@@ -11,13 +12,16 @@ data class KoncatArgumentsContract(
     val koncatVersion: String,
     val gradlePlugins: List<String>,
     val declaredAsMainProject: Boolean,
-    val extendable: Boolean,
+    val generateAggregationClass: Boolean,
+    val generateExtensionClass: Boolean,
     val targetAnnotations: List<String>,
-    val targetInterfaces: List<String>,
-    val targetProperties: List<String>
+    val targetClassTypes: List<String>,
+    val targetPropertyTypes: List<String>
 )
 
-fun parseKoncatArguments(targetDirectory: File, variantName: String = ""): KoncatArgumentsContract {
+fun KoncatArgumentsContract.encodeKoncatArguments(): String = Json.encodeToString(this)
+
+fun decodeKoncatArguments(targetDirectory: File, variantName: String = ""): KoncatArgumentsContract {
     val fileName = if (variantName.isBlank()) {
         KONCAT_ARGUMENT_TARGET_FILE_BASE
     } else {

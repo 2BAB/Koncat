@@ -24,7 +24,7 @@ typealias MutableAnnotatedClasses = MutableMap<String, MutableList<ClassDeclarat
 @Serializable
 data class KoncatProcMetadata(
     val annotatedClasses: MutableAnnotatedClasses = mutableMapOf(),
-    val interfaces: MutableMap<String, MutableList<String>> = mutableMapOf(),
-    val properties: MutableMap<String, MutableList<String>> = mutableMapOf(),
+    val typedClasses: MutableMap<String, MutableList<String>> = mutableMapOf(),
+    val typedProperties: MutableMap<String, MutableList<String>> = mutableMapOf(),
     @Transient val mapKSFiles: MutableList<KSFile> = mutableListOf()
 )

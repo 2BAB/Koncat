@@ -26,13 +26,15 @@ class KoncatProcessorSupportAPIImpl(private val adapter: ProcessorAdapter) :
 
     override fun getTargetAnnotations(): List<String> = adapter.arguments.targetAnnotations
 
-    override fun getTargetInterfaces(): List<String> = adapter.arguments.targetInterfaces
+    override fun getTargetClassTypes(): List<String> = adapter.arguments.targetClassTypes
 
-    override fun getTargetProperties(): List<String> = adapter.arguments.targetProperties
+    override fun getTargetPropertyTypes(): List<String> = adapter.arguments.targetPropertyTypes
 
     override fun isMainProject(): Boolean = adapter.arguments.declaredAsMainProject
 
-    override fun isExtendable(): Boolean = adapter.arguments.extendable
+    override fun generateExtensionClassEnabled(): Boolean = adapter.arguments.generateExtensionClass
+
+    override fun generateAggregationClassEnabled(): Boolean = adapter.arguments.generateAggregationClass
 
     override fun getIntermediatesDir(): File = File(adapter.intermediateDir, variantName)
 

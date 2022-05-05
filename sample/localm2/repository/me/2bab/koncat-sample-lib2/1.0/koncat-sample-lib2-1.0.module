@@ -35,11 +35,11 @@
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 14571,
-          "sha512": "bf833b5615c4cc59af6766cbdbb657ab773051f621457137b66a35ae3b7df7d17854b50382dba24846f48c5e75601e5ac51ef9d33a0ad64a2eb2be39b9c5466e",
-          "sha256": "4f99886672d97a4a350f3edf32e4260116ac156394b9861ed9862228af5af4dc",
-          "sha1": "e4467b6acf2d8dca509160ba91b6bf2549d95305",
-          "md5": "d50fd064cb4fae758d3379585430ef79"
+          "size": 14650,
+          "sha512": "4095e952dcc932ba84c51fe7b8f22b36cf7018bd48804f600ee07937dd66c476ef1d35e0ec989ea73c2408950bb0ee3498eb7545dc5123934fd08f523508b019",
+          "sha256": "1b876f2e2e4c29ae7bec3e1fbb042de7e062cb65d07552928b899378208d25d6",
+          "sha1": "3a0b5eb6b38461fbd8c16942a8c8ef0532f60b0a",
+          "md5": "3d2836d6998517e8dff6eea92a5c9b39"
         }
       ]
     },
@@ -85,11 +85,11 @@
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 14571,
-          "sha512": "bf833b5615c4cc59af6766cbdbb657ab773051f621457137b66a35ae3b7df7d17854b50382dba24846f48c5e75601e5ac51ef9d33a0ad64a2eb2be39b9c5466e",
-          "sha256": "4f99886672d97a4a350f3edf32e4260116ac156394b9861ed9862228af5af4dc",
-          "sha1": "e4467b6acf2d8dca509160ba91b6bf2549d95305",
-          "md5": "d50fd064cb4fae758d3379585430ef79"
+          "size": 14650,
+          "sha512": "4095e952dcc932ba84c51fe7b8f22b36cf7018bd48804f600ee07937dd66c476ef1d35e0ec989ea73c2408950bb0ee3498eb7545dc5123934fd08f523508b019",
+          "sha256": "1b876f2e2e4c29ae7bec3e1fbb042de7e062cb65d07552928b899378208d25d6",
+          "sha1": "3a0b5eb6b38461fbd8c16942a8c8ef0532f60b0a",
+          "md5": "3d2836d6998517e8dff6eea92a5c9b39"
         }
       ]
     },

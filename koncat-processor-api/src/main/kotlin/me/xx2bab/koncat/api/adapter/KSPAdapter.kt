@@ -41,7 +41,7 @@ class KSPAdapter(private val env: SymbolProcessorEnvironment) : ProcessorAdapter
 
     override val intermediateDir: File = koncatDir
 
-    override val arguments: KoncatArgumentsContract = parseKoncatArguments(koncatDir)
+    override val arguments: KoncatArgumentsContract = decodeKoncatArguments(koncatDir)
 
     override val variantName: String = variantAwareness.variantName
 

@@ -55,8 +55,9 @@ dependencies {
 
 koncat {
     declaredAsMainProject.set(true)
-    extendable.set(false)
+    generateAggregationClass.set(true)
+    generateExtensionClass.set(false)
     annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
-    interfaces.addAll("me.xx2bab.koncat.sample.interfaze.DummyAPI")
-    properties.addAll("org.koin.core.module.Module")
+    classTypes.addAll("me.xx2bab.koncat.sample.interfaze.DummyAPI")
+    propertyTypes.addAll("org.koin.core.module.Module")
 }

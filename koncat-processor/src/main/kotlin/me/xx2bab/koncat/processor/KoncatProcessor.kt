@@ -15,14 +15,15 @@ import me.xx2bab.koncat.api.KoncatProcessorSupportAPI
 import me.xx2bab.koncat.api.KoncatProcessorSupportAPIImpl
 import me.xx2bab.koncat.api.adapter.KSPAdapter
 import me.xx2bab.koncat.contract.KLogger
-import me.xx2bab.koncat.processor.anno.AnnotationBasedSubProcessor
+import me.xx2bab.koncat.processor.anno.AnnotationSubProcessor
 import me.xx2bab.koncat.processor.base.KSPLoggerWrapper
 import me.xx2bab.koncat.processor.base.SubProcessor
-import me.xx2bab.koncat.processor.interfaze.InterfaceBasedSubProcessor
-import me.xx2bab.koncat.processor.property.PropertyBasedSubProcessor
+import me.xx2bab.koncat.processor.interfaze.ClassTypeSubProcessor
+import me.xx2bab.koncat.processor.property.PropertyTypeSubProcessor
 import me.xx2bab.koncat.runtime.KoncatExtend
 import me.xx2bab.koncat.runtime.KoncatMeta
 import java.io.OutputStream
+import java.util.*
 
 class KoncatProcessorProvider : SymbolProcessorProvider {
     override fun create(
@@ -52,9 +53,9 @@ class KoncatProcessor(
     }
 
     private val subProcessors = listOf(
-        AnnotationBasedSubProcessor(),
-        InterfaceBasedSubProcessor(),
-        PropertyBasedSubProcessor()
+        AnnotationSubProcessor(),
+        ClassTypeSubProcessor(),
+        PropertyTypeSubProcessor()
     )
     private val exportMetadata = KoncatProcMetadata()
     private var subProjectMetadataList: List<KoncatProcMetadata>? = null
@@ -183,10 +184,10 @@ class KoncatProcessor(
             val aggregatedMeta = KoncatProcMetadata()
             dataList.forEach {
                 mergeMap(it.annotatedClasses, aggregatedMeta.annotatedClasses)
-                mergeMap(it.interfaces, aggregatedMeta.interfaces)
-                mergeMap(it.properties, aggregatedMeta.properties)
+                mergeMap(it.typedClasses, aggregatedMeta.typedClasses)
+                mergeMap(it.typedProperties, aggregatedMeta.typedProperties)
             }
-            if (koncat.isExtendable()) {
+            if (koncat.generateExtensionClassEnabled()) {
                 genMetaFile(
                     fileName = aggregationMetadataFileName,
                     packageName = aggregationPackage,
@@ -194,7 +195,9 @@ class KoncatProcessor(
                     codeGenerator = codeGenerator,
                     dependencies = dependencies
                 )
-            } else { // To gen the data storage file that will be used by koncat-runtime
+            }
+            if (koncat.generateAggregationClassEnabled()) {
+                // To gen the data storage file that will be used by koncat-runtime
                 val fb = FileSpec.builder(aggregationPackage, aggregationFinalFileName)
                 subProcessors.forEach {
                     fb.addProperty(it.onGenerate(aggregatedMeta, logger))

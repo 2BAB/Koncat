@@ -2,13 +2,8 @@ package me.xx2bab.koncat.gradle.base
 
 import com.google.devtools.ksp.gradle.KspExtension
 import com.google.devtools.ksp.gradle.KspTask
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import me._bab.koncat_gradle_plugin.BuildConfig
-import me.xx2bab.koncat.contract.KONCAT_ARGUMENT_INTERMEDIATES_DIR
-import me.xx2bab.koncat.contract.KONCAT_ARGUMENT_TARGET_FILE_BASE
-import me.xx2bab.koncat.contract.KSP_PLUGIN_NAME
-import me.xx2bab.koncat.contract.KoncatArgumentsContract
+import me.xx2bab.koncat.contract.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -35,10 +30,11 @@ class KoncatBasePlugin : Plugin<Project> {
                 koncatVersion = BuildConfig.KONCAT_VERSION,
                 gradlePlugins = plugins.map { it.toString().split("@")[0] },
                 declaredAsMainProject = baseExt.declaredAsMainProject.get(),
-                extendable = baseExt.extendable.get(),
+                generateAggregationClass = baseExt.generateAggregationClass.get(),
+                generateExtensionClass = baseExt.generateExtensionClass.get(),
                 targetAnnotations = baseExt.annotations.get(),
-                targetInterfaces = baseExt.interfaces.get(),
-                targetProperties = baseExt.properties.get()
+                targetClassTypes = baseExt.classTypes.get(),
+                targetPropertyTypes = baseExt.propertyTypes.get()
             )
             project.plugins.findPlugin(KSP_PLUGIN_NAME)?.run {
                 project.extensions.configure<KspExtension> {
@@ -48,7 +44,7 @@ class KoncatBasePlugin : Plugin<Project> {
                 val genBaseArgsTask = project.tasks.register<GenerateArgumentsContractTask>(
                     BASE_ARGUMENTS_CONTRACT_GEN_TASK
                 ) {
-                    contractJson.set(Json.encodeToString(argumentsContract))
+                    contractJson.set(argumentsContract.encodeKoncatArguments())
                     target.set(baseExt.mainProjectOutputDir.map {
                         it.file(KONCAT_ARGUMENT_TARGET_FILE_BASE)
                     })

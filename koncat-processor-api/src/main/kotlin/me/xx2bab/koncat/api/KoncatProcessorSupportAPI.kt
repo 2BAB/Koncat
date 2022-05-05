@@ -20,7 +20,9 @@ interface KoncatProcessorSupportAPI {
 
     fun isMainProject(): Boolean
 
-    fun isExtendable(): Boolean
+    fun generateExtensionClassEnabled(): Boolean
+
+    fun generateAggregationClassEnabled(): Boolean
 
     fun getIntermediatesDir(): File
 
@@ -30,7 +32,7 @@ interface KoncatProcessorSupportAPI {
 
     fun getTargetAnnotations(): List<String>
 
-    fun getTargetInterfaces(): List<String>
+    fun getTargetClassTypes(): List<String>
 
-    fun getTargetProperties(): List<String>
+    fun getTargetPropertyTypes(): List<String>
 }
