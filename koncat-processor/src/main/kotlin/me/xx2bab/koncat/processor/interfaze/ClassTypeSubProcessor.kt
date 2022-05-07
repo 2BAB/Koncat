@@ -2,6 +2,7 @@ package me.xx2bab.koncat.processor.interfaze
 
 import com.google.devtools.ksp.getClassDeclarationByName
 import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFile
 import com.squareup.kotlinpoet.ANY
@@ -11,41 +12,46 @@ import com.squareup.kotlinpoet.WildcardTypeName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.ksp.KotlinPoetKspPreview
 import com.squareup.kotlinpoet.ksp.toClassName
-import me.xx2bab.koncat.api.KoncatProcessorSupportAPI
+import me.xx2bab.koncat.api.KoncatProcMetadata
+import me.xx2bab.koncat.api.KoncatProcAPI
 import me.xx2bab.koncat.contract.KLogger
 import me.xx2bab.koncat.processor.KSVisitorWithExportMetadata
-import me.xx2bab.koncat.processor.KoncatProcMetadata
 import me.xx2bab.koncat.processor.base.ClassNameAndType
 import me.xx2bab.koncat.processor.base.SubProcessor
 import kotlin.reflect.KClass
 
-class ClassTypeSubProcessor : SubProcessor {
+class ClassTypeSubProcessor(
+    private val koncat: KoncatProcAPI,
+    private val exportMetadata: KoncatProcMetadata,
+    private val logger: KLogger) : SubProcessor {
 
-    override fun onProcess(
-        resolver: Resolver,
-        koncat: KoncatProcessorSupportAPI,
-        exportMetadata: KoncatProcMetadata,
-        logger: KLogger
-    ) {
+    init {
         koncat.getTargetClassTypes().forEach {
             exportMetadata.typedClasses[it] = mutableListOf()
         }
+    }
+
+    override fun onProcess(
+        resolver: Resolver
+    ): List<KSAnnotated> {
         val targetClassTypeDeclarations = koncat.getTargetClassTypes().map {
             ClassNameAndType(
                 it,
                 resolver.getClassDeclarationByName(it)!!.asStarProjectedType()
             ) // May throw exceptions
         }
-        resolver.getAllFiles().forEach {
+        resolver.getNewFiles().forEach {
             val visitor = InterfaceBindingVisitor(targetClassTypeDeclarations, logger, koncat)
             it.accept(visitor, exportMetadata)
         }
+
+        return emptyList()
     }
 
     inner class InterfaceBindingVisitor(
         private val targetInterfaces: List<ClassNameAndType>,
         private val logger: KLogger,
-        private val koncat: KoncatProcessorSupportAPI
+        private val koncat: KoncatProcAPI
     ) : KSVisitorWithExportMetadata() {
 
         override fun visitFile(file: KSFile, data: KoncatProcMetadata) {

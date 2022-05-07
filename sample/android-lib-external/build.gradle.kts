@@ -37,7 +37,6 @@ dependencies {
     implementation(deps.koin.android)
     implementation(deps.koncat.runtime)
     ksp(deps.koncat.processor)
-    ksp(projects.customProcessor)
 }
 
 

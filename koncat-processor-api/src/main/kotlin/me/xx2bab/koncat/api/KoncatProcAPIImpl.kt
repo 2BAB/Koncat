@@ -1,11 +1,16 @@
 package me.xx2bab.koncat.api
 
+import com.google.devtools.ksp.containingFile
+import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.validate
 import me._bab.koncat_processor_api.BuildConfig
+import me.xx2bab.koncat.api.base.ProcessorAdapter
 import me.xx2bab.koncat.contract.KONCAT_FILE_EXTENSION
+import me.xx2bab.koncat.runtime.KoncatExtend
 import java.io.File
 
-class KoncatProcessorSupportAPIImpl(private val adapter: ProcessorAdapter) :
-    KoncatProcessorSupportAPI {
+class KoncatProcAPIImpl(private val adapter: ProcessorAdapter) :
+    KoncatProcAPI {
 
     init {
         val apiLibVersion = BuildConfig.KONCAT_VERSION
@@ -32,9 +37,25 @@ class KoncatProcessorSupportAPIImpl(private val adapter: ProcessorAdapter) :
 
     override fun isMainProject(): Boolean = adapter.arguments.declaredAsMainProject
 
+    override fun syncAggregatedMetadata(resolver: Resolver): KoncatProcMetadataHolder? {
+        check(isMainProject()) { "aggregatedMetadata() API can only be called from main project." }
+        val koncatExtensions = resolver.getSymbolsWithAnnotation(KoncatExtend::class.qualifiedName!!)
+            .filter { it.validate() }
+        // The processor may run a few times, so we need to deal with the empty scenario.
+        // Only when [KoncatProcessor] from main project has been done,
+        // this can run again and return valid [KoncatProcMetadata].
+        if (koncatExtensions.count() == 0) {
+            return null
+        }
+        val latestKoncatExtension = koncatExtensions.sortedByDescending { it.containingFile!!.fileName }
+            .first()
+        return KoncatProcMetadataHolder(latestKoncatExtension)
+    }
+
     override fun generateExtensionClassEnabled(): Boolean = adapter.arguments.generateExtensionClass
 
-    override fun generateAggregationClassEnabled(): Boolean = adapter.arguments.generateAggregationClass
+    override fun generateAggregationClassEnabled(): Boolean =
+        adapter.arguments.generateAggregationClass
 
     override fun getIntermediatesDir(): File = File(adapter.intermediateDir, variantName)
 

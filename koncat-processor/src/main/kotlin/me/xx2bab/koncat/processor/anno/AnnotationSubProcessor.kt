@@ -1,34 +1,43 @@
 package me.xx2bab.koncat.processor.anno
 
 import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import me.xx2bab.koncat.api.KoncatProcessorSupportAPI
+import me.xx2bab.koncat.api.AnnotationRecord
+import me.xx2bab.koncat.api.ClassDeclarationRecord
+import me.xx2bab.koncat.api.KoncatProcMetadata
+import me.xx2bab.koncat.api.KoncatProcAPI
 import me.xx2bab.koncat.contract.KLogger
-import me.xx2bab.koncat.processor.AnnotationRecord
-import me.xx2bab.koncat.processor.ClassDeclarationRecord
 import me.xx2bab.koncat.processor.KSVisitorWithExportMetadata
-import me.xx2bab.koncat.processor.KoncatProcMetadata
 import me.xx2bab.koncat.processor.base.SubProcessor
 import kotlin.reflect.KClass
 
-class AnnotationSubProcessor : SubProcessor {
+class AnnotationSubProcessor(
+    private val koncat: KoncatProcAPI,
+    private val exportMetadata: KoncatProcMetadata,
+    private val logger: KLogger
+) : SubProcessor {
+
+    init {
+
+    }
 
     override fun onProcess(
-        resolver: Resolver,
-        koncat: KoncatProcessorSupportAPI,
-        exportMetadata: KoncatProcMetadata,
-        logger: KLogger
-    ) {
+        resolver: Resolver
+    ): List<KSAnnotated> {
+        val ret = mutableListOf<KSAnnotated>()
         koncat.getTargetAnnotations()
             .forEach { annotation ->
                 logger.info("[AnnotationBasedSubProcessor] Process $annotation")
                 exportMetadata.annotatedClasses.putIfAbsent(annotation, mutableListOf())
 
-                resolver.getSymbolsWithAnnotation(annotation).filter { ksAnnotated ->
-                    ksAnnotated is KSClassDeclaration && ksAnnotated.validate()
+                val ksAnnotatedSequence = resolver.getSymbolsWithAnnotation(annotation)
+                ret.addAll(ksAnnotatedSequence.filter { !it.validate() }.toList())
+                ksAnnotatedSequence.filter { ksAnnotated ->
+                    ksAnnotated.validate() && ksAnnotated is KSClassDeclaration
                 }.forEach { ksAnnotated ->
                     logger.info("[AnnotationBasedSubProcessor] Visit $ksAnnotated")
                     ksAnnotated.accept(
@@ -37,6 +46,7 @@ class AnnotationSubProcessor : SubProcessor {
                     )
                 }
             }
+        return ret
     }
 
     inner class AnnotatedClassesVisitor(private val currentAnno: String) :
@@ -67,8 +77,10 @@ class AnnotationSubProcessor : SubProcessor {
         }
     }
 
-    override fun onGenerate(mergedMetadata: KoncatProcMetadata,
-                            logger: KLogger): PropertySpec {
+    override fun onGenerate(
+        mergedMetadata: KoncatProcMetadata,
+        logger: KLogger
+    ): PropertySpec {
         val annotatedClasses = mergedMetadata.annotatedClasses
 
         val list = List::class.asClassName()

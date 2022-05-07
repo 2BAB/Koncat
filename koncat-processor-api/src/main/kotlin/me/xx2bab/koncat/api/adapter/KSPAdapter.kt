@@ -1,7 +1,7 @@
 package me.xx2bab.koncat.api.adapter
 
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
-import me.xx2bab.koncat.api.ProcessorAdapter
+import me.xx2bab.koncat.api.base.ProcessorAdapter
 import me.xx2bab.koncat.api.tool.VariantAwareness
 import me.xx2bab.koncat.contract.*
 import java.io.File

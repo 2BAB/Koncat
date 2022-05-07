@@ -29,7 +29,7 @@ class MainActivity : Activity() {
         // Custom Processor test
         val router = Class.forName("me.xx2bab.koncat.sample.CustomRouterImpl")
             .newInstance() as CustomRouter
-        val apis = router.getCustomMarkList().joinToString("\r\n")
+        val apis = router.getDummyAPIList().joinToString("\r\n")
         findViewById<TextView>(R.id.extend_proc_text_view).text = apis
         Log.d("Export APIs: ", apis)
 

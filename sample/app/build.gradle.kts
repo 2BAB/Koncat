@@ -49,14 +49,13 @@ dependencies {
 
     implementation(deps.koncat.runtime)
     ksp(deps.koncat.processor)
-
     ksp(projects.customProcessor)
 }
 
 koncat {
     declaredAsMainProject.set(true)
     generateAggregationClass.set(true)
-    generateExtensionClass.set(false)
+    generateExtensionClass.set(true)
     annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
     classTypes.addAll("me.xx2bab.koncat.sample.interfaze.DummyAPI")
     propertyTypes.addAll("org.koin.core.module.Module")

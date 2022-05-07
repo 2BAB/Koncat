@@ -1,6 +1,7 @@
 package me.xx2bab.koncat.processor
 
 import com.google.devtools.ksp.symbol.*
+import me.xx2bab.koncat.api.KoncatProcMetadata
 
 open class KSVisitorWithExportMetadata : KSVisitor<KoncatProcMetadata, Unit> {
     override fun visitAnnotated(annotated: KSAnnotated, data: KoncatProcMetadata) {
