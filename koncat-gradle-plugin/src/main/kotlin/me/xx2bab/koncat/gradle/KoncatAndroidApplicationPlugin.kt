@@ -1,6 +1,5 @@
 package me.xx2bab.koncat.gradle
 
-import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import me.xx2bab.koncat.gradle.base.KoncatAndroidPlugin
 import me.xx2bab.koncat.gradle.base.KoncatBaseExtension
 import me.xx2bab.polyfill.PolyfillPlugin
@@ -19,13 +18,13 @@ class KoncatAndroidApplicationPlugin : Plugin<Project> {
         val baseExt = project.extensions.getByType<KoncatBaseExtension>()
         baseExt.declaredAsMainProject.set(true)
 
-        val androidExtension = project.extensions
-            .getByType(ApplicationAndroidComponentsExtension::class.java)
+//        val androidExtension = project.extensions
+//            .getByType(ApplicationAndroidComponentsExtension::class.java)
 
         // Prevent all Koncat intermediates from being packaged into the final package(.apk/.aab).
-        androidExtension.finalizeDsl {
-//            it.packagingOptions.resources.excludes += "**/*.koncat"
-        }
+//        androidExtension.finalizeDsl { appExt ->
+//
+//        }
     }
 
 }

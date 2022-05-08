@@ -84,12 +84,12 @@ class KoncatAggregationProcessor(
             lastMapSize = exportMetadata.elementSize()
             val os = codeGenerator.createNewFile(
                 dependencies = Dependencies(aggregating = true, *exportMetadata.mapKSFiles.toTypedArray()),
-                packageName = aggregationPackage,
+                packageName = metadataPackage,
                 fileName = aggregationMetadataFileName + roundCount)
             val annotation = KoncatExtend::class.simpleName!!
             os.overwrite(
                 """
-                package $aggregationPackage
+                package $metadataPackage
                 
                 import me.xx2bab.koncat.runtime.$annotation
                 
