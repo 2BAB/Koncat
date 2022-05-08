@@ -15,7 +15,11 @@ class SampleProjectTest {
 
         private const val baseTestProjectPath = "../sample"
 
-        private const val aggregatedClassOutputPathForCupcakeProc =
+        private const val aggregatedMetaData1OutputPathForKoncatProc =
+            "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/runtime/meta/KoncatAggregatedMeta1.kt"
+        private const val aggregatedMetaData2OutputPathForKoncatProc =
+            "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/runtime/meta/KoncatAggregatedMeta2.kt"
+        private const val aggregatedClassOutputPathForKoncatProc =
             "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/runtime/KoncatAggregation.kt"
         private const val aggregatedClassOutputPathForCustomProc =
             "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/sample/CustomRouterImpl.kt"
@@ -83,7 +87,6 @@ class SampleProjectTest {
     }
 
 
-
     /*Koncat Processor cases*/
 
     @ParameterizedTest
@@ -102,21 +105,57 @@ class SampleProjectTest {
     @ParameterizedTest
     @MethodSource("agpVerProvider")
     fun finalClassIsGeneratedSuccessfullyForKoncatProc(agpVer: String) {
-        val genClass = File(aggregatedClassOutputPathForCupcakeProc.format("./build/sample-$agpVer")).readText()
+        val genClass =
+            File(aggregatedClassOutputPathForKoncatProc.format("./build/sample-$agpVer")).readText()
         listOf(
             "me.xx2bab.koncat.sample.MainActivity",
             "me.xx2bab.koncat.sample.annotation.ExportActivity",
             "me.xx2bab.koncat.sample.annotation.CustomMark",
             "me.xx2bab.koncat.sample.annotation.MemberRequired",
-            "\"level\" to \"1\""
+            "\"level\" to \"1\"",
+            "me.xx2bab.koncat.sample.android.AndroidLibraryAPI",
+            "me.xx2bab.koncat.sample.kotlin.kotlinLibraryModule"
         ).forEach {
             assertThat(genClass, StringContains.containsString(it))
         }
     }
 
 
-
     /*Extend Processor cases*/
+    @ParameterizedTest
+    @MethodSource("agpVerProvider")
+    fun aggregatedMetaFilesAreGeneratedSuccessfullyForKoncatProc(agpVer: String) {
+        val gen1 = File(aggregatedMetaData1OutputPathForKoncatProc
+            .format("./build/sample-$agpVer")).readText()
+        val gen2 = File(aggregatedMetaData2OutputPathForKoncatProc
+            .format("./build/sample-$agpVer")).readText()
+        listOf(
+            "me.xx2bab.koncat.sample.MainActivity",
+            "me.xx2bab.koncat.sample.annotation.ExportActivity",
+            "me.xx2bab.koncat.sample.annotation.CustomMark",
+            "me.xx2bab.koncat.sample.annotation.MemberRequired",
+            "me.xx2bab.koncat.sample.android.AndroidLibraryAPI",
+            "me.xx2bab.koncat.sample.kotlin.kotlinLibraryModule"
+        ).forEach {
+            assertThat(gen1, StringContains.containsString(it))
+        }
+        assertThat(gen2, StringContains.containsString("me.xx2bab.koncat.sample.DataProviderProcessorAPI"))
+    }
+
+    @ParameterizedTest
+    @MethodSource("agpVerProvider")
+    fun extensionRouterClassIsGeneratedSuccessfullyForCustomProc(agpVer: String) {
+        val genClass =
+            File(aggregatedClassOutputPathForCustomProc.format("./build/sample-$agpVer")).readText()
+        listOf(
+            "me.xx2bab.koncat.sample.android.ExternalAndroidLibraryAPI",
+            "me.xx2bab.koncat.sample.android.AndroidLibraryAPI",
+            "me.xx2bab.koncat.sample.kotlin.KotlinLibraryAPI",
+            "me.xx2bab.koncat.sample.DataProviderProcessorAPI"
+        ).forEach {
+            assertThat(genClass, StringContains.containsString(it))
+        }
+    }
 
 
 }
