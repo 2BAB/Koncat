@@ -18,3 +18,26 @@ dependencies {
     implementation(projects.koncatProcessorApi)
     implementation(projects.koncatRuntimeModel)
 }
+
+testing {
+    suites {
+        val integrationTest by registering(JvmTestSuite::class) {
+            useJUnitJupiter()
+            testType.set(TestSuiteType.INTEGRATION_TEST)
+            dependencies {
+                implementation(deps.hamcrest)
+                implementation(deps.kotlin.compile.testing)
+            }
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn(testing.suites.named("integrationTest"))
+}
+
+tasks.withType<Test> {
+    testLogging {
+        this.showStandardStreams = true
+    }
+}

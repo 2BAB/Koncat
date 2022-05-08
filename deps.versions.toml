@@ -29,6 +29,7 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinVer" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinVer" }
 junit = { module = "junit:junit", version = "4.12" }
 hamcrest = { module = "org.hamcrest:hamcrest-library", version = "2.2" }
+kotlin-compile-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing", version = "1.4.8"}
 
 [bundles]
 
