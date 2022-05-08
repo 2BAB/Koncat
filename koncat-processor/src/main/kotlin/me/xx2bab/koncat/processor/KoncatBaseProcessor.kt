@@ -96,7 +96,7 @@ class KoncatAggregationProcessor(
                 @$annotation(metaDataInJson = ${'"'}""${
                     Json.encodeToString(exportMetadata).replace("$", "\${'$'}")
                 }""${'"'})
-                val voidProp = null // DO NOT use voidProp directly, the valuable information is placing in `metaDataInJson` above. 
+                val voidProp$roundCount = null // DO NOT use voidProp directly, the valuable information is placing in `metaDataInJson` above. 
                 """.trimIndent()
             )
             os.close()
