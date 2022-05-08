@@ -1,4 +1,4 @@
-package me.xx2bab.koncat.contract
+package me.xx2bab.koncat
 
 import org.gradle.testkit.runner.GradleRunner
 import org.hamcrest.MatcherAssert.assertThat
