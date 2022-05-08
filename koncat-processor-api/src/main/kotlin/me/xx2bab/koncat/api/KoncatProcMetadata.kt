@@ -32,7 +32,9 @@ data class KoncatProcMetadata(
     @Transient val mapKSFiles: MutableList<KSFile> = mutableListOf()
 ) {
     fun elementSize(): Int {
-        return annotatedClasses.size + typedClasses.size + typedProperties.size
+        return (annotatedClasses.map { it.value.size }.sum()
+                + typedClasses.map { it.value.size }.sum()
+                + typedProperties.map { it.value.size }.sum())
     }
 }
 typealias MutableAnnotatedClasses = MutableMap<String, MutableList<ClassDeclarationRecord>>
