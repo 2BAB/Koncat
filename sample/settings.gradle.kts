@@ -59,7 +59,8 @@ include(":app",
     ":android-lib-external",
     ":kotlin-lib",
     ":symbols",
-    ":custom-processor"
+    ":custom-processor",
+    ":data-provider-processor"
 )
 
 includeBuild(externalDependencyBaseDir){

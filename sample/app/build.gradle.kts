@@ -50,6 +50,7 @@ dependencies {
     implementation(deps.koncat.runtime)
     ksp(deps.koncat.processor)
     ksp(projects.customProcessor)
+    ksp(projects.dataProviderProcessor)
 }
 
 koncat {
