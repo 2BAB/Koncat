@@ -12,8 +12,8 @@ import com.squareup.kotlinpoet.WildcardTypeName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.ksp.KotlinPoetKspPreview
 import com.squareup.kotlinpoet.ksp.toClassName
-import me.xx2bab.koncat.api.KoncatProcMetadata
 import me.xx2bab.koncat.api.KoncatProcAPI
+import me.xx2bab.koncat.api.KoncatProcMetadata
 import me.xx2bab.koncat.contract.KLogger
 import me.xx2bab.koncat.processor.KSVisitorWithExportMetadata
 import me.xx2bab.koncat.processor.base.ClassNameAndType
@@ -38,7 +38,7 @@ class ClassTypeSubProcessor(
             ClassNameAndType(
                 it,
                 resolver.getClassDeclarationByName(it)!!.asStarProjectedType()
-            ) // May throw exceptions
+            ) // May throw exceptions if the classpath of target class types are not existed.
         }
         resolver.getNewFiles().forEach {
             val visitor = InterfaceBindingVisitor(targetClassTypeDeclarations, logger, koncat)

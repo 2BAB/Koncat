@@ -12,12 +12,9 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import me.xx2bab.koncat.api.KoncatProcAPI
-import me.xx2bab.koncat.api.KoncatProcAPIImpl
 import me.xx2bab.koncat.api.KoncatProcMetadata
-import me.xx2bab.koncat.api.adapter.KSPAdapter
 import me.xx2bab.koncat.contract.KLogger
 import me.xx2bab.koncat.processor.anno.AnnotationSubProcessor
-import me.xx2bab.koncat.processor.base.KSPLoggerWrapper
 import me.xx2bab.koncat.processor.interfaze.ClassTypeSubProcessor
 import me.xx2bab.koncat.processor.property.PropertyTypeSubProcessor
 import me.xx2bab.koncat.runtime.KoncatExtend
@@ -25,27 +22,6 @@ import me.xx2bab.koncat.runtime.KoncatMeta
 import java.io.OutputStream
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
-
-class KoncatProcessorProvider : SymbolProcessorProvider {
-    override fun create(
-        env: SymbolProcessorEnvironment
-    ): SymbolProcessor {
-        val koncat: KoncatProcAPI = KoncatProcAPIImpl(KSPAdapter(env))
-        return if (koncat.isMainProject()) {
-            KoncatAggregationProcessor(
-                env.codeGenerator,
-                KSPLoggerWrapper(env.logger),
-                koncat
-            )
-        } else {
-            KoncatMetaDataProcessor(
-                env.codeGenerator,
-                KSPLoggerWrapper(env.logger),
-                koncat
-            )
-        }
-    }
-}
 
 
 class KoncatAggregationProcessor(
@@ -83,9 +59,13 @@ class KoncatAggregationProcessor(
             roundCount++
             lastMapSize = exportMetadata.elementSize()
             val os = codeGenerator.createNewFile(
-                dependencies = Dependencies(aggregating = true, *exportMetadata.mapKSFiles.toTypedArray()),
+                dependencies = Dependencies(
+                    aggregating = true,
+                    *exportMetadata.mapKSFiles.toTypedArray()
+                ),
                 packageName = metadataPackage,
-                fileName = aggregationMetadataFileName + roundCount)
+                fileName = aggregationMetadataFileName + roundCount
+            )
             val annotation = KoncatExtend::class.simpleName!!
             os.overwrite(
                 """

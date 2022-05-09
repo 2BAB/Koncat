@@ -15,7 +15,7 @@ dependencies {
     implementation(deps.kotlinpoet.core)
     implementation(deps.kotlinpoet.ksp)
     implementation(deps.ksp.api)
-    implementation(projects.koncatProcessorApi)
+    api(projects.koncatProcessorApi)
     implementation(projects.koncatRuntimeModel)
 }
 
@@ -25,8 +25,11 @@ testing {
             useJUnitJupiter()
             testType.set(TestSuiteType.INTEGRATION_TEST)
             dependencies {
+                implementation(project)
                 implementation(deps.hamcrest)
                 implementation(deps.kotlin.compile.testing)
+                implementation(deps.kotlin.compile.testing.ksp)
+                implementation(deps.kotlin.serialization)
             }
         }
     }
