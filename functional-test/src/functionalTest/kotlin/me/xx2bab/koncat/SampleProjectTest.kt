@@ -1,7 +1,12 @@
 package me.xx2bab.koncat
 
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.decodeFromString
+import me.xx2bab.koncat.contract.KoncatArgumentsContract
 import org.gradle.testkit.runner.GradleRunner
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers
+import org.hamcrest.Matchers.`is`
 import org.hamcrest.core.StringContains
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.params.ParameterizedTest
@@ -27,6 +32,8 @@ class SampleProjectTest {
             "%s/kotlin-lib/build/generated/ksp/main/kotlin/me/xx2bab/koncat/runtime/meta/KoncatMetaForKotlinlib.kt"
         private const val androidLibMetaOutputPath =
             "%s/android-lib/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/runtime/meta/KoncatMetaForAndroidlib.kt"
+        private const val kotlinLibBaseArgumentsJSONFilePath =
+            "%s/kotlin-lib/build/intermediates/koncat/base.json"
 
         private val allModules = arrayOf("android-lib", "android-lib-external", "kotlin-lib")
 
@@ -91,7 +98,23 @@ class SampleProjectTest {
 
     @ParameterizedTest
     @MethodSource("agpVerProvider")
-    fun metaFilesAreGeneratedSuccessfullyForKoncatProc(agpVer: String) {
+    fun `koncat base arguments JSON file is generated successfully`(agpVer: String) {
+        val argsInText = File(kotlinLibBaseArgumentsJSONFilePath.format("./build/sample-$agpVer")).readText()
+        val argsInJSON = Json.decodeFromString<KoncatArgumentsContract>(argsInText)
+        assertThat(argsInJSON.projectName, `is`("kotlin-lib"))
+        assertThat(argsInJSON.koncatVersion, Matchers.notNullValue())
+        assertThat(argsInJSON.gradlePlugins, Matchers.notNullValue())
+        assertThat(argsInJSON.declaredAsMainProject, `is`(false))
+        assertThat(argsInJSON.generateAggregationClass, `is`(true))
+        assertThat(argsInJSON.generateExtensionClass, `is`(false))
+        assertThat(argsInJSON.targetAnnotations.first(), `is`("me.xx2bab.koncat.sample.annotation.ExportActivity"))
+        assertThat(argsInJSON.targetClassTypes.first(), `is`("me.xx2bab.koncat.sample.interfaze.DummyAPI"))
+        assertThat(argsInJSON.targetPropertyTypes.first(), `is`("org.koin.core.module.Module"))
+    }
+
+    @ParameterizedTest
+    @MethodSource("agpVerProvider")
+    fun `meta files are generated successfully for koncat proc`(agpVer: String) {
         // TODO: after we stabilized the JSON structure, can change to JSON object validation
         mapOf(
             kotlinLibMetaOutputPath to "\"me.xx2bab.koncat.sample.annotation.ExportActivity\":[]",
@@ -104,7 +127,7 @@ class SampleProjectTest {
 
     @ParameterizedTest
     @MethodSource("agpVerProvider")
-    fun finalClassIsGeneratedSuccessfullyForKoncatProc(agpVer: String) {
+    fun `final class is generated successfully for koncat proc`(agpVer: String) {
         val genClass =
             File(aggregatedClassOutputPathForKoncatProc.format("./build/sample-$agpVer")).readText()
         listOf(
@@ -120,15 +143,17 @@ class SampleProjectTest {
         }
     }
 
-
-    /*Extend Processor cases*/
     @ParameterizedTest
     @MethodSource("agpVerProvider")
-    fun aggregatedMetaFilesAreGeneratedSuccessfullyForKoncatProc(agpVer: String) {
-        val gen1 = File(aggregatedMetaData1OutputPathForKoncatProc
-            .format("./build/sample-$agpVer")).readText()
-        val gen2 = File(aggregatedMetaData2OutputPathForKoncatProc
-            .format("./build/sample-$agpVer")).readText()
+    fun `aggregated meta files are generated successfully for koncat proc`(agpVer: String) {
+        val gen1 = File(
+            aggregatedMetaData1OutputPathForKoncatProc
+                .format("./build/sample-$agpVer")
+        ).readText()
+        val gen2 = File(
+            aggregatedMetaData2OutputPathForKoncatProc
+                .format("./build/sample-$agpVer")
+        ).readText()
         listOf(
             "me.xx2bab.koncat.sample.MainActivity",
             "me.xx2bab.koncat.sample.annotation.ExportActivity",
@@ -142,9 +167,13 @@ class SampleProjectTest {
         assertThat(gen2, StringContains.containsString("me.xx2bab.koncat.sample.DataProviderProcessorAPI"))
     }
 
+
+
+    /*Extend Processor cases*/
+
     @ParameterizedTest
     @MethodSource("agpVerProvider")
-    fun extensionRouterClassIsGeneratedSuccessfullyForCustomProc(agpVer: String) {
+    fun `extension router class is generated successfully for custom proc`(agpVer: String) {
         val genClass =
             File(aggregatedClassOutputPathForCustomProc.format("./build/sample-$agpVer")).readText()
         listOf(
@@ -156,6 +185,5 @@ class SampleProjectTest {
             assertThat(genClass, StringContains.containsString(it))
         }
     }
-
 
 }

@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    kotlin("plugin.serialization")
 }
 
 group = "me.2bab"
@@ -25,6 +26,8 @@ testing {
                 implementation(deps.hamcrest)
                 implementation("dev.gradleplugins:gradle-test-kit:7.4.1")
                 implementation(deps.kotlin.coroutine)
+                implementation(deps.kotlin.serialization)
+                implementation(projects.koncatCompileContract)
             }
         }
     }
