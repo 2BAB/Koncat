@@ -2,7 +2,7 @@
 koncatVer = "1.0.1.4-SNAPSHOT"
 kotlinVer = "1.6.21"
 agpVer = "7.1.3"
-agpBetaVer = "7.2.0-rc02"
+agpBetaVer = "7.2.0"
 polyfillVer = "0.6.2"
 mockitoVer = "3.9.0"
 kspVer = "1.6.21-1.0.5"
