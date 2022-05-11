@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     id("com.github.gmazzo.buildconfig")
+    kotlin("plugin.serialization")
     `maven-central-publish`
 }
 
@@ -11,9 +12,11 @@ java {
 }
 
 dependencies {
-    api(projects.koncatContract)
+    api(projects.koncatCompileContract)
+    implementation(projects.koncatRuntimeModel)
     implementation(deps.kotlin.std)
     implementation(deps.kotlin.reflect)
+    implementation(deps.kotlin.serialization)
     compileOnly(deps.ksp.api)
     compileOnly(deps.ksp.impl)
 }

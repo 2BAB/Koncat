@@ -58,8 +58,10 @@ include(":app",
     ":android-lib",
     ":android-lib-external",
     ":kotlin-lib",
-    ":annotations",
-    ":processors")
+    ":symbols",
+    ":custom-processor",
+    ":data-provider-processor"
+)
 
 includeBuild(externalDependencyBaseDir){
     dependencySubstitution {
@@ -69,5 +71,13 @@ includeBuild(externalDependencyBaseDir){
     dependencySubstitution {
         substitute(module("me.2bab:koncat-processor-api"))
             .using(project(":koncat-processor-api"))
+    }
+    dependencySubstitution {
+        substitute(module("me.2bab:koncat-processor"))
+            .using(project(":koncat-processor"))
+    }
+    dependencySubstitution {
+        substitute(module("me.2bab:koncat-runtime"))
+            .using(project(":koncat-runtime"))
     }
 }

@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name="me.xx2bab.koncat.sample.android.ExportActivity"
+            android:name="me.xx2bab.koncat.sample.android.AndroidLibraryActivity"
             android:exported="true"/>
     </application>
 

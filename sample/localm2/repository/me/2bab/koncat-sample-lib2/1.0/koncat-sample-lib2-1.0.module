@@ -10,7 +10,7 @@
   },
   "createdBy": {
     "gradle": {
-      "version": "7.4.1"
+      "version": "7.4.2"
     }
   },
   "variants": [
@@ -22,15 +22,24 @@
         "org.gradle.libraryelements": "aar",
         "org.gradle.usage": "java-api"
       },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.21"
+          }
+        }
+      ],
       "files": [
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 2135,
-          "sha512": "40181afb95227f3a67ebde9f764c19db651236a52bb131daa322e89fe9b92c373a3c988a272bb29d176b850775715dc52fc48557f88c6fcc8facdbd77c44fd02",
-          "sha256": "9b40b12b4aa08808adbcbbb5161d62a693d1e44146f362a9d3919eaf146565ae",
-          "sha1": "24a478cf198244465d7550d69015f7efd66bf3b7",
-          "md5": "d57118295d7758b3529d7e7c0e13b289"
+          "size": 14591,
+          "sha512": "1acc38672cea08cb0832cf2d6bdbbc57e83707b1a27bf1ec53c292bda0a8a481bfec6bd8cd8c91dfa130ce637b90579a05d43e11312e81db80f1f57ccafeb0fd",
+          "sha256": "a9086f312da59de208d9aba1a9a04aa6cf8aa1a9b3a4bb785182ee34b8a9e781",
+          "sha1": "2da976e6a7de861bd62ab588d25e52d0e822e6ac",
+          "md5": "37bbd00e06b3a7d4bd946991037d7634"
         }
       ]
     },
@@ -44,17 +53,31 @@
       },
       "dependencies": [
         {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.21"
+          }
+        },
+        {
           "group": "koncat-sample",
-          "module": "annotations",
+          "module": "symbols",
           "version": {
             "requires": "unspecified"
           }
         },
         {
-          "group": "org.jetbrains.kotlin",
-          "module": "kotlin-stdlib-jdk8",
+          "group": "io.insert-koin",
+          "module": "koin-android",
           "version": {
-            "requires": "1.6.10"
+            "requires": "3.1.6"
+          }
+        },
+        {
+          "group": "me.2bab",
+          "module": "koncat-runtime",
+          "version": {
+            "requires": "*"
           }
         }
       ],
@@ -62,11 +85,11 @@
         {
           "name": "koncat-sample-lib2-1.0.aar",
           "url": "koncat-sample-lib2-1.0.aar",
-          "size": 2135,
-          "sha512": "40181afb95227f3a67ebde9f764c19db651236a52bb131daa322e89fe9b92c373a3c988a272bb29d176b850775715dc52fc48557f88c6fcc8facdbd77c44fd02",
-          "sha256": "9b40b12b4aa08808adbcbbb5161d62a693d1e44146f362a9d3919eaf146565ae",
-          "sha1": "24a478cf198244465d7550d69015f7efd66bf3b7",
-          "md5": "d57118295d7758b3529d7e7c0e13b289"
+          "size": 14591,
+          "sha512": "1acc38672cea08cb0832cf2d6bdbbc57e83707b1a27bf1ec53c292bda0a8a481bfec6bd8cd8c91dfa130ce637b90579a05d43e11312e81db80f1f57ccafeb0fd",
+          "sha256": "a9086f312da59de208d9aba1a9a04aa6cf8aa1a9b3a4bb785182ee34b8a9e781",
+          "sha1": "2da976e6a7de861bd62ab588d25e52d0e822e6ac",
+          "md5": "37bbd00e06b3a7d4bd946991037d7634"
         }
       ]
     },
@@ -82,11 +105,11 @@
         {
           "name": "koncat-sample-lib2-1.0-sources.jar",
           "url": "koncat-sample-lib2-1.0-sources.jar",
-          "size": 1927,
-          "sha512": "1197e79e9b0f653a5fff63f3149f0ad4d6a128144fbb02959ffc5a059b97aa1999627bb54388f6cc6e476dda42f8bf2c5a1f34e2517b81a21c7e6b3d1c5def93",
-          "sha256": "fad543449f3a21305fb163a035cba7351f2814fa7edb6eeeec6d9f1eddb8c5cb",
-          "sha1": "b7cce7a652357bc1831daedd90f2f8fbdac5f304",
-          "md5": "db6efe85432f2376d86a0d362a050056"
+          "size": 1915,
+          "sha512": "255e3e58943a0cdbf91afef9893e0eeaefa27190fe308e1184c8ebb388ea04c5b9b2c6d83eefbde25b2a4672b7ffe06a0c1199cdaa3627296dd64eb6e46a8cfe",
+          "sha256": "14a0efa57c47fdf45ce890f238f5157b7795baf1722ebbc04eb2369c7b2100e4",
+          "sha1": "51d55eb6035a07cd14c0043cceec6a2834f59c95",
+          "md5": "bde55aa9d60d9b6cf26e23603ab34459"
         }
       ]
     }

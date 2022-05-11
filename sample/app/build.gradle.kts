@@ -41,8 +41,23 @@ android {
 dependencies {
     implementation(projects.androidLib)
     implementation(projects.kotlinLib)
-    implementation(projects.annotations)
+    implementation(projects.symbols)
     implementation("me.2bab:koncat-sample-lib2:1.0")
-    ksp(projects.processors)
+
     implementation(deps.kotlin.std)
+    implementation(deps.koin.android)
+
+    implementation(deps.koncat.runtime)
+    ksp(deps.koncat.processor)
+    ksp(projects.customProcessor)
+    ksp(projects.dataProviderProcessor)
+}
+
+koncat {
+    declaredAsMainProject.set(true)
+    generateAggregationClass.set(true)
+    generateExtensionClass.set(true)
+    annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
+    classTypes.addAll("me.xx2bab.koncat.sample.interfaze.DummyAPI")
+    propertyTypes.addAll("org.koin.core.module.Module")
 }

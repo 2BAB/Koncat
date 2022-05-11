@@ -1,0 +1,36 @@
+{
+  "projectName": "dummy-lib",
+  "koncatVersion": "1.0.1.4-SNAPSHOT",
+  "gradlePlugins": [
+    "org.gradle.api.plugins.HelpTasksPlugin",
+    "org.gradle.buildinit.plugins.BuildInitPlugin",
+    "org.gradle.buildinit.plugins.WrapperPlugin",
+    "org.gradle.language.base.plugins.LifecycleBasePlugin",
+    "org.gradle.api.plugins.BasePlugin",
+    "org.gradle.api.plugins.JvmEcosystemPlugin",
+    "org.gradle.api.plugins.ReportingBasePlugin",
+    "org.gradle.api.plugins.JavaBasePlugin$Inject",
+    "org.gradle.testing.base.plugins.TestSuiteBasePlugin",
+    "org.gradle.api.plugins.JvmTestSuitePlugin",
+    "org.gradle.api.plugins.JavaPlugin",
+    "org.jetbrains.kotlin.gradle.scripting.internal.ScriptingKotlinGradleSubplugin",
+    "org.jetbrains.kotlin.gradle.scripting.internal.ScriptingGradleSubplugin",
+    "org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper",
+    "com.google.devtools.ksp.gradle.KspGradleSubplugin",
+    "me.xx2bab.koncat.gradle.base.KoncatBasePlugin",
+    "me.xx2bab.koncat.gradle.KoncatJVMLibraryPlugin",
+    "org.gradle.kotlin.dsl.provider.plugins.KotlinScriptBasePlugin"
+  ],
+  "declaredAsMainProject": false,
+  "generateAggregationClass": true,
+  "generateExtensionClass": false,
+  "targetAnnotations": [
+    "kotlin.Suppress"
+  ],
+  "targetClassTypes": [
+    "java.lang.Runnable"
+  ],
+  "targetPropertyTypes": [
+    "java.util.Random"
+  ]
+}

@@ -10,6 +10,7 @@ pluginManagement {
 
     plugins {
         kotlin("jvm") version getVersion("kotlinVer") apply false
+        kotlin("plugin.serialization") version getVersion("kotlinVer") apply false
         id("com.github.gmazzo.buildconfig") version getVersion("buildConfigVer") apply false
     }
     repositories {
@@ -34,8 +35,17 @@ dependencyResolutionManagement {
 }
 
 include(
-    ":koncat-processor-api",
+    // Compile-Time components
+    ":koncat-compile-contract",
     ":koncat-gradle-plugin",
-    ":koncat-contract",
+    ":koncat-processor",
+    ":koncat-processor-api",
+
+    // Runtime components
+    ":koncat-runtime",
+    ":koncat-runtime-model",
+    ":koncat-runtime-stub", // A stub for runtime library to be used when released, later the generated class will replace it
+
+    // Functional test for all components including the sample
     "functional-test"
 )

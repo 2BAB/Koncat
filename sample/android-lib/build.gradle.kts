@@ -30,7 +30,16 @@ android {
 }
 
 dependencies {
-    implementation(projects.annotations)
+    implementation(projects.symbols)
     implementation(deps.kotlin.std)
-    ksp(projects.processors)
+    implementation(deps.koin.android)
+
+    implementation(deps.koncat.runtime)
+    ksp(deps.koncat.processor)
+}
+
+koncat {
+    annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
+    classTypes.addAll("me.xx2bab.koncat.sample.interfaze.DummyAPI")
+    propertyTypes.addAll("org.koin.core.module.Module")
 }
