@@ -35,8 +35,9 @@ class MainActivity : Activity() {
 
         // Koncat Processor test
         val koncat = Koncat()
+
         val collectedAnnotatedClasses = koncat.getAnnotatedClasses(ExportActivity::class)!!.joinToString("\r\n") { it.name }
-        val collectedInterfaces = koncat.getInterfaceImplementations(DummyAPI::class)!!.map { constructor ->
+        val collectedInterfaces = koncat.getTypedClasses(DummyAPI::class)!!.map { constructor ->
             constructor().onCall("MainActivity")
         }.joinToString("\r\n")
         val collectedProperties = koncat.getTypedProperties(Module::class)!!.size
