@@ -1,11 +1,18 @@
 
 import com.github.breadmoirai.githubreleaseplugin.GithubReleaseTask
+import org.gradle.internal.component.external.model.ComponentVariant
 import java.util.*
 
 val taskName = "releaseArtifactsToGithub"
-val artifacts = mutableListOf<File>()
-listOf("koncat-contract", "koncat-gradle-plugin", "koncat-processor-api").forEach {
-    val libs = File(listOf(it, "build", "libs").joinToString(File.separator))
+val artifacts = mutableListOf<ComponentVariant.File>()
+listOf("koncat-compile-contract",
+    "koncat-gradle-plugin",
+    "koncat-processor",
+    "koncat-processor-api",
+    "koncat-runtime",
+    "koncat-runtime-model",
+    "koncat-runtime-stub").forEach {
+    val libs = ComponentVariant.File(listOf(it, "build", "libs").joinToString(ComponentVariant.File.separator))
     artifacts.add(libs)
 }
 
@@ -29,7 +36,7 @@ val releaseNotes = ""
 createGithubReleaseTaskInternal(artifacts, token, repo, tagBranch, koncatVer, releaseNotes)
 
 fun createGithubReleaseTaskInternal(
-    artifacts: List<File>,
+    artifacts: List<ComponentVariant.File>,
     token: String,
     repo: String,
     tagBranch: String,
