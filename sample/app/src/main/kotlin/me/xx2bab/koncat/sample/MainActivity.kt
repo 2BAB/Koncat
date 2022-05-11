@@ -36,6 +36,13 @@ class MainActivity : Activity() {
         // Koncat Processor test
         val koncat = Koncat()
 
+        val libActivityMemberLvRequirement = koncat.getAnnotatedClasses(ExportActivity::class)!!
+            .first { it.name == "me.xx2bab.koncat.sample.android.AndroidLibraryActivity" }
+            .annotations
+            .first { it.name == "me.xx2bab.koncat.sample.annotation.MemberRequired" }
+            .arguments["level"]
+        Log.d("libActivityMemberLvRequirement", libActivityMemberLvRequirement.toString())
+
         val collectedAnnotatedClasses = koncat.getAnnotatedClasses(ExportActivity::class)!!.joinToString("\r\n") { it.name }
         val collectedInterfaces = koncat.getTypedClasses(DummyAPI::class)!!.map { constructor ->
             constructor().onCall("MainActivity")
