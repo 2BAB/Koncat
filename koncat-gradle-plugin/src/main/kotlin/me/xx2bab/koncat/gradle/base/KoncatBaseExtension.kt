@@ -45,23 +45,17 @@ abstract class KoncatBaseExtension @Inject constructor(
     /**
      * To specify top-level classes that extend or implement from supertype list below
      * should be aggregated. Indirect type search are supported.
+     * For example, `android.app.Activity` is passed into [classTypes],
+     * in your project `BaseActivity` is the wrapper for `Activity`,
+     * then one of its implementation `MainActivity` which extends `BaseActivity` will be aggregated still.
      */
     val classTypes: ListProperty<String> = objects.listProperty()
 
     /**
-     * Tp specify top-level properties that are declared as one of the type list below
+     * To specify top-level properties that are declared as one of the type list below
      * should be aggregated. Indirect type search are supported.
-     * For example, `android.app.Activity` is passed into [classTypes],
-     * in the project `BaseActivity` is the wrapper for `Activity`,
-     * then the implementation `MainActivity` which extends `BaseActivity` will be aggregated still.
      */
     val propertyTypes: ListProperty<String> = objects.listProperty()
-
-    /**
-     * To enable/disable indirect type search for [classTypes] and [propertyTypes].
-     */
-    val indirectTypeSearch: Property<Boolean> = objects.property<Boolean>().convention(false)
-
 
     internal val mainProjectOutputDir = layout.buildDirectory
         .dir("intermediates")

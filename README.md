@@ -5,8 +5,7 @@
 [![Actions Status](https://github.com/2bab/Koncat/workflows/CI/badge.svg)](https://github.com/2bab/Koncat/actions) 
 [![Apache 2](https://img.shields.io/badge/License-Apache%202-brightgreen.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-Concat intermediates of KSP for multiple modules Android development.
-
+Aggregate Kotlin Symbols based on KSP for multi-modules development in compile-time. For instance, when you want to gather all implementations of an interface across multi-modules, Koncat must be the tool your shouldn't miss.
 
 ## Usage
 
@@ -17,7 +16,7 @@ Concat intermediates of KSP for multiple modules Android development.
 // Add `mavenCentral` to `pluginManagement{}` on settings.gradle.kts,
 // and koncat plugins ids.
 pluginManagement {
-	val koncatVer = "1.0.0"
+	val koncatVer = "2.0.0"
 	repositories {
         ...
         mavenCentral()
@@ -40,12 +39,12 @@ buildscript {
     }
     dependencies {
     	...
-        classpath("me.2bab:koncat-gradle-plugin:1.0.0")
+        classpath("me.2bab:koncat-gradle-plugin:2.0.0")
     }
 }
 ```
 
-**0x02. Add Koncat Gradle Plugins:**
+**0x02. Add Koncat Gradle Plugins, and config the Koncat DSL for per module:**
 
 Where you applied KSP plugin should append the `me.2bab.koncat.*` plugin as well.
 
@@ -72,130 +71,130 @@ plugins {
     id("com.google.devtools.ksp")
     id("me.2bab.koncat.jvm")  <--
 }
+
+
+// Common DSL for all above plugins
+koncat {
+    /**
+     * To specify classes that annotated by the annotation list below should be aggregated.
+     * Anonymous classes are not supported.
+     */
+    annotations.addAll("me.xx2bab.koncat.sample.annotation.ExportActivity")
+
+    /**
+     * To specify top-level classes that extend or implement from supertype list below
+     * should be aggregated. Indirect type search are supported.
+     * For example, `android.app.Activity` is passed into [classTypes],
+     * so that `BaseActivity` `MainActivity` which are implementations of `Activity` will be aggregated still.
+     */
+    classTypes.addAll("me.xx2bab.koncat.sample.interfaze.DummyAPI")
+
+    /**
+     * To specify top-level properties that are declared as one of the type list below
+     * should be aggregated. Indirect type search are supported.
+     */
+    propertyTypes.addAll("org.koin.core.module.Module")
+}
 ```
 
-**0x03. Add Koncat processor-api library to processor project:**
+**0x03. Add koncat-processor & runtime APIs, and build your App!:**
 
 ``` kotlin
 dependencies {
-	...
-    implementation("com.squareup:kotlinpoet-ksp${latestVersion}")
-    implementation("me.2bab:koncat-processor-api:${sameVersionAsPlugin}")
+    ksp("me.2bab:koncat-processor:${sameVersionAsPlugin}")
+    implementation("me.2bab:koncat-runtime:${sameVersionAsPlugin}")
+}
+```
+
+The DSL configuration of `koncat{}` will be working with below APIs to retrieve aggregations.
+
+``` kotlin
+val koncat = Koncat()
+
+// Case 1: check an Activity permission request before you navigate to Koncat#getAnnotatedClasses(...)
+val libActivityMemberLvRequirement = koncat.getAnnotatedClasses(ExportActivity::class)!!
+    .first { it.name == "me.xx2bab.koncat.sample.android.AndroidLibraryActivity" }
+    .annotations
+    .first { it.name == "me.xx2bab.koncat.sample.annotation.MemberRequired" }
+    .arguments["level"]
+
+
+// Case 2: register or run a set of services together with Koncat#getTypedClasses(...)
+val collectedInterfaces = koncat.getTypedClasses(DummyAPI::class)!!.map { constructor ->
+    constructor().onCall("...")
+}
+
+
+// Case 3: setup Koin modules with Koncat#getTypedProperties(...)
+startKoin {
+    modules(koncat.getTypedProperties(Module::class) ?: listOf())
 }
 ```
 
 
-**0x04. Upgrade the processor with Koncat APIs:**
+**0x04. (Optional) Custom the Koncat final class generation:**
+
+Firstly, create your own processor project and add `koncat-process-api` to your dependencies, then add it to your main project(Android Application for example):
 
 ``` kotlin
-package me.xx2bab.koncat.sample.kotlin
+dependencies {
+    implementation("me.2bab:koncat-processor-api:$latestVersion")
+}
+```
 
-...
-import me.xx2bab.koncat.api.Koncat
-import me.xx2bab.koncat.api.adapter.KSPAdapter
-import me.xx2bab.koncat.contract.KONCAT_FILE_EXTENSION
+Secondly, construct a KoncatProcAPI to your processor, Koncat will deal with the aggregating procedure and pass the final result to your custom processor:
 
-class ExportAnnotationProcessorProvider : SymbolProcessorProvider {
+``` Kotlin
+class ExtensionProcessorProvider : SymbolProcessorProvider {
     override fun create(
-        env: SymbolProcessorEnvironment
+        environment: SymbolProcessorEnvironment
     ): SymbolProcessor {
-        return ExportAnnotationProcessor(
-            env.codeGenerator,
-            env.logger,
-            Koncat(KSPAdapter(env))    ①
+        return ExtensionProcessor(
+            environment.codeGenerator,
+            environment.logger,
+            KoncatProcAPIImpl(KSPAdapter(environment))  ①
         )
     }
 }
 
-class ExportAnnotationProcessor(
-    val codeGenerator: CodeGenerator,
-    val logger: KSPLogger,
-    val koncat: Koncat
+class ExtensionProcessor(
+    ...
+    private val koncat: KoncatProcAPI
 ) : SymbolProcessor {
 
-    private var exportMetadata = ExportMetadata()
+    private var holder: KoncatProcMetadataHolder? = null
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        val symbols =
-            resolver.getSymbolsWithAnnotation("me.xx2bab.koncat.sample.annotation.ExportAPI")
-        val ret = symbols.filter { !it.validate() }.toList()
-        symbols
-            .filter { it is KSClassDeclaration && it.validate() }
-            .forEach { it.accept(BuilderVisitor(), exportMetadata) }
-        return ret
+        holder = koncat.syncAggregatedMetadata(resolver)  ②
+        return emptyList()
     }
 
     @OptIn(KotlinPoetKspPreview::class)
-    override fun finish() {
+    override fun finish {
         super.finish()
-        if (koncat.isMainProject()) {    ②
-            // Merge all ExportMetadata
-            val subProjectMetadataList = koncat.getIntermediatesDir().walk()    ④
-                .filter { it.extension == KONCAT_FILE_EXTENSION }
-                .map { subProjectMetadataFile ->
-                    logger.info(LOG_TAG + "Start processing ${subProjectMetadataFile.absolutePath}")
-                    Json.decodeFromStream<ExportMetadata>(
-                        subProjectMetadataFile.inputStream()
-                    )
-                }
-            val all = mutableListOf<ExportMetadata>()
-            all.add(exportMetadata)
-            all.addAll(subProjectMetadataList)    ⑤
-            // Generate the final file
-            val fileSpec = RouterClassBuilder(all).build()
-            fileSpec.writeTo(codeGenerator, Dependencies.ALL_FILES)
-        } else {  
-            // Generate intermediate JSON file
-            val os = codeGenerator.createNewFile(    
-                Dependencies(aggregating = true, *exportMetadata.mapKSFiles.toTypedArray()),
-                "",
-                koncat.projectName + "-export",
-                "json.$KONCAT_FILE_EXTENSION"    ③
-            )
-            os.appendText(Json.encodeToString(exportMetadata))
-            os.close()
-        }
-    }
-
-    inner class BuilderVisitor() : KSVisitorWithExportMetadata() {
-        override fun visitClassDeclaration(
-            classDeclaration: KSClassDeclaration,
-            data: ExportMetadata
-        ) {
-            data.exportAPIs.add(classDeclaration.qualifiedName!!.asString())
-            classDeclaration.containingFile?.let { data.mapKSFiles.add(it) }
+        holder?.apply {  ③
+            val fileSpec = RouterClassBuilder(resolve()).build()
+            fileSpec.writeTo(codeGenerator, Dependencies(false, dependency))
         }
     }
 
     inner class RouterClassBuilder(
-        private val dataList: List<ExportMetadata>
+        private val data: KoncatProcMetadata
     ) {
         fun build(): FileSpec {
+            val exportAPIs = data.typedClasses["me.xx2bab.koncat.sample.interfaze.DummyAPI"]!!
+                .joinToString(separator = ", ") { "\"$it\"" }
             ...
-            return FileSpec.builder("me.xx2bab.koncat.sample", "ExportCapabilityRouterImpl")
-                .addType(
-                    TypeSpec.classBuilder("ExportCapabilityRouterImpl")
-                        .addSuperinterface(routerInterface)
-                        .addFunction(getExportAPIListFunSpec)
-                        .build()
-                )
-                .build()
         }
     }
-
 }
 ```
 
-- ① Initialize `Koncat` by passing the `KSPAdapter` with current `SymbolProcessorEnvironment`.
-- ② `Koncat#isMainProject()` tells if the current processor is running for main project.
-- ③ When it is NO, it denotes we need to generate an intermediate file instead of a `.java` or `.kt` here, for instance a `.json` file that collects essential information for subsequent usage. Note that `KONCAT_FILE_EXTENSION` is required to append to file extension string, as a flag to indicate it's a Koncat targeted meta file.
-- ④ When it is YES, it denotes it's time to aggregate all intermediates from sub projects by `Koncat#getIntermediatesDir()`.
-- ⑤ Merge [intermediates from sub projects] and [intermediate from main project], we are ready to generate the final class based on them.
-
-
-**0x05. Build your App and Enjoy!**
-
-![](./result.png)
+- ① Initialize `KoncatProcAPI` by passing the `KSPAdapter` with current `SymbolProcessorEnvironment`.
+- ② When running on main project, koncat helps aggregate all intermediates from sub projects by `Koncat#syncAggregatedMetadata()`. To support multi-rounds process, we need to retain the latest one in a holder.
+- ③ On `finish()`, retrieve the latest `KoncatProcMetadataHolder`, and then 
+    + Call `resolve()` to get the real `KoncatProcMetadata` object.
+    + Pass the built-in `dependency` to `Dependencies(...)`
 
 
 ## Compatible
@@ -204,7 +203,8 @@ ScratchPaper is only supported & tested on LATEST 2 Minor versions of Android Gr
 
 Koncat (Per minor version) |Suggested Env
 -----------|-----------------
-1.0.0 | AGP 7.1/7.2 x KSP 1.6.10-1.0.4
+2.0.x | AGP 7.1/7.2 x KSP 1.6.21-1.0.5
+1.0.x | AGP 7.1/7.2 x KSP 1.6.10-1.0.4
 
 
 ## Why Koncat?
@@ -230,7 +230,7 @@ Check this [link](https://medium.com/walmartlabs/check-out-these-5-git-tips-befo
 So far we haven't added any hook tool, but follow the regex below:
 
 ```
-(chore|feature|docs|fix|refactor|style|test|hack|release)(:)( )(.{0,80})
+(chore|feature|doc|fix|refactor|style|test|hack|release|clean)(:)( )(.{0,80})
 ```
 
 
