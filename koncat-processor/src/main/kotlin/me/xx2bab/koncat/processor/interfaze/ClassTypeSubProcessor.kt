@@ -37,7 +37,12 @@ class ClassTypeSubProcessor(
         val targetClassTypeDeclarations = koncat.getTargetClassTypes().map {
             ClassNameAndType(
                 it,
+                try {
                 resolver.getClassDeclarationByName(it)!!.asStarProjectedType()
+                } catch (e: NullPointerException) {
+                    logger.error("${koncat.projectName} can not resolve $it from classpath.")
+                    throw e
+                }
             ) // May throw exceptions if the classpath of target class types are not existed.
         }
         resolver.getNewFiles().forEach {
