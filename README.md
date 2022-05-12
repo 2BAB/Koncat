@@ -54,6 +54,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("com.google.devtools.ksp")
+    // .android.app plugin will set `declaredAsMainProject` as true by default
     id("me.2bab.koncat.android.app")  <--
 }
 
@@ -94,6 +95,13 @@ koncat {
      * should be aggregated. Indirect type search are supported.
      */
     propertyTypes.addAll("org.koin.core.module.Module")
+    
+    
+    /**
+     * To declare current working project (Gradle module in another word) as Main Project,
+     * the Main Project will collect all Koncat metadata from dependencies.
+     */
+    val declaredAsMainProject: Property<Boolean> = objects.property<Boolean>().convention(false)
 }
 ```
 
@@ -135,7 +143,30 @@ Check more on [here](./sample/app/src/main/kotlin/me/xx2bab/koncat/sample).
 
 **0x04. (Optional) Custom the Koncat final class generation:**
 
-Firstly, create your own processor project and add `koncat-process-api` to your dependencies, then add it to your main project(Android Application for example):
+Firstly, enable `generateExtensionClass` to export metadata from Koncat. You can also disable `generateAggregationClass` for default aggregation class generation if you don't use it anymore. (It will invalid the function of `Koncat` runtime API as well). 
+
+``` kotlin
+koncat {
+    /**
+     * To enable/disable the Aggregation Class generation.
+     * The Aggregation Class is actually `me.xx2bab.koncat.runtime.KoncatAggregation`,
+     * that will be used by `koncat-runtime` library in runtime,
+     * to replace the `koncat-stub` one which is an empty & compile-only placeholder.
+     */
+    val generateAggregationClass: Property<Boolean> = objects.property<Boolean>().convention(true)
+
+    /**
+     * To enable/disable the Extension Class generation.
+     * The Extension Class is actually `me.xx2bab.koncat.runtime.KoncatAggregatedMeta`,
+     * that will be used by 3rd party developers to customize the process of aggregated metadata.
+     * For example, to generate a custom Aggregation Class, or to generate an API/Route report
+     * during compile time.
+     */
+    val generateExtensionClass: Property<Boolean> = objects.property<Boolean>().convention(false)
+}
+```
+
+Secondly, create your own processor project and add `koncat-process-api` to your dependencies:
 
 ``` kotlin
 dependencies {
@@ -143,9 +174,9 @@ dependencies {
 }
 ```
 
-Secondly, construct a KoncatProcAPI to your processor, Koncat will deal with the aggregating procedure and pass the final result to your custom processor:
+Then you should construct a KoncatProcAPI to your processor, Koncat will deal with the aggregating procedure and pass the final result to your custom processor:
 
-``` Kotlin
+``` kotlin
 class ExtensionProcessorProvider : SymbolProcessorProvider {
     override fun create(
         environment: SymbolProcessorEnvironment
@@ -196,6 +227,14 @@ class ExtensionProcessor(
 - ③ On `finish()`, retrieve the latest `KoncatProcMetadataHolder`, and then 
     + Call `resolve()` to get the real `KoncatProcMetadata` object.
     + Pass the built-in `dependency` to `Dependencies(...)`
+
+Lastly, add the custom-processor to your main project(Android Application for example):
+
+``` kotlin
+dependencies {
+    ksp("com.company:custom-processor:$procVersion")
+}
+```
 
 Check more on [here](./sample/custom-processor/src/main/kotlin/me/xx2bab/koncat/sample/kotlin).
 
