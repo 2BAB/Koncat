@@ -16,7 +16,7 @@ Aggregate Kotlin Symbols based on KSP for multi-modules development in compile-t
 // Add `mavenCentral` to `pluginManagement{}` on settings.gradle.kts,
 // and koncat plugins ids.
 pluginManagement {
-	val koncatVer = "2.0.0"
+	val koncatVer = "2.0.1"
 	repositories {
         ...
         mavenCentral()
@@ -39,7 +39,7 @@ buildscript {
     }
     dependencies {
     	...
-        classpath("me.2bab:koncat-gradle-plugin:2.0.0")
+        classpath("me.2bab:koncat-gradle-plugin:2.0.1")
     }
 }
 ```
@@ -131,6 +131,7 @@ startKoin {
 }
 ```
 
+Check more on [here](./sample/app/src/main/kotlin/me/xx2bab/koncat/sample).
 
 **0x04. (Optional) Custom the Koncat final class generation:**
 
@@ -196,6 +197,7 @@ class ExtensionProcessor(
     + Call `resolve()` to get the real `KoncatProcMetadata` object.
     + Pass the built-in `dependency` to `Dependencies(...)`
 
+Check more on [here](./sample/custom-processor/src/main/kotlin/me/xx2bab/koncat/sample/kotlin).
 
 ## Compatible
 

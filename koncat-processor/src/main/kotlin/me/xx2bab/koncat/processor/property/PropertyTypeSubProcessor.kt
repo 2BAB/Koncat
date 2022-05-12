@@ -37,7 +37,12 @@ class PropertyTypeSubProcessor(
         val targetPropTypeDeclarations = koncat.getTargetPropertyTypes().map {
             ClassNameAndType(
                 it,
-                resolver.getClassDeclarationByName(it)!!.asStarProjectedType()
+                try {
+                    resolver.getClassDeclarationByName(it)!!.asStarProjectedType()
+                } catch (e: NullPointerException) {
+                    logger.error("${koncat.projectName} can not resolve $it from classpath.")
+                    throw e
+                }
             ) // May throw exceptions
         }
         resolver.getNewFiles().forEach {
