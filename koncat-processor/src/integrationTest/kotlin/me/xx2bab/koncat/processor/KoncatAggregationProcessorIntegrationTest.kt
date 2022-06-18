@@ -46,13 +46,13 @@ class KoncatAggregationProcessorIntegrationTest {
             .first()
         assertThat(
             koncatMetaForDummyApp.name,
-            `is`("KoncatAggregatedMeta1.kt")
+            `is`("KoncatAggregatedMeta1.koncat")
         )
 
         val fileContent = koncatMetaForDummyApp.readText()
-        val metaInJsonText = Regex("(?<=\"\"\").+(?=\"\"\")").find(fileContent)!!.groupValues[0]
-        println("[KoncatAggregationProcessorIntegrationTest] extension: $metaInJsonText")
-        val metadata = Json.decodeFromString<KoncatProcMetadata>(metaInJsonText)
+//        val metaInJsonText = Regex("(?<=\"\"\").+(?=\"\"\")").find(fileContent)!!.groupValues[0]
+        println("[KoncatAggregationProcessorIntegrationTest] extension: $fileContent")
+        val metadata = Json.decodeFromString<KoncatProcMetadata>(fileContent)
 
         assertThat(metadata.annotatedClasses.size, `is`(1))
         val suppressList = metadata.annotatedClasses["kotlin.Suppress"]!!
