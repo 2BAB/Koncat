@@ -85,7 +85,6 @@ class ClassTypeSubProcessor(
                         classDeclaration.containingFile?.let { data.mapKSFiles.add(it) }
                     }
                 }
-
             }
         }
 

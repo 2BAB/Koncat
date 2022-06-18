@@ -130,12 +130,14 @@ class KoncatAggregationProcessor(
             .map {
                 logger.info("Aggregate from ${it.qualifiedName?.asString()}")
                 it.containingFile?.let { mainMetadata.mapKSFiles.add(it) }
-                val meta =
-                    it.annotations.first { anno -> anno.shortName.asString() == KoncatMeta::class.simpleName }
+                val meta = it.annotations.first { anno ->
+                    anno.shortName.asString() == KoncatMeta::class.simpleName
+                }
                 Json.decodeFromString<KoncatProcMetadata>(
                     meta.arguments.first().value.toString()
                 )
-            }.toList()
+            }
+            .toList()
     }
 
 }
