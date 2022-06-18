@@ -16,7 +16,7 @@ Aggregate Kotlin Symbols based on KSP for multi-modules development in compile-t
 // Add `mavenCentral` to `pluginManagement{}` on settings.gradle.kts,
 // and koncat plugins ids.
 pluginManagement {
-	val koncatVer = "2.0.1"
+	val koncatVer = "2.1.0"
 	repositories {
         ...
         mavenCentral()
@@ -39,7 +39,7 @@ buildscript {
     }
     dependencies {
     	...
-        classpath("me.2bab:koncat-gradle-plugin:2.0.1")
+        classpath("me.2bab:koncat-gradle-plugin:2.1.0")
     }
 }
 ```
@@ -205,8 +205,9 @@ ScratchPaper is only supported & tested on LATEST 2 Minor versions of Android Gr
 
 Koncat (Per minor version) |Suggested Env
 -----------|-----------------
-2.0.x | AGP 7.1/7.2 x KSP 1.6.21-1.0.5
-1.0.x | AGP 7.1/7.2 x KSP 1.6.10-1.0.4
+2.1.x | KSP 1.6.21-1.0.5 x AGP 7.2/7.3
+2.0.x | KSP 1.6.21-1.0.5 x AGP 7.1/7.2 
+1.0.x | KSP 1.6.10-1.0.4 x AGP 7.1/7.2
 
 
 ## Why Koncat?
