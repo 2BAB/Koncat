@@ -14,7 +14,7 @@ import me.xx2bab.koncat.sample.kotlin.KotlinLibraryAPI2
 import org.koin.android.ext.android.inject
 import org.koin.core.module.Module
 
-@ExportActivity
+@ExportActivity(uri = "koncat://main.app")
 @CustomMark
 @MemberRequired(level = 1)
 class MainActivity : Activity() {
