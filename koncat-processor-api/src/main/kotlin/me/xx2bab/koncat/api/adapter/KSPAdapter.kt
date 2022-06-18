@@ -45,4 +45,5 @@ class KSPAdapter(private val env: SymbolProcessorEnvironment) : ProcessorAdapter
 
     override val variantName: String = variantAwareness.variantName
 
+    override val resourceDir: File = File(variantAwareness.resourcesDirPath)
 }

@@ -28,4 +28,6 @@ interface KoncatProcAPI {
     fun getTargetClassTypes(): List<String>
 
     fun getTargetPropertyTypes(): List<String>
+
+    fun getResourceByFileName(fileName: String): File
 }
