@@ -40,16 +40,16 @@ class KoncatAggregationProcessorIntegrationTest {
         assertThat(result.exitCode, `is`(KotlinCompilation.ExitCode.OK))
 
         // Generated file check
-        val koncatMetaForDummyApp = compilation.kspSourcesDir
+        val koncatMetaForDummyAppList = compilation.kspSourcesDir
             .walk()
             .filter { !it.isDirectory }
-            .first()
+            .toList()
         assertThat(
-            koncatMetaForDummyApp.name,
-            `is`("KoncatAggregatedMeta1.koncat")
+            koncatMetaForDummyAppList.size,
+            `is`(2)
         )
 
-        val fileContent = koncatMetaForDummyApp.readText()
+        val fileContent = koncatMetaForDummyAppList[0].readText()
 //        val metaInJsonText = Regex("(?<=\"\"\").+(?=\"\"\")").find(fileContent)!!.groupValues[0]
         println("[KoncatAggregationProcessorIntegrationTest] extension: $fileContent")
         val metadata = Json.decodeFromString<KoncatProcMetadata>(fileContent)
