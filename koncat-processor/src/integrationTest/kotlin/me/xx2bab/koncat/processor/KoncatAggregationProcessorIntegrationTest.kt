@@ -44,12 +44,15 @@ class KoncatAggregationProcessorIntegrationTest {
             .walk()
             .filter { !it.isDirectory }
             .toList()
+        koncatMetaForDummyAppList.forEach {
+            println("[KoncatAggregationProcessorIntegrationTest] gen list: ${it.path}")
+        }
         assertThat(
             koncatMetaForDummyAppList.size,
             `is`(2)
         )
 
-        val fileContent = koncatMetaForDummyAppList[0].readText()
+        val fileContent = koncatMetaForDummyAppList.first { it.extension == "koncat" }.readText()
 //        val metaInJsonText = Regex("(?<=\"\"\").+(?=\"\"\")").find(fileContent)!!.groupValues[0]
         println("[KoncatAggregationProcessorIntegrationTest] extension: $fileContent")
         val metadata = Json.decodeFromString<KoncatProcMetadata>(fileContent)
