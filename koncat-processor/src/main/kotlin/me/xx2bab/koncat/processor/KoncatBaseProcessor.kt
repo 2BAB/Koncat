@@ -15,7 +15,7 @@ import me.xx2bab.koncat.api.KoncatProcAPI
 import me.xx2bab.koncat.api.KoncatProcMetadata
 import me.xx2bab.koncat.contract.KLogger
 import me.xx2bab.koncat.processor.anno.AnnotationSubProcessor
-import me.xx2bab.koncat.processor.interfaze.ClassTypeSubProcessor
+import me.xx2bab.koncat.processor.clazz.ClassTypeSubProcessor
 import me.xx2bab.koncat.processor.property.PropertyTypeSubProcessor
 import me.xx2bab.koncat.runtime.KoncatExtend
 import me.xx2bab.koncat.runtime.KoncatMeta

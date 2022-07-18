@@ -1,4 +1,4 @@
-package me.xx2bab.koncat.processor.interfaze
+package me.xx2bab.koncat.processor.clazz
 
 import com.google.devtools.ksp.getClassDeclarationByName
 import com.google.devtools.ksp.processing.Resolver
@@ -23,7 +23,8 @@ import kotlin.reflect.KClass
 class ClassTypeSubProcessor(
     private val koncat: KoncatProcAPI,
     private val exportMetadata: KoncatProcMetadata,
-    private val logger: KLogger) : SubProcessor {
+    private val logger: KLogger
+) : SubProcessor {
 
     init {
         koncat.getTargetClassTypes().forEach {
@@ -38,7 +39,7 @@ class ClassTypeSubProcessor(
             ClassNameAndType(
                 it,
                 try {
-                resolver.getClassDeclarationByName(it)!!.asStarProjectedType()
+                    resolver.getClassDeclarationByName(it)!!.asStarProjectedType()
                 } catch (e: NullPointerException) {
                     logger.error("${koncat.projectName} can not resolve $it from classpath.")
                     throw e
@@ -54,7 +55,7 @@ class ClassTypeSubProcessor(
     }
 
     inner class InterfaceBindingVisitor(
-        private val targetInterfaces: List<ClassNameAndType>,
+        private val targetClassTypes: List<ClassNameAndType>,
         private val logger: KLogger,
         private val koncat: KoncatProcAPI
     ) : KSVisitorWithExportMetadata() {
@@ -78,10 +79,10 @@ class ClassTypeSubProcessor(
                 if (superKSType.toClassName().canonicalName == "kotlin.Any") {
                     return@forEach
                 }
-                targetInterfaces.forEach { targetInterface ->
-                    if (superKSType.isAssignableFrom(targetInterface.type)) {
-                        logger.info("[ClassTypeSubProcessor] Matched \"${classDeclaration.qualifiedName!!.asString()}\" on type \"${targetInterface}\"")
-                        data.typedClasses[targetInterface.canonicalName]?.add(className)
+                targetClassTypes.forEach { targetClassType ->
+                    if (superKSType.isAssignableFrom(targetClassType.type)) {
+                        logger.info("[ClassTypeSubProcessor] Matched \"${classDeclaration.qualifiedName!!.asString()}\" on type \"${targetClassType}\"")
+                        data.typedClasses[targetClassType.canonicalName]?.add(className)
                         classDeclaration.containingFile?.let { data.mapKSFiles.add(it) }
                     }
                 }
@@ -119,3 +120,4 @@ class ClassTypeSubProcessor(
     }
 
 }
+
