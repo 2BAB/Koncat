@@ -40,19 +40,22 @@ class KoncatAggregationProcessorIntegrationTest {
         assertThat(result.exitCode, `is`(KotlinCompilation.ExitCode.OK))
 
         // Generated file check
-        val koncatMetaForDummyApp = compilation.kspSourcesDir
+        val koncatMetaForDummyAppList = compilation.kspSourcesDir
             .walk()
             .filter { !it.isDirectory }
-            .first()
+            .toList()
+        koncatMetaForDummyAppList.forEach {
+            println("[KoncatAggregationProcessorIntegrationTest] gen list: ${it.path}")
+        }
         assertThat(
-            koncatMetaForDummyApp.name,
-            `is`("KoncatAggregatedMeta1.kt")
+            koncatMetaForDummyAppList.size,
+            `is`(2)
         )
 
-        val fileContent = koncatMetaForDummyApp.readText()
-        val metaInJsonText = Regex("(?<=\"\"\").+(?=\"\"\")").find(fileContent)!!.groupValues[0]
-        println("[KoncatAggregationProcessorIntegrationTest] extension: $metaInJsonText")
-        val metadata = Json.decodeFromString<KoncatProcMetadata>(metaInJsonText)
+        val fileContent = koncatMetaForDummyAppList.first { it.extension == "koncat" }.readText()
+//        val metaInJsonText = Regex("(?<=\"\"\").+(?=\"\"\")").find(fileContent)!!.groupValues[0]
+        println("[KoncatAggregationProcessorIntegrationTest] extension: $fileContent")
+        val metadata = Json.decodeFromString<KoncatProcMetadata>(fileContent)
 
         assertThat(metadata.annotatedClasses.size, `is`(1))
         val suppressList = metadata.annotatedClasses["kotlin.Suppress"]!!

@@ -64,5 +64,8 @@ class KoncatProcAPIImpl(private val adapter: ProcessorAdapter) :
             it.extension == KONCAT_FILE_EXTENSION
         }
 
+    override fun getResourceByFileName(fileName: String): File {
+        return File(adapter.resourceDir, fileName)
+    }
 
 }

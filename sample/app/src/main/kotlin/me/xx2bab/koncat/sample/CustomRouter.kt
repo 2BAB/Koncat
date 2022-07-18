@@ -4,4 +4,5 @@ interface CustomRouter {
 
     fun getDummyAPIList(): List<String>
 
+    fun getActivityMap(): Map<String, String>
 }

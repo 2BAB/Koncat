@@ -1,8 +1,8 @@
 [versions]
-koncatVer = "2.0.1"
+koncatVer = "2.1.0"
 kotlinVer = "1.6.21"
-agpVer = "7.1.3"
-agpBetaVer = "7.2.0"
+agpVer = "7.2.1"
+agpBetaVer = "7.3.0-beta03"
 polyfillVer = "0.6.2"
 mockitoVer = "3.9.0"
 kspVer = "1.6.21-1.0.5"

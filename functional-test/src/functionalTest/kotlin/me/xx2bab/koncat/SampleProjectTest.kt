@@ -21,9 +21,9 @@ class SampleProjectTest {
         private const val baseTestProjectPath = "../sample"
 
         private const val aggregatedMetaData1OutputPathForKoncatProc =
-            "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/runtime/meta/KoncatAggregatedMeta1.kt"
+            "%s/app/build/generated/ksp/debug/resources/KoncatAggregatedMeta1.koncat"
         private const val aggregatedMetaData2OutputPathForKoncatProc =
-            "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/runtime/meta/KoncatAggregatedMeta2.kt"
+            "%s/app/build/generated/ksp/debug/resources/KoncatAggregatedMeta2.koncat"
         private const val aggregatedClassOutputPathForKoncatProc =
             "%s/app/build/generated/ksp/debug/kotlin/me/xx2bab/koncat/runtime/KoncatAggregation.kt"
         private const val aggregatedClassOutputPathForCustomProc =

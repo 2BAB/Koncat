@@ -9,14 +9,15 @@ import kotlin.reflect.jvm.isAccessible
 class VariantAwareness(env: SymbolProcessorEnvironment) {
 
     val variantName: String
+    val resourcesDirPath: String
 
     init {
-        val resourcesDir = CodeGeneratorImpl::class.memberProperties
+        resourcesDirPath = CodeGeneratorImpl::class.memberProperties
             .first { it.name == "resourcesDir" }
             .also { it.isAccessible = true }
             .getter(env.codeGenerator as CodeGeneratorImpl)
             .toString()
-        variantName = File(resourcesDir).parentFile.name
+        variantName = File(resourcesDirPath).parentFile.name
     }
 
 }

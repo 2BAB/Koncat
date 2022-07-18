@@ -6,7 +6,7 @@ import me.xx2bab.koncat.sample.annotation.CustomMark
 import me.xx2bab.koncat.sample.annotation.ExportActivity
 import me.xx2bab.koncat.sample.annotation.MemberRequired
 
-@ExportActivity
+@ExportActivity(uri = "koncat://main.library")
 @CustomMark
 @MemberRequired(level = 2)
 class AndroidLibraryActivity: Activity() {

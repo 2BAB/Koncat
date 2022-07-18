@@ -15,7 +15,7 @@ import me.xx2bab.koncat.api.KoncatProcAPI
 import me.xx2bab.koncat.api.KoncatProcMetadata
 import me.xx2bab.koncat.contract.KLogger
 import me.xx2bab.koncat.processor.anno.AnnotationSubProcessor
-import me.xx2bab.koncat.processor.interfaze.ClassTypeSubProcessor
+import me.xx2bab.koncat.processor.clazz.ClassTypeSubProcessor
 import me.xx2bab.koncat.processor.property.PropertyTypeSubProcessor
 import me.xx2bab.koncat.runtime.KoncatExtend
 import me.xx2bab.koncat.runtime.KoncatMeta
@@ -58,7 +58,7 @@ class KoncatAggregationProcessor(
         if (koncat.generateExtensionClassEnabled() && exportMetadata.elementSize() > lastMapSize) {
             roundCount++
             lastMapSize = exportMetadata.elementSize()
-            val os = codeGenerator.createNewFile(
+            val osForKt = codeGenerator.createNewFile(
                 dependencies = Dependencies(
                     aggregating = true,
                     *exportMetadata.mapKSFiles.toTypedArray()
@@ -67,19 +67,31 @@ class KoncatAggregationProcessor(
                 fileName = aggregationMetadataFileName + roundCount
             )
             val annotation = KoncatExtend::class.simpleName!!
-            os.overwrite(
+            osForKt.overwrite(
                 """
                 package $metadataPackage
                 
                 import me.xx2bab.koncat.runtime.$annotation
                 
                 @$annotation(metaDataInJson = ${'"'}""${
-                    Json.encodeToString(exportMetadata).replace("$", "\${'$'}")
+                    koncat.getResourceByFileName(aggregationMetadataFileName + roundCount + ".koncat")
                 }""${'"'})
                 val voidProp$roundCount = null // DO NOT use voidProp directly, the valuable information is placing in `metaDataInJson` above. 
                 """.trimIndent()
             )
-            os.close()
+            osForKt.close()
+
+            val osForRes = codeGenerator.createNewFile(
+                dependencies = Dependencies(
+                    aggregating = true,
+                    *exportMetadata.mapKSFiles.toTypedArray()
+                ),
+                packageName = "",
+                fileName = aggregationMetadataFileName + roundCount,
+                extensionName = "koncat"
+            )
+            osForRes.overwrite(Json.encodeToString(exportMetadata))
+            osForRes.close()
         }
 
         return ret
@@ -130,12 +142,14 @@ class KoncatAggregationProcessor(
             .map {
                 logger.info("Aggregate from ${it.qualifiedName?.asString()}")
                 it.containingFile?.let { mainMetadata.mapKSFiles.add(it) }
-                val meta =
-                    it.annotations.first { anno -> anno.shortName.asString() == KoncatMeta::class.simpleName }
+                val meta = it.annotations.first { anno ->
+                    anno.shortName.asString() == KoncatMeta::class.simpleName
+                }
                 Json.decodeFromString<KoncatProcMetadata>(
                     meta.arguments.first().value.toString()
                 )
-            }.toList()
+            }
+            .toList()
     }
 
 }

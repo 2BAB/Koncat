@@ -3,6 +3,7 @@ package me.xx2bab.koncat.api
 import com.google.devtools.ksp.containingFile
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFile
+import java.io.File
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.decodeFromString
@@ -12,12 +13,15 @@ class KoncatProcMetadataHolder(private val koncatExtendAnnotatedElement: KSAnnot
 
     val dependency: KSFile = koncatExtendAnnotatedElement.containingFile!!
 
-    fun resolve(): KoncatProcMetadata = Json.decodeFromString(
-        koncatExtendAnnotatedElement
+    fun resolve(): KoncatProcMetadata {
+        val mergedMetadataJsonFile = koncatExtendAnnotatedElement
             .annotations.first()
             .arguments.first()
             .value.toString()
-    )
+        return Json.decodeFromString(
+            File(mergedMetadataJsonFile).readText()
+        )
+    }
 
 }
 

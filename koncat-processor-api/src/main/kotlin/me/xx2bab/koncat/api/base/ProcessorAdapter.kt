@@ -10,5 +10,6 @@ interface ProcessorAdapter {
     val intermediateDir: File
     val arguments: KoncatArgumentsContract
     val variantName: String
+    val resourceDir: File
 }
 
