@@ -6,10 +6,16 @@ import me._bab.koncat_gradle_plugin.BuildConfig
 import me.xx2bab.koncat.contract.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
+import org.gradle.process.CommandLineArgumentProvider
+import java.io.File
 
 class KoncatBasePlugin : Plugin<Project> {
 
@@ -37,9 +43,18 @@ class KoncatBasePlugin : Plugin<Project> {
                 targetPropertyTypes = baseExt.propertyTypes.get()
             )
             project.plugins.findPlugin(KSP_PLUGIN_NAME)?.run {
+                class ConfigFileProvider(
+                    @InputDirectory
+                    @PathSensitive(PathSensitivity.RELATIVE)
+                    val config: File
+                ):CommandLineArgumentProvider {
+                    override fun asArguments(): Iterable<String> {
+                        return listOf("$KONCAT_ARGUMENT_INTERMEDIATES_DIR=${config.path}")
+                    }
+                }
                 project.extensions.configure<KspExtension> {
                     val dir = baseExt.mainProjectOutputDir.get().asFile
-                    arg(KONCAT_ARGUMENT_INTERMEDIATES_DIR, dir.absolutePath)
+                    arg(ConfigFileProvider(dir))
                 }
                 val genBaseArgsTask = project.tasks.register<GenerateArgumentsContractTask>(
                     BASE_ARGUMENTS_CONTRACT_GEN_TASK
@@ -50,7 +65,7 @@ class KoncatBasePlugin : Plugin<Project> {
                     })
                 }
                 project.tasks.withType<KspTask> {
-                    inputs.files(genBaseArgsTask.flatMap { it.target })
+                    dependsOn(genBaseArgsTask)
                 }
             }
         }
